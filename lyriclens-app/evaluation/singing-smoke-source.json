@@ -1,0 +1,16 @@
+{
+  "id": "mary-celestianpower-2006",
+  "path": "audio/singing/mary.wav",
+  "sha256": "d39969e18c08c73ae00e5babbc320f2c83aafdaf980304eded32a8b164c0103f",
+  "original_sha256": "f21bb5cecf2e9a32ff0c67622c8c5001049f995abec5e8cce475aba7d9d21260",
+  "source": "https://commons.wikimedia.org/wiki/File:Mary_Had_a_Little_Lamb.ogg",
+  "source_revision": 452298650,
+  "author": "Celestianpower",
+  "date": "2006-05-13",
+  "permissions": "Recording dedicated to the public domain by its creator (PD-self); traditional composition/text public domain",
+  "language": "en",
+  "conditions": "Solo unaccompanied singing; Ogg decoded to mono 16kHz PCM WAV without trimming",
+  "content_type": "singing",
+  "reference": null,
+  "reference_status": "Not manually verified; do not score WER/CER or infer reference from model output"
+}
