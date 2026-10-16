@@ -8,6 +8,6 @@ $candidates = @(
     (Join-Path $repoRoot '.venv\Scripts\python.exe')
 )
 $runtime = $candidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
-if (-not $runtime) { throw 'Create the Python environment described in README.md first.' }
+if (-not $runtime) { throw 'Create the Python environment described in the repository root README.md first.' }
 & $runtime -m uvicorn lyriclens.api:app --host 127.0.0.1 --port $Port
 exit $LASTEXITCODE
