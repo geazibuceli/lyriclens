@@ -1,0 +1,2240 @@
+{
+  "purpose": "Small development singing diagnostic; not representative seven-language validation",
+  "selection": "Fixed before model execution; no final evaluation clips used for model/settings selection",
+  "model_change": "Explicit optional choice; configured default is unchanged",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "fastapi": "0.115.12",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.8.3",
+      "demucs": "4.0.1",
+      "torch": "2.5.1"
+    }
+  },
+  "per_clip": [
+    {
+      "id": "vocadito-6",
+      "language": "en",
+      "pipeline": "direct",
+      "sha256": "13816752a6366f2d66f21e71a70d55e22b6a44f0d1712d97abff5390bc0c1f3b",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 23.831995464852607,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 3.3973408000019845,
+        "real_time_factor": 0.14255376999430777,
+        "peak_memory_bytes": 771948544,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.03508771929824561,
+          "character_errors": 4,
+          "reference_characters": 114,
+          "empty_reference_insertions": 0,
+          "wer": 0.05405405405405406,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 2,
+          "reference_words": 37
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 5.29593809999642,
+        "real_time_factor": 0.2222196671616047,
+        "peak_memory_bytes": 3276488704,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.03508771929824561,
+          "character_errors": 4,
+          "reference_characters": 114,
+          "empty_reference_insertions": 0,
+          "wer": 0.05405405405405406,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 2,
+          "reference_words": 37
+        }
+      }
+    },
+    {
+      "id": "vocadito-6",
+      "language": "en",
+      "pipeline": "vocals",
+      "sha256": "13816752a6366f2d66f21e71a70d55e22b6a44f0d1712d97abff5390bc0c1f3b",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 23.831995464852607,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 15.354141100004199,
+        "real_time_factor": 0.6442658619438084,
+        "peak_memory_bytes": 2164817920,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.03508771929824561,
+          "character_errors": 4,
+          "reference_characters": 114,
+          "empty_reference_insertions": 0,
+          "wer": 0.05405405405405406,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 2,
+          "reference_words": 37
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 14.85218669999449,
+        "real_time_factor": 0.6232036558541006,
+        "peak_memory_bytes": 2174402560,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.03508771929824561,
+          "character_errors": 4,
+          "reference_characters": 114,
+          "empty_reference_insertions": 0,
+          "wer": 0.05405405405405406,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 2,
+          "reference_words": 37
+        }
+      }
+    },
+    {
+      "id": "vocadito-10",
+      "language": "en",
+      "pipeline": "direct",
+      "sha256": "0978bde1c130ae26a9cfcd90012f12fdaf9877bbe45cf21c5237ba7ac9b8703b",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 9.097823129251701,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 0.3542829000070924,
+        "real_time_factor": 0.0389415022664034,
+        "peak_memory_bytes": 2152460288,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.05263157894736842,
+          "character_errors": 4,
+          "reference_characters": 76,
+          "empty_reference_insertions": 0,
+          "wer": 0.18181818181818182,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 4,
+          "reference_words": 22
+        }
+      },
+      "large_v3": {
+        "state": "failed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 0.7898467000050005,
+        "real_time_factor": 0.08681710875049355,
+        "peak_memory_bytes": 2166554624,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": "Timestamps must be ordered and within the original clip",
+        "metrics": {}
+      }
+    },
+    {
+      "id": "vocadito-10",
+      "language": "en",
+      "pipeline": "vocals",
+      "sha256": "0978bde1c130ae26a9cfcd90012f12fdaf9877bbe45cf21c5237ba7ac9b8703b",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 9.097823129251701,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 3.087293300006422,
+        "real_time_factor": 0.339344176749274,
+        "peak_memory_bytes": 2179354624,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.13157894736842105,
+          "character_errors": 10,
+          "reference_characters": 76,
+          "empty_reference_insertions": 0,
+          "wer": 0.2727272727272727,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 6,
+          "reference_words": 22
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 3.4111821000115015,
+        "real_time_factor": 0.3749448688493104,
+        "peak_memory_bytes": 2180759552,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.0,
+          "character_errors": 0,
+          "reference_characters": 76,
+          "empty_reference_insertions": 0,
+          "wer": 0.0,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 0,
+          "reference_words": 22
+        }
+      }
+    },
+    {
+      "id": "vocadito-13",
+      "language": "fr",
+      "pipeline": "direct",
+      "sha256": "5a26861f99c4d02a3efe2355215de2774fb51257cc2d2bf6021827b64e25ec94",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 22.36,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 0.6678229999961331,
+        "real_time_factor": 0.029866860464943343,
+        "peak_memory_bytes": 2167742464,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.04142011834319527,
+          "character_errors": 7,
+          "reference_characters": 169,
+          "empty_reference_insertions": 0,
+          "wer": 0.11627906976744186,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 5,
+          "reference_words": 43
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 1.289290599990636,
+        "real_time_factor": 0.05766058139493006,
+        "peak_memory_bytes": 2179416064,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.01775147928994083,
+          "character_errors": 3,
+          "reference_characters": 169,
+          "empty_reference_insertions": 0,
+          "wer": 0.023255813953488372,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 1,
+          "reference_words": 43
+        }
+      }
+    },
+    {
+      "id": "vocadito-13",
+      "language": "fr",
+      "pipeline": "vocals",
+      "sha256": "5a26861f99c4d02a3efe2355215de2774fb51257cc2d2bf6021827b64e25ec94",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 22.36,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 6.149399200003245,
+        "real_time_factor": 0.27501785330962636,
+        "peak_memory_bytes": 2198421504,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.04142011834319527,
+          "character_errors": 7,
+          "reference_characters": 169,
+          "empty_reference_insertions": 0,
+          "wer": 0.11627906976744186,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 5,
+          "reference_words": 43
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 6.797159000008833,
+        "real_time_factor": 0.3039874329163163,
+        "peak_memory_bytes": 2215817216,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.01775147928994083,
+          "character_errors": 3,
+          "reference_characters": 169,
+          "empty_reference_insertions": 0,
+          "wer": 0.023255813953488372,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 1,
+          "reference_words": 43
+        }
+      }
+    },
+    {
+      "id": "vocadito-23",
+      "language": "fr",
+      "pipeline": "direct",
+      "sha256": "3cade4af7d869e3175e3684075782a23f6af936942a8684bfbb4fdbe3a4f10e7",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 18.037823129251702,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 0.6734082999901148,
+        "real_time_factor": 0.03733312468831437,
+        "peak_memory_bytes": 2186084352,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.02531645569620253,
+          "character_errors": 4,
+          "reference_characters": 158,
+          "empty_reference_insertions": 0,
+          "wer": 0.1,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 4,
+          "reference_words": 40
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 1.4101343999936944,
+        "real_time_factor": 0.07817652883550553,
+        "peak_memory_bytes": 2203082752,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.0,
+          "character_errors": 0,
+          "reference_characters": 158,
+          "empty_reference_insertions": 0,
+          "wer": 0.0,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 0,
+          "reference_words": 40
+        }
+      }
+    },
+    {
+      "id": "vocadito-23",
+      "language": "fr",
+      "pipeline": "vocals",
+      "sha256": "3cade4af7d869e3175e3684075782a23f6af936942a8684bfbb4fdbe3a4f10e7",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 18.037823129251702,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 6.050205000006827,
+        "real_time_factor": 0.3354176918497049,
+        "peak_memory_bytes": 2193727488,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.0379746835443038,
+          "character_errors": 6,
+          "reference_characters": 158,
+          "empty_reference_insertions": 0,
+          "wer": 0.15,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 6,
+          "reference_words": 40
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 6.687621399993077,
+        "real_time_factor": 0.37075545935184656,
+        "peak_memory_bytes": 2216906752,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.0,
+          "character_errors": 0,
+          "reference_characters": 158,
+          "empty_reference_insertions": 0,
+          "wer": 0.0,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 0,
+          "reference_words": 40
+        }
+      }
+    },
+    {
+      "id": "vocadito-2",
+      "language": "es",
+      "pipeline": "direct",
+      "sha256": "8dcc99c3b08a9a5800b793e3d65cccfb4464961f15cf8ccde25bd4c8b853d519",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 35.208004535147396,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 0.4691711000050418,
+        "real_time_factor": 0.01332569414823491,
+        "peak_memory_bytes": 2191294464,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.0379746835443038,
+          "character_errors": 3,
+          "reference_characters": 79,
+          "empty_reference_insertions": 0,
+          "wer": 0.19047619047619047,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 4,
+          "reference_words": 21
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 1.0218677999946522,
+        "real_time_factor": 0.02902373518426878,
+        "peak_memory_bytes": 2206232576,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.02531645569620253,
+          "character_errors": 2,
+          "reference_characters": 79,
+          "empty_reference_insertions": 0,
+          "wer": 0.14285714285714285,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 3,
+          "reference_words": 21
+        }
+      }
+    },
+    {
+      "id": "vocadito-2",
+      "language": "es",
+      "pipeline": "vocals",
+      "sha256": "8dcc99c3b08a9a5800b793e3d65cccfb4464961f15cf8ccde25bd4c8b853d519",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 35.208004535147396,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 9.674593699994148,
+        "real_time_factor": 0.2747839256364617,
+        "peak_memory_bytes": 2226053120,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.0379746835443038,
+          "character_errors": 3,
+          "reference_characters": 79,
+          "empty_reference_insertions": 0,
+          "wer": 0.19047619047619047,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 4,
+          "reference_words": 21
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 10.066013800009387,
+        "real_time_factor": 0.2859012867361086,
+        "peak_memory_bytes": 2232623104,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.0379746835443038,
+          "character_errors": 3,
+          "reference_characters": 79,
+          "empty_reference_insertions": 0,
+          "wer": 0.19047619047619047,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 4,
+          "reference_words": 21
+        }
+      }
+    },
+    {
+      "id": "vocadito-35",
+      "language": "zh",
+      "pipeline": "direct",
+      "sha256": "85c1c4268527cc53240e9f4f0d557d92f3bf9856d6d42ca50e80c7cbb02bea72",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 13.8,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "failed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 0.35437489999458194,
+        "real_time_factor": 0.02567934057931753,
+        "peak_memory_bytes": 2210074624,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": "Timestamps must be ordered and within the original clip",
+        "metrics": {}
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 0.7306826999993064,
+        "real_time_factor": 0.05294802173908017,
+        "peak_memory_bytes": 2227503104,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.17391304347826086,
+          "character_errors": 4,
+          "reference_characters": 23,
+          "empty_reference_insertions": 0,
+          "wer": null,
+          "wer_method": "not applicable: no lexical segmentation implemented"
+        }
+      }
+    },
+    {
+      "id": "vocadito-35",
+      "language": "zh",
+      "pipeline": "vocals",
+      "sha256": "85c1c4268527cc53240e9f4f0d557d92f3bf9856d6d42ca50e80c7cbb02bea72",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 13.8,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "failed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 4.315253399996436,
+        "real_time_factor": 0.31269952173887217,
+        "peak_memory_bytes": 2210983936,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": "Timestamps must be ordered and within the original clip",
+        "metrics": {}
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 4.635728199995356,
+        "real_time_factor": 0.33592233333299676,
+        "peak_memory_bytes": 2242158592,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.17391304347826086,
+          "character_errors": 4,
+          "reference_characters": 23,
+          "empty_reference_insertions": 0,
+          "wer": null,
+          "wer_method": "not applicable: no lexical segmentation implemented"
+        }
+      }
+    },
+    {
+      "id": "vocadito-36",
+      "language": "zh",
+      "pipeline": "direct",
+      "sha256": "2e4eacabc71019752feb17da9e1b0228b9b5ba0ae97ec41107f80dac65750dbb",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 23.2778231292517,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 0.6071115999948233,
+        "real_time_factor": 0.026081115773747176,
+        "peak_memory_bytes": 2225594368,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.4074074074074074,
+          "character_errors": 22,
+          "reference_characters": 54,
+          "empty_reference_insertions": 0,
+          "wer": null,
+          "wer_method": "not applicable: no lexical segmentation implemented"
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 1.514549600004102,
+        "real_time_factor": 0.0650640565311654,
+        "peak_memory_bytes": 2248126464,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.1111111111111111,
+          "character_errors": 6,
+          "reference_characters": 54,
+          "empty_reference_insertions": 0,
+          "wer": null,
+          "wer_method": "not applicable: no lexical segmentation implemented"
+        }
+      }
+    },
+    {
+      "id": "vocadito-36",
+      "language": "zh",
+      "pipeline": "vocals",
+      "sha256": "2e4eacabc71019752feb17da9e1b0228b9b5ba0ae97ec41107f80dac65750dbb",
+      "reference_source": "Bittner et al., vocadito v3, DOI 10.5281/zenodo.5578807; trained-musician lyric annotation",
+      "permissions": "CC-BY-4.0; Bittner, Pasalo, Bosch, Meseguer Brocal and Rubinstein (2021)",
+      "duration": 23.2778231292517,
+      "conditions": "Solo unaccompanied natural singing; original recording retained",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 6.146952600000077,
+        "real_time_factor": 0.2640690482898123,
+        "peak_memory_bytes": 2226610176,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.4074074074074074,
+          "character_errors": 22,
+          "reference_characters": 54,
+          "empty_reference_insertions": 0,
+          "wer": null,
+          "wer_method": "not applicable: no lexical segmentation implemented"
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 6.72783299999719,
+        "real_time_factor": 0.2890232889321496,
+        "peak_memory_bytes": 2241552384,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.1111111111111111,
+          "character_errors": 6,
+          "reference_characters": 54,
+          "empty_reference_insertions": 0,
+          "wer": null,
+          "wer_method": "not applicable: no lexical segmentation implemented"
+        }
+      }
+    },
+    {
+      "id": "csd-kr007a",
+      "language": "ko",
+      "pipeline": "direct",
+      "sha256": "b7bbd9d612d05b814118d8d09e7d67239ef44b1bc1fc3bde5c98dc83460a7712",
+      "reference_source": "Choi et al., CSD v1.0, DOI 10.5281/zenodo.4785016, supplied grapheme lyric file",
+      "permissions": "CC-BY-NC-SA-4.0; KAIST Music and Audio Computing Lab; local noncommercial research only",
+      "duration": 34.0,
+      "conditions": "Professional solo singing, plain delivery; original WAV retained; provider annotation",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 0.8271281000052113,
+        "real_time_factor": 0.024327297058976804,
+        "peak_memory_bytes": 2210881536,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.11475409836065574,
+          "character_errors": 7,
+          "reference_characters": 61,
+          "empty_reference_insertions": 0,
+          "wer": 0.3333333333333333,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 7,
+          "reference_words": 21
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 1.7189346000086516,
+        "real_time_factor": 0.05055690000025446,
+        "peak_memory_bytes": 2228580352,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.06557377049180328,
+          "character_errors": 4,
+          "reference_characters": 61,
+          "empty_reference_insertions": 0,
+          "wer": 0.23809523809523808,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 5,
+          "reference_words": 21
+        }
+      }
+    },
+    {
+      "id": "csd-kr007a",
+      "language": "ko",
+      "pipeline": "vocals",
+      "sha256": "b7bbd9d612d05b814118d8d09e7d67239ef44b1bc1fc3bde5c98dc83460a7712",
+      "reference_source": "Choi et al., CSD v1.0, DOI 10.5281/zenodo.4785016, supplied grapheme lyric file",
+      "permissions": "CC-BY-NC-SA-4.0; KAIST Music and Audio Computing Lab; local noncommercial research only",
+      "duration": 34.0,
+      "conditions": "Professional solo singing, plain delivery; original WAV retained; provider annotation",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 8.780307699998957,
+        "real_time_factor": 0.2582443441176164,
+        "peak_memory_bytes": 2232025088,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.11475409836065574,
+          "character_errors": 7,
+          "reference_characters": 61,
+          "empty_reference_insertions": 0,
+          "wer": 0.3333333333333333,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 7,
+          "reference_words": 21
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 9.536094499999308,
+        "real_time_factor": 0.28047336764703845,
+        "peak_memory_bytes": 2264563712,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.06557377049180328,
+          "character_errors": 4,
+          "reference_characters": 61,
+          "empty_reference_insertions": 0,
+          "wer": 0.23809523809523808,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 5,
+          "reference_words": 21
+        }
+      }
+    },
+    {
+      "id": "csd-kr011a",
+      "language": "ko",
+      "pipeline": "direct",
+      "sha256": "6a230855fdbb137e501e25ce694bcfcfe296211b308d5ed0ebf5eafb3921ca6a",
+      "reference_source": "Choi et al., CSD v1.0, DOI 10.5281/zenodo.4785016, supplied grapheme lyric file",
+      "permissions": "CC-BY-NC-SA-4.0; KAIST Music and Audio Computing Lab; local noncommercial research only",
+      "duration": 42.580657596371886,
+      "conditions": "Professional solo singing, plain delivery; original WAV retained; provider annotation",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 2.951983499995549,
+        "real_time_factor": 0.06932686498122742,
+        "peak_memory_bytes": 2222813184,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.21839080459770116,
+          "character_errors": 19,
+          "reference_characters": 87,
+          "empty_reference_insertions": 0,
+          "wer": 0.44,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 11,
+          "reference_words": 25
+        }
+      },
+      "large_v3": {
+        "state": "failed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 1.3118872999912128,
+        "real_time_factor": 0.030809465472017347,
+        "peak_memory_bytes": 2239037440,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": "Timestamps must be ordered and within the original clip",
+        "metrics": {}
+      }
+    },
+    {
+      "id": "csd-kr011a",
+      "language": "ko",
+      "pipeline": "vocals",
+      "sha256": "6a230855fdbb137e501e25ce694bcfcfe296211b308d5ed0ebf5eafb3921ca6a",
+      "reference_source": "Choi et al., CSD v1.0, DOI 10.5281/zenodo.4785016, supplied grapheme lyric file",
+      "permissions": "CC-BY-NC-SA-4.0; KAIST Music and Audio Computing Lab; local noncommercial research only",
+      "duration": 42.580657596371886,
+      "conditions": "Professional solo singing, plain delivery; original WAV retained; provider annotation",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 12.40958770000725,
+        "real_time_factor": 0.29143720178395316,
+        "peak_memory_bytes": 2295578624,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.27586206896551724,
+          "character_errors": 24,
+          "reference_characters": 87,
+          "empty_reference_insertions": 0,
+          "wer": 0.56,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 14,
+          "reference_words": 25
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 12.90278259999468,
+        "real_time_factor": 0.3030198059011205,
+        "peak_memory_bytes": 2312249344,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.25287356321839083,
+          "character_errors": 22,
+          "reference_characters": 87,
+          "empty_reference_insertions": 0,
+          "wer": 0.44,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 11,
+          "reference_words": 25
+        }
+      }
+    },
+    {
+      "id": "covox-S07_NR_pop_L",
+      "language": "pt",
+      "pipeline": "direct",
+      "sha256": "9d15933f7622f34a9740a57b67816f24d485ebf205ca04d6e081681ec3039994",
+      "reference_source": "Bruder and Larrouy-Maestri, CoVox (2025), DOI 10.3758/s13428-025-02664-9, Supplementary Supporting Text S1 and matching stimulus melody code",
+      "permissions": "Private noncommercial research; OSF root declares CC-BY-NC-ND-4.0, recording README states CC-BY-NC-SA; no media, references or derived transcripts redistributed",
+      "duration": 10.32764172335601,
+      "conditions": "Brazilian Portuguese solo singing; _L means lyrics, pop/cl are pop/operatic; study loudness-normalized audio retained unchanged",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 0.19621390000975225,
+        "real_time_factor": 0.0189989065525011,
+        "peak_memory_bytes": 2283728896,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.0,
+          "character_errors": 0,
+          "reference_characters": 28,
+          "empty_reference_insertions": 0,
+          "wer": 0.0,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 0,
+          "reference_words": 8
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 0.40331750000768807,
+        "real_time_factor": 0.03905223581639007,
+        "peak_memory_bytes": 2298687488,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.0,
+          "character_errors": 0,
+          "reference_characters": 28,
+          "empty_reference_insertions": 0,
+          "wer": 0.0,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 0,
+          "reference_words": 8
+        }
+      }
+    },
+    {
+      "id": "covox-S07_NR_pop_L",
+      "language": "pt",
+      "pipeline": "vocals",
+      "sha256": "9d15933f7622f34a9740a57b67816f24d485ebf205ca04d6e081681ec3039994",
+      "reference_source": "Bruder and Larrouy-Maestri, CoVox (2025), DOI 10.3758/s13428-025-02664-9, Supplementary Supporting Text S1 and matching stimulus melody code",
+      "permissions": "Private noncommercial research; OSF root declares CC-BY-NC-ND-4.0, recording README states CC-BY-NC-SA; no media, references or derived transcripts redistributed",
+      "duration": 10.32764172335601,
+      "conditions": "Brazilian Portuguese solo singing; _L means lyrics, pop/cl are pop/operatic; study loudness-normalized audio retained unchanged",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 3.0572416999930283,
+        "real_time_factor": 0.29602515093828846,
+        "peak_memory_bytes": 2282733568,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.0,
+          "character_errors": 0,
+          "reference_characters": 28,
+          "empty_reference_insertions": 0,
+          "wer": 0.0,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 0,
+          "reference_words": 8
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 3.086628999997629,
+        "real_time_factor": 0.29887065050070466,
+        "peak_memory_bytes": 2297155584,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.0,
+          "character_errors": 0,
+          "reference_characters": 28,
+          "empty_reference_insertions": 0,
+          "wer": 0.0,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 0,
+          "reference_words": 8
+        }
+      }
+    },
+    {
+      "id": "covox-S09_NR_pop_L",
+      "language": "pt",
+      "pipeline": "direct",
+      "sha256": "15a83c7bec32a3b44930061c7fa107a382a269d41e8d98ceeac52135f4717ed3",
+      "reference_source": "Bruder and Larrouy-Maestri, CoVox (2025), DOI 10.3758/s13428-025-02664-9, Supplementary Supporting Text S1 and matching stimulus melody code",
+      "permissions": "Private noncommercial research; OSF root declares CC-BY-NC-ND-4.0, recording README states CC-BY-NC-SA; no media, references or derived transcripts redistributed",
+      "duration": 9.886734693877552,
+      "conditions": "Brazilian Portuguese solo singing; _L means lyrics, pop/cl are pop/operatic; study loudness-normalized audio retained unchanged",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 0.20282099999894854,
+        "real_time_factor": 0.02051445763226025,
+        "peak_memory_bytes": 2239299584,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.07142857142857142,
+          "character_errors": 2,
+          "reference_characters": 28,
+          "empty_reference_insertions": 0,
+          "wer": 0.25,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 2,
+          "reference_words": 8
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 0.3826757000060752,
+        "real_time_factor": 0.038705974404577737,
+        "peak_memory_bytes": 2254864384,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.07142857142857142,
+          "character_errors": 2,
+          "reference_characters": 28,
+          "empty_reference_insertions": 0,
+          "wer": 0.25,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 2,
+          "reference_words": 8
+        }
+      }
+    },
+    {
+      "id": "covox-S09_NR_pop_L",
+      "language": "pt",
+      "pipeline": "vocals",
+      "sha256": "15a83c7bec32a3b44930061c7fa107a382a269d41e8d98ceeac52135f4717ed3",
+      "reference_source": "Bruder and Larrouy-Maestri, CoVox (2025), DOI 10.3758/s13428-025-02664-9, Supplementary Supporting Text S1 and matching stimulus melody code",
+      "permissions": "Private noncommercial research; OSF root declares CC-BY-NC-ND-4.0, recording README states CC-BY-NC-SA; no media, references or derived transcripts redistributed",
+      "duration": 9.886734693877552,
+      "conditions": "Brazilian Portuguese solo singing; _L means lyrics, pop/cl are pop/operatic; study loudness-normalized audio retained unchanged",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 3.0249689999909606,
+        "real_time_factor": 0.3059623924028425,
+        "peak_memory_bytes": 2239488000,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.07142857142857142,
+          "character_errors": 2,
+          "reference_characters": 28,
+          "empty_reference_insertions": 0,
+          "wer": 0.25,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 2,
+          "reference_words": 8
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 3.084941599998274,
+        "real_time_factor": 0.3120283587571791,
+        "peak_memory_bytes": 2257055744,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.07142857142857142,
+          "character_errors": 2,
+          "reference_characters": 28,
+          "empty_reference_insertions": 0,
+          "wer": 0.25,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 2,
+          "reference_words": 8
+        }
+      }
+    },
+    {
+      "id": "covox-S05_AL_cl_L",
+      "language": "pt",
+      "pipeline": "direct",
+      "sha256": "b53c6a0c0b6708fd7fdaea1ac7f3e203973bdb239d676ddd10abe52aab783585",
+      "reference_source": "Bruder and Larrouy-Maestri, CoVox (2025), DOI 10.3758/s13428-025-02664-9, Supplementary Supporting Text S1 and matching stimulus melody code",
+      "permissions": "Private noncommercial research; OSF root declares CC-BY-NC-ND-4.0, recording README states CC-BY-NC-SA; no media, references or derived transcripts redistributed",
+      "duration": 11.678548752834468,
+      "conditions": "Brazilian Portuguese solo singing; _L means lyrics, pop/cl are pop/operatic; study loudness-normalized audio retained unchanged",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 0.29859900000155903,
+        "real_time_factor": 0.025568159736378795,
+        "peak_memory_bytes": 2249232384,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.04,
+          "character_errors": 2,
+          "reference_characters": 50,
+          "empty_reference_insertions": 0,
+          "wer": 0.2,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 2,
+          "reference_words": 10
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 0.5923652000055881,
+        "real_time_factor": 0.05072250093247389,
+        "peak_memory_bytes": 2256912384,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": null,
+        "error": null,
+        "metrics": {
+          "cer": 0.0,
+          "character_errors": 0,
+          "reference_characters": 50,
+          "empty_reference_insertions": 0,
+          "wer": 0.0,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 0,
+          "reference_words": 10
+        }
+      }
+    },
+    {
+      "id": "covox-S05_AL_cl_L",
+      "language": "pt",
+      "pipeline": "vocals",
+      "sha256": "b53c6a0c0b6708fd7fdaea1ac7f3e203973bdb239d676ddd10abe52aab783585",
+      "reference_source": "Bruder and Larrouy-Maestri, CoVox (2025), DOI 10.3758/s13428-025-02664-9, Supplementary Supporting Text S1 and matching stimulus melody code",
+      "permissions": "Private noncommercial research; OSF root declares CC-BY-NC-ND-4.0, recording README states CC-BY-NC-SA; no media, references or derived transcripts redistributed",
+      "duration": 11.678548752834468,
+      "conditions": "Brazilian Portuguese solo singing; _L means lyrics, pop/cl are pop/operatic; study loudness-normalized audio retained unchanged",
+      "small": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "seconds": 3.008808200000203,
+        "real_time_factor": 0.25763545314394853,
+        "peak_memory_bytes": 2245279744,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.04,
+          "character_errors": 2,
+          "reference_characters": 50,
+          "empty_reference_insertions": 0,
+          "wer": 0.2,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 2,
+          "reference_words": 10
+        }
+      },
+      "large_v3": {
+        "state": "completed",
+        "model": "Systran/faster-whisper-large-v3",
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        "seconds": 3.311393299998599,
+        "real_time_factor": 0.28354493097397054,
+        "peak_memory_bytes": 2256764928,
+        "inference_device": "cuda",
+        "compute_type": "float16",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false
+        },
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "error": null,
+        "metrics": {
+          "cer": 0.0,
+          "character_errors": 0,
+          "reference_characters": 50,
+          "empty_reference_insertions": 0,
+          "wer": 0.0,
+          "wer_method": "Unicode whitespace tokens; Korean spacing-sensitive",
+          "word_errors": 0,
+          "reference_words": 10
+        }
+      }
+    }
+  ],
+  "per_language": {
+    "configured": [
+      {
+        "language": "ko",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.17567567567567569,
+        "micro_wer": 0.391304347826087,
+        "mean_seconds": 1.8895558000003803,
+        "mean_real_time_factor": 0.046827081020102114,
+        "max_sampled_rss_bytes": 2222813184,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "ko",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.20945945945945946,
+        "micro_wer": 0.45652173913043476,
+        "mean_seconds": 10.594947700003104,
+        "mean_real_time_factor": 0.2748407729507848,
+        "max_sampled_rss_bytes": 2295578624,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "ja",
+        "pipeline": "direct",
+        "status": "not evaluated",
+        "clips": 0,
+        "failure_rate": null,
+        "micro_cer": null,
+        "micro_wer": null,
+        "mean_seconds": null,
+        "mean_real_time_factor": null,
+        "max_sampled_rss_bytes": null,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "ja",
+        "pipeline": "vocals",
+        "status": "not evaluated",
+        "clips": 0,
+        "failure_rate": null,
+        "micro_cer": null,
+        "micro_wer": null,
+        "mean_seconds": null,
+        "mean_real_time_factor": null,
+        "max_sampled_rss_bytes": null,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "zh",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.5,
+        "micro_cer": 0.4074074074074074,
+        "micro_wer": null,
+        "mean_seconds": 0.48074324999470264,
+        "mean_real_time_factor": 0.025880228176532353,
+        "max_sampled_rss_bytes": 2225594368,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "zh",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.5,
+        "micro_cer": 0.4074074074074074,
+        "micro_wer": null,
+        "mean_seconds": 5.231102999998257,
+        "mean_real_time_factor": 0.2883842850143422,
+        "max_sampled_rss_bytes": 2226610176,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "en",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.042105263157894736,
+        "micro_wer": 0.1016949152542373,
+        "mean_seconds": 1.8758118500045384,
+        "mean_real_time_factor": 0.09074763613035558,
+        "max_sampled_rss_bytes": 2152460288,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "en",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.07368421052631578,
+        "micro_wer": 0.13559322033898305,
+        "mean_seconds": 9.22071720000531,
+        "mean_real_time_factor": 0.4918050193465412,
+        "max_sampled_rss_bytes": 2179354624,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "es",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 1,
+        "failure_rate": 0.0,
+        "micro_cer": 0.0379746835443038,
+        "micro_wer": 0.19047619047619047,
+        "mean_seconds": 0.4691711000050418,
+        "mean_real_time_factor": 0.01332569414823491,
+        "max_sampled_rss_bytes": 2191294464,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "es",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 1,
+        "failure_rate": 0.0,
+        "micro_cer": 0.0379746835443038,
+        "micro_wer": 0.19047619047619047,
+        "mean_seconds": 9.674593699994148,
+        "mean_real_time_factor": 0.2747839256364617,
+        "max_sampled_rss_bytes": 2226053120,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "pt",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 3,
+        "failure_rate": 0.0,
+        "micro_cer": 0.03773584905660377,
+        "micro_wer": 0.15384615384615385,
+        "mean_seconds": 0.23254463333675326,
+        "mean_real_time_factor": 0.021693841307046716,
+        "max_sampled_rss_bytes": 2283728896,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "pt",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 3,
+        "failure_rate": 0.0,
+        "micro_cer": 0.03773584905660377,
+        "micro_wer": 0.15384615384615385,
+        "mean_seconds": 3.030339633328064,
+        "mean_real_time_factor": 0.28654099882835987,
+        "max_sampled_rss_bytes": 2282733568,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "fr",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.03363914373088685,
+        "micro_wer": 0.10843373493975904,
+        "mean_seconds": 0.670615649993124,
+        "mean_real_time_factor": 0.03359999257662886,
+        "max_sampled_rss_bytes": 2186084352,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "fr",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.039755351681957186,
+        "micro_wer": 0.13253012048192772,
+        "mean_seconds": 6.099802100005036,
+        "mean_real_time_factor": 0.30521777257966565,
+        "max_sampled_rss_bytes": 2198421504,
+        "language_detection_accuracy": null
+      }
+    ],
+    "large-v3": [
+      {
+        "language": "ko",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.5,
+        "micro_cer": 0.06557377049180328,
+        "micro_wer": 0.23809523809523808,
+        "mean_seconds": 1.5154109499999322,
+        "mean_real_time_factor": 0.0406831827361359,
+        "max_sampled_rss_bytes": 2239037440,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "ko",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.17567567567567569,
+        "micro_wer": 0.34782608695652173,
+        "mean_seconds": 11.219438549996994,
+        "mean_real_time_factor": 0.2917465867740795,
+        "max_sampled_rss_bytes": 2312249344,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "ja",
+        "pipeline": "direct",
+        "status": "not evaluated",
+        "clips": 0,
+        "failure_rate": null,
+        "micro_cer": null,
+        "micro_wer": null,
+        "mean_seconds": null,
+        "mean_real_time_factor": null,
+        "max_sampled_rss_bytes": null,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "ja",
+        "pipeline": "vocals",
+        "status": "not evaluated",
+        "clips": 0,
+        "failure_rate": null,
+        "micro_cer": null,
+        "micro_wer": null,
+        "mean_seconds": null,
+        "mean_real_time_factor": null,
+        "max_sampled_rss_bytes": null,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "zh",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.12987012987012986,
+        "micro_wer": null,
+        "mean_seconds": 1.1226161500017042,
+        "mean_real_time_factor": 0.059006039135122784,
+        "max_sampled_rss_bytes": 2248126464,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "zh",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.12987012987012986,
+        "micro_wer": null,
+        "mean_seconds": 5.681780599996273,
+        "mean_real_time_factor": 0.3124728111325732,
+        "max_sampled_rss_bytes": 2242158592,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "en",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.5,
+        "micro_cer": 0.03508771929824561,
+        "micro_wer": 0.05405405405405406,
+        "mean_seconds": 3.04289240000071,
+        "mean_real_time_factor": 0.15451838795604914,
+        "max_sampled_rss_bytes": 3276488704,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "en",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.021052631578947368,
+        "micro_wer": 0.03389830508474576,
+        "mean_seconds": 9.131684400002996,
+        "mean_real_time_factor": 0.4990742623517055,
+        "max_sampled_rss_bytes": 2180759552,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "es",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 1,
+        "failure_rate": 0.0,
+        "micro_cer": 0.02531645569620253,
+        "micro_wer": 0.14285714285714285,
+        "mean_seconds": 1.0218677999946522,
+        "mean_real_time_factor": 0.02902373518426878,
+        "max_sampled_rss_bytes": 2206232576,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "es",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 1,
+        "failure_rate": 0.0,
+        "micro_cer": 0.0379746835443038,
+        "micro_wer": 0.19047619047619047,
+        "mean_seconds": 10.066013800009387,
+        "mean_real_time_factor": 0.2859012867361086,
+        "max_sampled_rss_bytes": 2232623104,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "pt",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 3,
+        "failure_rate": 0.0,
+        "micro_cer": 0.018867924528301886,
+        "micro_wer": 0.07692307692307693,
+        "mean_seconds": 0.45945280000645045,
+        "mean_real_time_factor": 0.0428269037178139,
+        "max_sampled_rss_bytes": 2298687488,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "pt",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 3,
+        "failure_rate": 0.0,
+        "micro_cer": 0.018867924528301886,
+        "micro_wer": 0.07692307692307693,
+        "mean_seconds": 3.160987966664834,
+        "mean_real_time_factor": 0.29814798007728477,
+        "max_sampled_rss_bytes": 2297155584,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "fr",
+        "pipeline": "direct",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.009174311926605505,
+        "micro_wer": 0.012048192771084338,
+        "mean_seconds": 1.3497124999921652,
+        "mean_real_time_factor": 0.0679185551152178,
+        "max_sampled_rss_bytes": 2203082752,
+        "language_detection_accuracy": null
+      },
+      {
+        "language": "fr",
+        "pipeline": "vocals",
+        "status": "evaluated",
+        "clips": 2,
+        "failure_rate": 0.0,
+        "micro_cer": 0.009174311926605505,
+        "micro_wer": 0.012048192771084338,
+        "mean_seconds": 6.742390200000955,
+        "mean_real_time_factor": 0.33737144613408143,
+        "max_sampled_rss_bytes": 2216906752,
+        "language_detection_accuracy": null
+      }
+    ]
+  },
+  "missing_languages": [
+    "ja"
+  ],
+  "raw_research_reports": "Stored locally alongside the manifest; not redistributed"
+}
