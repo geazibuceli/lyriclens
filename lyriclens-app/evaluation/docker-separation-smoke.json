@@ -1,0 +1,162 @@
+{
+  "id": "e6f782bb-9747-476f-a848-59b0ccfc6b5e",
+  "filename": "mary.wav",
+  "sha256": "d39969e18c08c73ae00e5babbc320f2c83aafdaf980304eded32a8b164c0103f",
+  "bytes": 728256,
+  "state": "completed",
+  "stage": "Finished",
+  "requested_language": "en",
+  "pipelines": [
+    "direct",
+    "vocals"
+  ],
+  "model_id": "Systran/faster-whisper-small",
+  "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+  "inference": {
+    "task": "transcribe",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "no_speech_threshold": 0.6,
+    "log_prob_threshold": -1.0,
+    "compression_ratio_threshold": 2.4,
+    "word_timestamps": false,
+    "device": "cpu",
+    "compute_type": "int8"
+  },
+  "environment": {
+    "python": "3.11.17",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "packages": {
+      "fastapi": "0.115.12",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.8.3",
+      "demucs": "4.0.1",
+      "torch": "2.5.1+cpu"
+    }
+  },
+  "created_at": "2026-10-15T20:49:36.888331+00:00",
+  "cancel_requested": false,
+  "results": {
+    "direct": {
+      "state": "completed",
+      "seconds": 2.0487421180005185,
+      "original": [
+        {
+          "start": 0.0,
+          "end": 22.0,
+          "text": "Mary had a little lamb, little lamb, little lamb, Mary had a little lamb, Its fleece was white as snow, And everywhere that Mary went, Mary went, Mary went, And everywhere that Mary went, The lamb was sure to go."
+        }
+      ],
+      "original_text": "Mary had a little lamb, little lamb, little lamb, Mary had a little lamb, Its fleece was white as snow, And everywhere that Mary went, Mary went, Mary went, And everywhere that Mary went, The lamb was sure to go.",
+      "edited": null,
+      "detected_language": "en",
+      "language_source": "user instruction",
+      "warnings": [
+        "Singing recognition and segment timing may be inaccurate. Review against the audio."
+      ],
+      "error": null,
+      "provenance": {
+        "model_id": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false,
+          "device": "cpu",
+          "compute_type": "int8"
+        },
+        "region": null,
+        "timestamp_offset": 0.0,
+        "model_executed": true,
+        "separator_settings": null,
+        "separator": null
+      }
+    },
+    "vocals": {
+      "state": "completed",
+      "seconds": 8.960974241999793,
+      "original": [
+        {
+          "start": 0.0,
+          "end": 22.0,
+          "text": "Mary had a little lamb, little lamb, little lamb, Mary had a little lamb, Its fleece was white as snow, And everywhere that Mary went, Mary went, Mary went, And everywhere that Mary went, The lamb was sure to go."
+        }
+      ],
+      "original_text": "Mary had a little lamb, little lamb, little lamb, Mary had a little lamb, Its fleece was white as snow, And everywhere that Mary went, Mary went, Mary went, And everywhere that Mary went, The lamb was sure to go.",
+      "edited": null,
+      "detected_language": "en",
+      "language_source": "user instruction",
+      "warnings": [
+        "Singing recognition and segment timing may be inaccurate. Review against the audio."
+      ],
+      "error": null,
+      "provenance": {
+        "model_id": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false,
+          "device": "cpu",
+          "compute_type": "int8"
+        },
+        "region": null,
+        "timestamp_offset": 0.0,
+        "model_executed": true,
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "separator": "htdemucs/955717e8-8726e21a"
+      }
+    }
+  },
+  "started_at": "2026-10-15T20:49:36.891876+00:00",
+  "stage_history": [
+    {
+      "stage": "Decoding audio",
+      "at": "2026-10-15T20:49:36.894410+00:00"
+    },
+    {
+      "stage": "Transcribing direct audio",
+      "at": "2026-10-15T20:49:37.117335+00:00"
+    },
+    {
+      "stage": "Separating vocals",
+      "at": "2026-10-15T20:49:39.169565+00:00"
+    },
+    {
+      "stage": "Transcribing vocals audio",
+      "at": "2026-10-15T20:49:47.112169+00:00"
+    }
+  ],
+  "audio": {
+    "duration": 22.7555625,
+    "sample_rate": 16000,
+    "channels": 1,
+    "decoder": "FFmpeg",
+    "timeline": "identity; no silence removed"
+  },
+  "decode_seconds": 0.214542880999943,
+  "processed_audio": {
+    "duration": 22.7555625,
+    "original_offset": 0.0,
+    "timeline": "identity plus original_offset"
+  },
+  "completed_at": "2026-10-15T20:49:47.988608+00:00",
+  "total_seconds": 11.241697606999878
+}
