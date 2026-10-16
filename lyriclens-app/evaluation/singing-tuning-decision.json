@@ -1,0 +1,188 @@
+{
+  "purpose": "Development-only candidate screening; not representative or held-out evaluation",
+  "runs": 144,
+  "scored_languages": [
+    "ko",
+    "zh",
+    "en",
+    "es",
+    "pt",
+    "fr"
+  ],
+  "japanese": "Not scored: checked orthographic reference unavailable",
+  "runtime_changed": false,
+  "decision": "Keep current Large-v3 profile; no candidate improved without language/pipeline regressions",
+  "candidates": [
+    {
+      "variant": "context",
+      "passed_no_language_regression_gate": false,
+      "improvements": [
+        {
+          "language": "es",
+          "pipeline": "direct",
+          "baseline_cer": 0.02531645569620253,
+          "candidate_cer": 0.012658227848101266,
+          "change": -0.012658227848101266
+        },
+        {
+          "language": "es",
+          "pipeline": "vocals",
+          "baseline_cer": 0.0379746835443038,
+          "candidate_cer": 0.02531645569620253,
+          "change": -0.012658227848101267
+        }
+      ],
+      "regressions": [
+        {
+          "language": "ko",
+          "pipeline": "direct",
+          "baseline_cer": 0.14189189189189189,
+          "candidate_cer": 0.1554054054054054,
+          "change": 0.013513513513513514
+        },
+        {
+          "language": "ko",
+          "pipeline": "vocals",
+          "baseline_cer": 0.14189189189189189,
+          "candidate_cer": 0.1554054054054054,
+          "change": 0.013513513513513514
+        }
+      ]
+    },
+    {
+      "variant": "shorter",
+      "passed_no_language_regression_gate": false,
+      "improvements": [],
+      "regressions": [
+        {
+          "language": "ko",
+          "pipeline": "direct",
+          "baseline_cer": 0.14189189189189189,
+          "candidate_cer": 0.18243243243243243,
+          "change": 0.04054054054054054
+        },
+        {
+          "language": "ko",
+          "pipeline": "vocals",
+          "baseline_cer": 0.14189189189189189,
+          "candidate_cer": 0.17567567567567569,
+          "change": 0.0337837837837838
+        }
+      ]
+    },
+    {
+      "variant": "tempo-115",
+      "passed_no_language_regression_gate": false,
+      "improvements": [
+        {
+          "language": "ko",
+          "pipeline": "direct",
+          "baseline_cer": 0.14189189189189189,
+          "candidate_cer": 0.12837837837837837,
+          "change": -0.013513513513513514
+        },
+        {
+          "language": "ko",
+          "pipeline": "vocals",
+          "baseline_cer": 0.14189189189189189,
+          "candidate_cer": 0.12837837837837837,
+          "change": -0.013513513513513514
+        },
+        {
+          "language": "es",
+          "pipeline": "direct",
+          "baseline_cer": 0.02531645569620253,
+          "candidate_cer": 0.012658227848101266,
+          "change": -0.012658227848101266
+        }
+      ],
+      "regressions": [
+        {
+          "language": "zh",
+          "pipeline": "direct",
+          "baseline_cer": 0.12987012987012986,
+          "candidate_cer": 0.33766233766233766,
+          "change": 0.2077922077922078
+        },
+        {
+          "language": "fr",
+          "pipeline": "vocals",
+          "baseline_cer": 0.009174311926605505,
+          "candidate_cer": 0.01529051987767584,
+          "change": 0.006116207951070336
+        }
+      ]
+    },
+    {
+      "variant": "tempo-130",
+      "passed_no_language_regression_gate": false,
+      "improvements": [
+        {
+          "language": "es",
+          "pipeline": "direct",
+          "baseline_cer": 0.02531645569620253,
+          "candidate_cer": 0.012658227848101266,
+          "change": -0.012658227848101266
+        },
+        {
+          "language": "es",
+          "pipeline": "vocals",
+          "baseline_cer": 0.0379746835443038,
+          "candidate_cer": 0.02531645569620253,
+          "change": -0.012658227848101267
+        }
+      ],
+      "regressions": [
+        {
+          "language": "ko",
+          "pipeline": "vocals",
+          "baseline_cer": 0.14189189189189189,
+          "candidate_cer": 0.14864864864864866,
+          "change": 0.006756756756756771
+        },
+        {
+          "language": "zh",
+          "pipeline": "direct",
+          "baseline_cer": 0.12987012987012986,
+          "candidate_cer": 0.3246753246753247,
+          "change": 0.19480519480519481
+        },
+        {
+          "language": "fr",
+          "pipeline": "direct",
+          "baseline_cer": 0.009174311926605505,
+          "candidate_cer": 0.01529051987767584,
+          "change": 0.006116207951070336
+        },
+        {
+          "language": "fr",
+          "pipeline": "vocals",
+          "baseline_cer": 0.009174311926605505,
+          "candidate_cer": 0.01529051987767584,
+          "change": 0.006116207951070336
+        }
+      ]
+    },
+    {
+      "variant": "wide-search",
+      "passed_no_language_regression_gate": false,
+      "improvements": [],
+      "regressions": [
+        {
+          "language": "ko",
+          "pipeline": "direct",
+          "baseline_cer": 0.14189189189189189,
+          "candidate_cer": 0.20270270270270271,
+          "change": 0.06081081081081083
+        },
+        {
+          "language": "ko",
+          "pipeline": "vocals",
+          "baseline_cer": 0.14189189189189189,
+          "candidate_cer": 0.20270270270270271,
+          "change": 0.06081081081081083
+        }
+      ]
+    }
+  ]
+}
