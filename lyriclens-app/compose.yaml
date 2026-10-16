@@ -1,0 +1,17 @@
+services:
+  backend:
+    build: .
+    volumes:
+      - lyriclens-data:/data
+    ports:
+      - "127.0.0.1:${LYRICLENS_BACKEND_PORT:-8012}:8000"
+    init: true
+    restart: unless-stopped
+  frontend:
+    build: ./frontend
+    ports:
+      - "127.0.0.1:${LYRICLENS_FRONTEND_PORT:-5182}:80"
+    depends_on:
+      - backend
+volumes:
+  lyriclens-data:
