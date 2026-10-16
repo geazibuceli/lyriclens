@@ -1,0 +1,17 @@
+**/node_modules/
+**/dist/
+**/__pycache__/
+**/*.egg-info/
+**/.pytest_cache/
+**/.venv/
+**/.env
+**/data/
+**/models/
+**/*.tsbuildinfo
+**/pytest-cache-files-*/
+.python311/
+.venv311/
+.uvcache/
+.runtime/
+**/evaluation/audio/
+**/artifacts/
