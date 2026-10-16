@@ -48,7 +48,7 @@ The final backend suite includes mocked job integration tests, real FFmpeg forma
 
 The production TypeScript/Vite build passed. npm audit reported zero vulnerabilities. Chromium exercised real singing, both results, edits, playback seek, SRT export, desktop/mobile layouts and region retranscription. Browser screenshots and responses are in ignored `artifacts/browser`. Automated axe WCAG 2 A/AA and 2.1 A/AA checks found zero violations on upload/results at 1440px and 390px widths after contrast fixes. Automated checks do not replace assistive-technology review.
 
-Docker frontend/backend builds were executed after native real inference. Default packaging uses CPU Direct; optional CPU separation has a dedicated build argument. Native ports are 8011/5181; Docker host ports are 8012/5182, avoiding the unrelated app on port 8000. Exact commands are in the [repository README](../../README.md). Models, downloaded audio, environments and browser binaries are ignored by Git.
+Docker frontend/backend builds were executed after native real inference. Default packaging uses CPU Direct; optional CPU separation has a dedicated build argument. Native ports are 8011/5181; Docker host ports are 8012/5182, avoiding the unrelated app on port 8000. Exact commands are in the [setup guide](SETUP.md). Models, downloaded audio, environments and browser binaries are ignored by Git.
 
 ## Remaining limits
 
