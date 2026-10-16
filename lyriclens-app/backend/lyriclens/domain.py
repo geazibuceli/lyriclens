@@ -1,0 +1,57 @@
+import math
+from typing import Literal
+from pydantic import BaseModel, Field, model_validator
+
+
+class Segment(BaseModel):
+    start: float = Field(ge=0, allow_inf_nan=False)
+    end: float = Field(gt=0, allow_inf_nan=False)
+    text: str = Field(max_length=20000)
+
+    @model_validator(mode="after")
+    def order(self):
+        if self.start >= self.end:
+            raise ValueError("Segment start must precede end")
+        return self
+
+
+class Edit(BaseModel):
+    pipeline: Literal["direct", "vocals"]
+    segments: list[Segment] = Field(max_length=1000)
+
+
+class Retranscribe(BaseModel):
+    language: str
+    pipeline: Literal["direct", "vocals", "both"] = "direct"
+    start: float = Field(ge=0, allow_inf_nan=False)
+    end: float = Field(gt=0, allow_inf_nan=False)
+    context_seconds: float = Field(default=2, ge=0, le=10, allow_inf_nan=False)
+
+    @model_validator(mode="after")
+    def order(self):
+        if self.start >= self.end:
+            raise ValueError("Region start must precede end")
+        return self
+
+
+def validate_segments(segments, duration):
+    if not math.isfinite(duration) or duration <= 0:
+        raise ValueError("Invalid audio duration")
+    result = [Segment.model_validate(s).model_dump() for s in segments]
+    previous = -1.0
+    for s in result:
+        if s["end"] > duration or s["start"] < previous:
+            raise ValueError("Timestamps must be ordered and within the original clip")
+        previous = s["start"]
+    return result
+
+
+def text_of(segments):
+    return "\n".join(s["text"] for s in segments)
+
+
+def srt(segments):
+    def stamp(value):
+        ms = round(value * 1000)
+        return f"{ms // 3600000:02}:{ms // 60000 % 60:02}:{ms // 1000 % 60:02},{ms % 1000:03}"
+    return "\n\n".join(f"{i}\n{stamp(s['start'])} --> {stamp(s['end'])}\n{s['text']}" for i, s in enumerate(segments, 1)) + "\n"
