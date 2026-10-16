@@ -1,0 +1,140 @@
+{
+  "purpose": "Real singing pipeline and browser smoke execution; no quality score without an independently verified reference",
+  "source": {
+    "id": "mary-celestianpower-2006",
+    "path": "audio/singing/mary.wav",
+    "sha256": "d39969e18c08c73ae00e5babbc320f2c83aafdaf980304eded32a8b164c0103f",
+    "original_sha256": "f21bb5cecf2e9a32ff0c67622c8c5001049f995abec5e8cce475aba7d9d21260",
+    "source": "https://commons.wikimedia.org/wiki/File:Mary_Had_a_Little_Lamb.ogg",
+    "source_revision": 452298650,
+    "author": "Celestianpower",
+    "date": "2006-05-13",
+    "permissions": "Recording dedicated to the public domain by its creator (PD-self); traditional composition/text public domain",
+    "language": "en",
+    "conditions": "Solo unaccompanied singing; Ogg decoded to mono 16kHz PCM WAV without trimming",
+    "content_type": "singing",
+    "reference": null,
+    "reference_status": "Not manually verified; do not score WER/CER or infer reference from model output"
+  },
+  "model_id": "Systran/faster-whisper-small",
+  "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+  "inference": {
+    "task": "transcribe",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "no_speech_threshold": 0.6,
+    "log_prob_threshold": -1.0,
+    "compression_ratio_threshold": 2.4,
+    "word_timestamps": false,
+    "device": "cpu",
+    "compute_type": "int8"
+  },
+  "environment": {
+    "python": "3.11.17",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "fastapi": "0.115.12",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.8.3",
+      "demucs": "4.0.1",
+      "torch": "2.5.1"
+    }
+  },
+  "audio": {
+    "duration": 22.7555625,
+    "sample_rate": 16000,
+    "channels": 1,
+    "decoder": "FFmpeg",
+    "timeline": "identity; no silence removed"
+  },
+  "total_seconds": 9.024863399987225,
+  "pipelines": {
+    "direct": {
+      "state": "completed",
+      "original": [
+        {
+          "start": 0.0,
+          "end": 22.0,
+          "text": "Mary had a little lamb, little lamb, little lamb, Mary had a little lamb, Its fleece was white as snow, And everywhere that Mary went, Mary went, Mary went, And everywhere that Mary went, The lamb was sure to go."
+        }
+      ],
+      "original_text": "Mary had a little lamb, little lamb, little lamb, Mary had a little lamb, Its fleece was white as snow, And everywhere that Mary went, Mary went, Mary went, And everywhere that Mary went, The lamb was sure to go.",
+      "seconds": 1.8060944000026211,
+      "provenance": {
+        "model_id": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false,
+          "device": "cpu",
+          "compute_type": "int8"
+        },
+        "region": null,
+        "timestamp_offset": 0.0,
+        "model_executed": true,
+        "separator_settings": null,
+        "separator": null
+      },
+      "warnings": [
+        "Singing recognition and segment timing may be inaccurate. Review against the audio."
+      ]
+    },
+    "vocals": {
+      "state": "completed",
+      "original": [
+        {
+          "start": 0.0,
+          "end": 22.0,
+          "text": "Mary had a little lamb, little lamb, little lamb, Mary had a little lamb, Its fleece was white as snow, And everywhere that Mary went, Mary went, Mary went, And everywhere that Mary went, The lamb was sure to go."
+        }
+      ],
+      "original_text": "Mary had a little lamb, little lamb, little lamb, Mary had a little lamb, Its fleece was white as snow, And everywhere that Mary went, Mary went, Mary went, And everywhere that Mary went, The lamb was sure to go.",
+      "seconds": 7.134277999997721,
+      "provenance": {
+        "model_id": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false,
+          "device": "cpu",
+          "compute_type": "int8"
+        },
+        "region": null,
+        "timestamp_offset": 0.0,
+        "model_executed": true,
+        "separator_settings": {
+          "device": "cpu",
+          "shifts": 0
+        },
+        "separator": "htdemucs/955717e8-8726e21a"
+      },
+      "warnings": [
+        "Singing recognition and segment timing may be inaccurate. Review against the audio."
+      ]
+    }
+  },
+  "browser_checks": {
+    "unicode_edit_saved": true,
+    "original_preserved": true,
+    "audio_seek": true,
+    "srt_download": true,
+    "mobile_no_horizontal_overflow": true,
+    "javascript_errors": []
+  }
+}
