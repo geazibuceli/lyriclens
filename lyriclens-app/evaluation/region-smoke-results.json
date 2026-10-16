@@ -1,0 +1,127 @@
+{
+  "id": "e3c405a3-416c-4193-9f58-a8dc452e76a1",
+  "filename": "mary.wav",
+  "sha256": "d39969e18c08c73ae00e5babbc320f2c83aafdaf980304eded32a8b164c0103f",
+  "bytes": 728256,
+  "state": "completed",
+  "stage": "Finished",
+  "requested_language": "en",
+  "pipelines": [
+    "direct"
+  ],
+  "model_id": "Systran/faster-whisper-small",
+  "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+  "inference": {
+    "task": "transcribe",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "no_speech_threshold": 0.6,
+    "log_prob_threshold": -1.0,
+    "compression_ratio_threshold": 2.4,
+    "word_timestamps": false,
+    "device": "cpu",
+    "compute_type": "int8"
+  },
+  "environment": {
+    "python": "3.11.17",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "fastapi": "0.115.12",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.8.3",
+      "demucs": "4.0.1",
+      "torch": "2.5.1"
+    }
+  },
+  "created_at": "2026-10-15T20:26:00.368413+00:00",
+  "cancel_requested": false,
+  "results": {
+    "direct": {
+      "state": "completed",
+      "seconds": 1.1678872000047704,
+      "original": [
+        {
+          "start": 3.0,
+          "end": 11.0,
+          "text": "Little lamb, little lamb, Mary had a little lamb, it's fleece was white as snow."
+        }
+      ],
+      "original_text": "Little lamb, little lamb, Mary had a little lamb, it's fleece was white as snow.",
+      "edited": null,
+      "detected_language": "en",
+      "language_source": "user instruction",
+      "warnings": [
+        "Singing recognition and segment timing may be inaccurate. Review against the audio."
+      ],
+      "error": null,
+      "provenance": {
+        "model_id": "Systran/faster-whisper-small",
+        "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+        "settings": {
+          "task": "transcribe",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "vad_filter": false,
+          "no_speech_threshold": 0.6,
+          "log_prob_threshold": -1.0,
+          "compression_ratio_threshold": 2.4,
+          "word_timestamps": false,
+          "device": "cpu",
+          "compute_type": "int8"
+        },
+        "region": {
+          "selected_start": 5.0,
+          "selected_end": 9.0,
+          "start": 3.0,
+          "end": 11.0,
+          "method": "user-selected language and region with surrounding audio context"
+        },
+        "timestamp_offset": 3.0,
+        "model_executed": true,
+        "separator_settings": null,
+        "separator": null
+      }
+    }
+  },
+  "source_job_id": "69462de8-1afc-4f78-a432-2fb99b250b0c",
+  "region": {
+    "selected_start": 5.0,
+    "selected_end": 9.0,
+    "start": 3.0,
+    "end": 11.0,
+    "method": "user-selected language and region with surrounding audio context"
+  },
+  "started_at": "2026-10-15T20:26:00.372412+00:00",
+  "stage_history": [
+    {
+      "stage": "Decoding audio",
+      "at": "2026-10-15T20:26:00.377423+00:00"
+    },
+    {
+      "stage": "Extracting selected region with context",
+      "at": "2026-10-15T20:26:00.427525+00:00"
+    },
+    {
+      "stage": "Transcribing direct audio",
+      "at": "2026-10-15T20:26:00.471514+00:00"
+    }
+  ],
+  "audio": {
+    "duration": 22.7555625,
+    "sample_rate": 16000,
+    "channels": 1,
+    "decoder": "FFmpeg",
+    "timeline": "identity; no silence removed"
+  },
+  "decode_seconds": 0.04091789999802131,
+  "processed_audio": {
+    "duration": 8.0,
+    "original_offset": 3.0,
+    "timeline": "identity plus original_offset"
+  },
+  "completed_at": "2026-10-15T20:26:01.642465+00:00",
+  "total_seconds": 1.2702288000000408
+}
