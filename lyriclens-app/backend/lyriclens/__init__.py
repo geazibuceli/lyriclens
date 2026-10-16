@@ -1,0 +1,1 @@
+"""LyricLens local transcription service."""
