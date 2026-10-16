@@ -1,0 +1,19 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"LyricLens evaluation clip (one JSON object per JSONL line)",
+  "type":"object",
+  "required":["id","path","sha256","language","reference","reference_source","permissions","duration","conditions","language_switching","split"],
+  "properties":{
+    "id":{"type":"string","minLength":1},
+    "path":{"type":"string","minLength":1},
+    "sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "language":{"enum":["ko","ja","zh","en","es","pt","fr"]},
+    "reference":{"type":"string"},
+    "reference_source":{"type":"string","minLength":1},
+    "permissions":{"type":"string","minLength":1},
+    "duration":{"type":"number","exclusiveMinimum":0},
+    "conditions":{"type":"string"},
+    "language_switching":{"type":"boolean"},
+    "split":{"enum":["development","final"]}
+  }
+}
