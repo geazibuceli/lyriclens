@@ -1,0 +1,24 @@
+﻿{
+  "python": "3.11.17",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "packages": {
+    "fastapi": "0.115.12",
+    "faster-whisper": "1.2.1",
+    "ctranslate2": "4.8.3",
+    "demucs": "4.0.1",
+    "torch": "2.5.1"
+  },
+  "cpu_count": 16,
+  "device": "cpu",
+  "compute_type": "int8",
+  "model": "Systran/faster-whisper-small",
+  "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+  "prepared": true,
+  "ffmpeg": "ffmpeg version 7.1-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers",
+  "cpu_compute_types": [
+    "float32",
+    "int8",
+    "int8_float32"
+  ],
+  "cuda_devices": 1
+}
