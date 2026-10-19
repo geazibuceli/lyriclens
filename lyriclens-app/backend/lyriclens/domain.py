@@ -1,12 +1,18 @@
 import math
-from typing import Literal
-from pydantic import BaseModel, Field, model_validator
+from typing import Literal, Annotated
+from pydantic import BaseModel, Field, model_validator, model_serializer
 
 
 class Segment(BaseModel):
     start: float = Field(ge=0, allow_inf_nan=False)
     end: float = Field(gt=0, allow_inf_nan=False)
     text: str = Field(max_length=20000)
+    language: Literal['ko','ja','zh','en','es','pt','fr'] | None = None
+    language_source: Literal['user instruction'] | None = None
+
+    @model_serializer(mode='wrap')
+    def serialize(self, handler):
+        return {key: value for key, value in handler(self).items() if value is not None}
 
     @model_validator(mode="after")
     def order(self):
@@ -34,10 +40,27 @@ class Retranscribe(BaseModel):
         return self
 
 
+class TranslationRequest(BaseModel):
+    pipeline: Literal['direct', 'vocals'] = 'direct'
+    source_language: str
+    target_language: str
+
+
+class MultilingualRequest(BaseModel):
+    pipeline: Literal['direct','vocals'] = 'direct'
+    default_language: str = 'auto'
+
+
+class TranslationEdit(BaseModel):
+    pipeline: Literal['direct', 'vocals'] = 'direct'
+    target_language: str
+    texts: list[Annotated[str, Field(max_length=20000)]] = Field(max_length=1000)
+
+
 def validate_segments(segments, duration):
     if not math.isfinite(duration) or duration <= 0:
         raise ValueError("Invalid audio duration")
-    result = [Segment.model_validate(s).model_dump() for s in segments]
+    result = [Segment.model_validate(s).model_dump(exclude_none=True) for s in segments]
     previous = -1.0
     for s in result:
         if s["end"] > duration or s["start"] < previous:
