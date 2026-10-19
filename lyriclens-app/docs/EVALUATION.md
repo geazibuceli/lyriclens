@@ -1,5 +1,7 @@
 # Reproducible singing evaluation
 
+For the review queue, human attestations, split-leakage checks, frozen model protocols and automated paired comparisons, use [BENCHMARK.md](BENCHMARK.md). The new runner requires reviewed references; legacy diagnostics below remain available separately.
+
 A representative seven-language singing benchmark remains **not evaluated**. A tiny natural-singing development comparison now covers six independently annotated languages; Japanese has execution diagnostics without a checked orthographic reference. See [SINGING.md](SINGING.md) for measured results, sources and restrictions. Separately, one licensed FLEURS speech clip per target language was run with both real pipelines, in automatic and manual modes. A public-domain English singing clip was exercised through the complete browser workflow without assigning WER/CER because no human-verified reference was supplied. Mocked Unicode tests are software tests, not model quality tests. Speech diagnostics must never be reported as singing accuracy.
 
 ## Reproduce the supplied diagnostics
