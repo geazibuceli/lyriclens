@@ -1,5 +1,27 @@
 # Delivery verification
 
+## Conservative training-source policy
+
+Updated 2026-10-16: 95 backend tests passed; four were skipped in the application environment. New checks cover rejecting restrictive/unknown declared licenses, pending rights, additional source agreements, missing component permissions, changed documentary evidence, evidence paths outside the manifest directory and non-destructive original-recording queue preparation. Existing fine-tuning tests now use explicitly synthetic rights-evidence fixtures.
+
+GTSinger acquisition remains disabled; no corpus was downloaded or accepted. The source shortlist, pending rights template and newly authored collection prompts are in `evaluation/`. The existing vocadito ZIP/README and official Zenodo metadata were inspected. A private timestamped copy/hash of provider metadata was saved under `.runtime/permissions-source-audit`; the provider's CC BY 4.0 declaration is recorded without claiming underlying song rights are cleared. No third-party source was approved for training, no new audio was downloaded, and no singing training or model promotion ran. See [TRAINING_SOURCES.md](TRAINING_SOURCES.md).
+
+## Fine-tuning preparation
+
+Updated 2026-10-16: 87 backend tests passed and four were skipped in the app environment (two opt-in pretrained inference tests, one unavailable Windows symlink privilege and CUDA training unavailable in CPU PyTorch). All 13 fine-tuning tests passed in the separate PyTorch 2.8.0+cu128 environment, including a random tiny-Whisper decoder gradient on the RTX 5080 and a synthetic CPU training-loop/checkpoint/validation test. The existing app's PyTorch 2.5.1+cpu was not replaced.
+
+The original HF Whisper Small safetensors/tokenizer/config were explicitly downloaded at revision `973afd24965f72e36ca33b3055d56a652f456b4d`. A separate private random tiny-Whisper probe performed a synthetic gradient update, saved safetensors, converted through the production conversion function and loaded the converted binary in CTranslate2 with local tokenizer assets. This is architecture/format verification, not a pretrained singing experiment or evidence of lower CER.
+
+The 12-clip review queue remains unverified. No real-song training, final evaluation, model promotion or reference attestation was performed. Training requires explicit reviewed adaptation permissions and disjoint development-only train/validation groups. See [FINETUNING.md](FINETUNING.md).
+
+## Drafts, editing and archive checks
+
+Updated 2026-10-16: 75 backend tests passed; three were skipped (two opt-in model tests and Windows symlink creation without the required privilege). Frontend formatting and the production build passed. Backup tests cover original/hash preservation, independent restoration, saved results/translations/settings/raw responses, active-job guards, body limits, malformed metadata, duplicate/arbitrary archive paths, alignment and stale bilingual export rejection.
+
+The isolated browser runner passed on temporary data at ports 8013/5183 without model downloads. It exercised Unicode draft persistence and explicit restoration, changed-source conflict discard, search/seek, split/merge/undo, incompatible-language rejection, ZIP download/restore without replacement, waveform/storage/repeat regressions, desktop/mobile layout and axe WCAG A/AA. The real local translation browser test additionally passed translation-draft recovery and bilingual SRT with inherited times. These are workflow checks, not singing-quality measurements.
+
+The GitHub workflow now includes formatting and a model-free browser job with diagnostic artifacts. Its equivalent runner was executed locally; the updated GitHub-hosted workflow has not been run remotely. Commands, privacy/storage limits and restore behavior are in [EDITING.md](EDITING.md).
+
 Verified on 2026-10-15: Windows, Python 3.11.17, Node.js 24.11.0, 16 logical CPUs. Inference packages: faster-whisper 1.2.1, CTranslate2 4.8.3, Demucs 4.0.1, PyTorch/torchaudio 2.5.1, SoundFile 0.13.1. The initial Python 3.14 API-only environment is separate.
 
 ## Real pretrained execution
@@ -36,6 +58,14 @@ Original silence and sine-tone controls exposed hallucinated output and a zero-v
 
 ## Software checks
 
+Review playback: Chromium verified pitch-preserving 0.5x speed, repeated wraps inside a selected segment, changing/stopping repeat, reset on timing edits and leaving the job, unchanged exported SRT, 1440px/390px layouts and an axe WCAG 2/2.1 A/AA audit with zero violations. The owned four-second silence fixture and sample text are created/deleted by `scripts/review_browser_smoke.py`; this is media-control validation, not ASR quality evidence. The frontend production build passed.
+
+The Windows `.\start.cmd` launcher passed both healthy-service reuse and a cold start after confirming no active jobs and stopping only the identified LyricLens processes. It started backend and frontend in hidden processes, verified readiness and the frontend API proxy, and returned the working localhost URL. Models/dependencies were already installed and were not downloaded by the launcher. Existing port/service checks avoid stopping unrelated applications. Manual launch helpers remain available.
+
+Development layout regression: a browser diagnosis reproduced a Vite CSS module containing an empty style string despite a populated file on disk. Restarting the frontend restored the stylesheet. Vite now uses `awaitWriteFinish` (200ms stability, 50ms polling) to avoid reading transient writes. `scripts/layout_smoke.py` passed actual CSS-rule loading and overflow checks at 1440px and 390px. The translation browser check now also requires loaded application styles; its real translation/edit/export/staleness workflow and axe audit passed again. Production build passed after the watcher configuration change.
+
+Local translation was exercised separately from ASR: the real CPU/int8 M2M100 checkpoint completed all 42 cross-language directions on original short non-lyrical sentences, recorded in `evaluation/translation-smoke.json`. Chromium passed saved-source translation, source preservation, Unicode translation editing, SRT export with inherited timing, stale-source rejection, retranslation, a 390px layout and an axe WCAG 2/2.1 A/AA audit with zero violations. The backend suite completed with 49 passed, including both opt-in real ASR/separation tests; the frontend production build passed. These are execution/workflow diagnostics, not a lyric-translation quality benchmark. Detailed commands and limits are in [TRANSLATION.md](TRANSLATION.md).
+
 MP4 support: 41 ordinary tests passed, with two opt-in model tests skipped. Real FFmpeg tests cover an MP4 audio container, an H.264/AAC video uploaded with an uppercase extension, original-file preservation and a video without audio. Frontend production build passed. `scripts/mp4_smoke.py` passed Chromium upload, mono 16kHz audio extraction, original hash verification, original-container audio playback and deletion on its own generated H.264/AAC silent video. This checks the format workflow without claiming a new recognition-quality result.
 
 Windows deletion regression: the browser player now pauses, unloads its source and stays detached during DELETE. The API retries transient file locks, reports a recoverable 409 if audio remains in use, preserves the database record until file cleanup succeeds, and can finish deleting a record whose folder was already removed. Regression suite: 38 passed, two opt-in model tests skipped; frontend production build passed. `scripts/delete_smoke.py` verified HTTP 204 and history removal while its own 120-second silence fixture was playing in Chromium. No user recordings were deleted by this diagnostic.
@@ -53,3 +83,23 @@ Docker frontend/backend builds were executed after native real inference. Defaul
 ## Remaining limits
 
 A seven-language singing benchmark still needs appropriately licensed clips and independently verified references, with development/final separation. No singing quality claim comes from speech samples. Region language is user-instructed, not inferred; automatic segment-language detection remains disabled. Large-v3 explicitly enables native word alignment for approximate segment timing; no separate aligner model is used. ASR cancellation waits for the in-process model call; it has no hard deadline. macOS and GPU separation remain unverified. Public deployment needs the controls documented in architecture.
+
+## Recovery and review tools
+
+Updated 2026-10-16: 66 backend tests passed, with three skips (two opt-in real-model tests and Windows symlink creation without the required privilege). The production frontend build passed. New integration tests cover preserving completed routes/edits, queue rollback, changed-original rejection, durable translation segments, recovery across service instances, scoped cache cleanup, active-job guards, read-only diagnostics and real FFmpeg waveform decoding.
+
+Chromium passed the owned-fixture history/waveform/storage workflow on desktop and mobile with zero axe WCAG A/AA violations. Previous segment-repeat, multilingual comparison and real local translation browser regressions also passed. This validates behavior, not singing accuracy. Feature behavior, limits and endpoints are in [RELIABILITY.md](RELIABILITY.md).
+
+## Reviewed benchmark tooling
+
+Updated 2026-10-16: the backend suite passed **59 tests**, with two opt-in model tests skipped. New tests cover pending/stale reviews, changed audio, development/final leakage, unmatched report rejection, frozen protocol changes, final matrix rejection, isolated runner commands and overwrite prevention. The model runner is tested with an injected subprocess; no newly human-verified singing-quality result is claimed.
+
+A local queue was prepared from the 12 existing research clips: six languages, zero verified references, no Japanese example and no final clips. No human attestation was issued by the assistant. Commands, remaining review work and limits are documented in [BENCHMARK.md](BENCHMARK.md).
+
+## Multilingual review verification
+
+Updated 2026-10-16: 52 backend tests passed; two opt-in real-model tests were skipped. The frontend production build passed.
+
+`backend/tests/test_multilingual.py` checks instructed passage recognition across all seven language choices, absolute timestamp mapping, original preservation, raw passage responses, overlap/invalid-language rejection, per-segment translation routing, unchanged target-language text and stale translations after language edits. Recognition routing uses an injected model and does not establish recognition quality.
+
+`scripts/multilingual_browser_smoke.py` passed on desktop (1440 px) and mobile (390 px): differing-word highlights, matching-passage filter, saved language selectors, mixed-source target selection, separate multilingual job creation, no horizontal overflow and no axe WCAG A/AA violations. It creates and deletes only its own silence fixture; it does not benchmark singing accuracy.
