@@ -286,6 +286,35 @@ def test_invalid_model_timing_preserves_raw(tmp_path):
         assert client.get(f"/api/jobs/{job['id']}/raw").json()['segments'][0]['end']==30
 
 
+@pytest.mark.parametrize('pipeline', ['direct', 'vocals'])
+def test_unordered_model_segments_preserve_times_and_raw(tmp_path, pipeline):
+    emitted = [
+        {'start': 1.5, 'end': 2.8, 'text': 'later'},
+        {'start': 0.5, 'end': 2.0, 'text': 'earlier overlapping'},
+        {'start': 0.5, 'end': 1.0, 'text': 'same start'},
+    ]
+
+    class Unordered(Model):
+        def transcribe(self, *args):
+            return {**super().transcribe(*args), 'segments': emitted}
+
+    class Separator:
+        def separate(self, audio, directory):
+            return audio
+
+    app = create_app(Settings(root=tmp_path), Decoder(), Unordered(), Separator())
+    with TestClient(app) as client:
+        job = wait(client, upload(client, pipeline=pipeline).json()['id'])
+        assert job['state'] == 'completed'
+        result = job['results'][pipeline]
+        assert result['original'] == [emitted[1], emitted[2], emitted[0]]
+        assert any('reordered' in warning for warning in result['warnings'])
+        path = f"/api/jobs/{job['id']}"
+        assert client.get(path + f'/raw?pipeline={pipeline}').json()['segments'] == emitted
+        # User edits remain strict: normalization only applies to model output.
+        assert client.put(path + '/edit', json={'pipeline': pipeline, 'segments': emitted}).status_code == 422
+
+
 def test_manifest_integrity(tmp_path):
     audio = tmp_path/'clip.wav'
     audio.write_bytes(b'licensed-recording')

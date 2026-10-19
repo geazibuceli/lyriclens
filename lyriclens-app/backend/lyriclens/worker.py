@@ -9,7 +9,7 @@ import time
 from collections import OrderedDict
 from dataclasses import replace
 from .adapters import FFmpegDecoder, WhisperTranscriber, DemucsSeparator
-from .domain import validate_segments, text_of
+from .domain import validate_segments, validate_model_segments, text_of
 from .store import now
 
 log = logging.getLogger("lyriclens")
@@ -121,9 +121,11 @@ class Worker:
                     raw = self.transcribe_plan(job,audio,folder,pipeline) if job.get('language_plan') else self.transcriber_for(job).transcribe(audio, None if job["requested_language"] == "auto" else job["requested_language"])
                     # Persist raw response before validation; never silently clamp invalid timestamps.
                     (folder / f"{pipeline}-raw.json").write_text(json.dumps(raw, ensure_ascii=False, indent=2), encoding="utf-8")
-                    local_segments = validate_segments(raw["segments"], processed_duration)
+                    local_segments, reordered = validate_model_segments(raw["segments"], processed_duration)
                     segments = validate_segments([{**s,"start":s["start"]+offset,"end":s["end"]+offset} for s in local_segments], info["duration"])
                     warnings = ["Singing recognition and segment timing may be inaccurate. Review against the audio."]
+                    if reordered or raw.get('timestamp_order_normalized'):
+                        warnings.append('Model segments were reordered by start time; timestamps and overlapping passages are unchanged. The raw response preserves the emitted order.')
                     if job.get('language_plan'):
                         warnings.append('Languages follow saved user instructions. Only saved passage intervals are transcribed; gaps are omitted. This is not automatic code-switch detection.')
                     if raw.get("signal_control"):
@@ -175,7 +177,8 @@ class Worker:
             output['passages'].append(dict(region=passage,response=raw))
             output['model_executed'] = output['model_executed'] or raw.get('model_executed',True)
             path.write_text(json.dumps(output,ensure_ascii=False,indent=2),encoding='utf-8')
-            local = validate_segments(raw['segments'],duration)
+            local, reordered = validate_model_segments(raw['segments'],duration)
+            output['timestamp_order_normalized'] = output.get('timestamp_order_normalized', False) or reordered
             for segment in local:
                 mapped = {**segment,'start':segment['start']+passage['start'],'end':segment['end']+passage['start']}
                 if passage['language']!='auto':

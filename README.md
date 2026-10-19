@@ -54,6 +54,21 @@ After installing dependencies, start both services on Windows with one command f
 
 The launcher reuses healthy services, checks the API connection and writes logs to `.runtime`. Use `.\start.cmd -Gpu` to request CUDA/float16 when starting a new backend with the documented GPU dependencies prepared. No packages or models are downloaded automatically.
 
+## Common problems
+
+| Symptom | Likely cause and solution |
+|---|---|
+| Browser shows `ERR_CONNECTION_REFUSED` at port 5181 | The frontend may not be running. After initial setup, run `.\start.cmd` from the repository root to start both services. If startup fails, inspect the log named by the launcher under `.runtime`. |
+| Server starts, but processing is disabled | A model or FFmpeg may be missing. Check `/api/models` and follow the [model preparation instructions](lyriclens-app/docs/SETUP.md#models-and-explicit-preparation). Downloads must be run explicitly. |
+| FFmpeg is unavailable | Run `ffmpeg -version` in the same terminal. Reopen the terminal after installation, or set `LYRICLENS_FFMPEG` to the executable's absolute path. |
+| PowerShell blocks `npm.ps1` | Use `npm.cmd ci` and `npm.cmd run dev`, as shown above. No execution-policy change is needed. |
+| Inference or vocal separation dependencies fail to install on Python 3.14 | Use the Python 3.11 environment from Quick start. Native inference on Python 3.14 is not verified. |
+| GPU processing fails with a CUDA/cuDNN error or missing `cublas64_12.dll` | Follow the [Windows GPU setup](lyriclens-app/docs/SETUP.md#models-and-explicit-preparation), install the `cuda-windows` extra and restart the backend. Alternatively, explicitly select CPU/int8. |
+| Transcript is empty, inaccurate or in the wrong language | Select the language manually, compare original audio with vocal separation if prepared, and review/edit the result. Singing and instrumental passages can still produce incorrect words. |
+| Export does not include recent edits | Click **Save edits** before exporting. Original TXT exports intentionally use the original recognition result. |
+
+For additional symptoms, including failed model downloads, interrupted jobs and separation errors, see the [troubleshooting guide](lyriclens-app/docs/TROUBLESHOOTING.md).
+
 ## Limitations
 
 Singing, accompaniment and overlapping voices can produce incorrect words or hallucinations; timestamps are approximate. Review every transcript. Existing singing results come from small development samples, and Japanese accuracy remains unscored. See the [singing results](lyriclens-app/docs/SINGING.md).

@@ -69,6 +69,13 @@ def validate_segments(segments, duration):
     return result
 
 
+def validate_model_segments(segments, duration):
+    # Validate bounds and finite values before sorting; preserve overlaps and times.
+    checked = [validate_segments([segment], duration)[0] for segment in segments]
+    ordered = sorted(checked, key=lambda segment: segment['start'])
+    return validate_segments(ordered, duration), ordered != checked
+
+
 def text_of(segments):
     return "\n".join(s["text"] for s in segments)
 
