@@ -9,11 +9,14 @@ from .profiles import profile_settings
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["download", "separation-download", "status"])
+    parser.add_argument("action", choices=["download", "separation-download", "translation-download", "status"])
     parser.add_argument("--profile", choices=["configured", "large-v3"], default="configured")
     args = parser.parse_args()
     settings = profile_settings(Settings(), args.profile)
-    if args.action == "status":
+    if args.action == "translation-download":
+        from .translation import prepare
+        prepare(settings)
+    elif args.action == "status":
         print(json.dumps({"model": settings.model_id, "revision": settings.revision,
                           "prepared": (settings.model_dir / "READY.json").exists()}))
     elif args.action == "download":
