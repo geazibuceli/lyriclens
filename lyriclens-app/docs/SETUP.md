@@ -4,6 +4,16 @@
 
 ## Native setup
 
+### Daily startup on Windows
+
+After the initial dependency installation below, run `.\start.cmd` from the repository root. The wrapper invokes `start.ps1` with a process-scoped execution policy, starts backend 8011 and frontend 5181 with hidden windows, waits for readiness, and verifies the frontend's API proxy. It reuses healthy existing services and refuses occupied ports that do not identify as LyricLens, without stopping processes. Errors name the relevant log under `.runtime`; model preparation stays explicit.
+
+The launcher discovers the prepared root `.venv311`, application `.venv` or root `.venv`, in that order. It requires installed frontend dependencies. A new backend uses the environment's ASR settings (CPU/int8 by default); `.\start.cmd -Gpu` explicitly selects CUDA/float16 for a newly started backend. The flag does not reconfigure an already running backend. Existing local model and translation caches are reused. This launcher is for Windows; manual and Docker commands remain available below.
+
+### Reviewing a passage
+
+Open a completed transcript and choose **Repeat** beside a segment. It repeats the currently displayed start/end interval until **Stop repeat**, the same Repeat button, a different seek action or a timing edit stops/replaces the loop. The player offers **0.5×, 0.75×, 1× and 1.25×** playback with pitch preservation requested from the browser. Playback speed does not change transcript times or exports. Invalid/overlength segment intervals cannot be repeated. Unsaved timing edits affect review playback only; save them explicitly to update exports. Playback controls reset when switching jobs.
+
 Uploads support WAV, MP3, FLAC, M4A and **MP4**. For MP4 videos, FFmpeg extracts the first audio track; video frames are ignored. The original file is retained and playback uses its audio. Videos without an audio track fail with an explanatory message. Extracted audio is limited to 10 minutes; the 150 MiB upload limit applies to the entire video file. Uncommon audio codecs may not play in every browser.
 
 Use Python **3.11** for the full stack, particularly optional Demucs with PyTorch 2.5.1. Native Windows inference was exercised with Python 3.11.17 and Node.js 24.11.0. The lightweight API/tests also run on Python 3.14; native inference on 3.14 is not verified. Linux CPU packaging is supplied through Docker. macOS execution remains unverified.
@@ -36,6 +46,8 @@ Open http://127.0.0.1:5181. The frontend proxies `/api` to localhost:8011; API s
 In the prepared IDE workspace, the local runtime is at the repository root in `.venv311`. From that root, run `.\.venv311\Scripts\python.exe -m uvicorn lyriclens.api:app --host 127.0.0.1 --port 8011`; run `npm.cmd run dev` inside `lyriclens-app/frontend`. Weights are already prepared in `lyriclens-app/data`. PowerShell helpers are in [run-backend.ps1](../scripts/run-backend.ps1) and [run-frontend.ps1](../scripts/run-frontend.ps1).
 
 ## Models and explicit preparation
+
+Optional local transcript translation has separate dependencies and an explicit checkpoint download. See the [translation guide](TRANSLATION.md) for installation, supported language pairs, editing, exports and limitations. ASR models alone do not enable text translation.
 
 The default is `Systran/faster-whisper-small`, revision `2ec96c5472da50d38d40c0cfe0602af2e94b4c8a`. The download command retrieves its CTranslate2 weights and tokenizer/configuration from Hugging Face into a revision-specific local directory. Verified weight-file size: **483,546,902 bytes**, plus about 2.7 MB of configuration/tokenizer files. Optional Demucs checkpoint size: **84,141,911 bytes**. No audio is sent, and no weights are committed to this repository.
 
