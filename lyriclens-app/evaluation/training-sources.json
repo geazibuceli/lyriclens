@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "purpose": "Conservative training-source shortlist; no automatic authorization or legal assurance",
+  "allowed_declared_licenses": ["CC0-1.0", "CC-BY-4.0", "OWNED-CONSENT"],
+  "source_license_does_not_replace_component_rights_review": true,
+  "sources": [
+    {
+      "id": "original-contributor-recordings",
+      "status": "preferred-awaiting-recordings-and-written-permissions",
+      "license": "OWNED-CONSENT",
+      "notes": "Original composition, lyrics and recording; written performer authorization explicitly covering training and intended weight distribution. No reviewed examples collected yet."
+    },
+    {
+      "id": "vocadito-v3",
+      "url": "https://zenodo.org/records/5578807",
+      "status": "candidate-pending-component-rights-verification",
+      "declared_license": "CC-BY-4.0",
+      "license_metadata_url": "https://zenodo.org/api/records/5578807",
+      "metadata_checked_on": "2026-10-16",
+      "notes": "Existing local archive contains lyrics annotated by musicians. Do not infer permission for each underlying song/composition from a dataset license label; no training approval recorded."
+    },
+    {
+      "id": "gtsinger",
+      "url": "https://github.com/AaronZ345/GTSinger/blob/main/dataset_license.md",
+      "status": "excluded-from-this-training-selection",
+      "license": "CC-BY-NC-SA-4.0 plus additional agreement",
+      "notes": "No acceptance recorded, no corpus downloaded and no training enabled."
+    },
+    {
+      "id": "csd-v1",
+      "url": "https://zenodo.org/records/4785016",
+      "status": "excluded-from-this-training-selection",
+      "license": "CC-BY-NC-SA-4.0",
+      "notes": "Historical research diagnostics remain separate; not admitted by the new permissive-source policy."
+    },
+    {
+      "id": "covox",
+      "url": "https://osf.io/cgexn/",
+      "status": "excluded-license-discrepancy",
+      "notes": "Previously recorded NC-ND / NC-SA discrepancy; not used for training."
+    },
+    {
+      "id": "user-uploaded-commercial-songs",
+      "status": "excluded-without-specific-rights-evidence",
+      "notes": "Uploading a recording, buying a copy or choosing MIT for application code is not itself training authorization. No source is promoted automatically from the library."
+    }
+  ]
+}
