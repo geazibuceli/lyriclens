@@ -1,0 +1,12 @@
+{
+  "status": "pending",
+  "reviewed_by": "",
+  "additional_terms": null,
+  "recording": false,
+  "lyrics": false,
+  "composition": false,
+  "performer": false,
+  "model_training": false,
+  "model_weight_distribution": false,
+  "evidence": []
+}
