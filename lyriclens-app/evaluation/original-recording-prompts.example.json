@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "purpose": "New sample text for collecting original singing recordings; not an annotated dataset",
+  "text_origin": "Newly authored for LyricLens; not retrieved from existing song lyrics",
+  "instructions": "Use an original melody and recording; obtain applicable participant permissions. Do not use commercial backing tracks or imitate a particular singer. Transcribe the actual performed words and review timing/language before training.",
+  "prompts": [
+    {"id": "en-original-01", "language": "en", "text": "A silver lantern waits beside my open window."},
+    {"id": "en-original-02", "language": "en", "text": "We carry paper boats across the quiet courtyard."},
+    {"id": "en-original-03", "language": "en", "text": "The morning paints a narrow bridge in amber."},
+    {"id": "en-original-04", "language": "en", "text": "I place a little stone beside the garden gate."},
+    {"id": "pt-original-01", "language": "pt", "text": "Uma lanterna azul repousa junto à minha janela."},
+    {"id": "pt-original-02", "language": "pt", "text": "Levamos barcos de papel pelo quintal tranquilo."},
+    {"id": "pt-original-03", "language": "pt", "text": "A manhã desenha uma ponte na areia clara."},
+    {"id": "pt-original-04", "language": "pt", "text": "Deixo uma pequena pedra junto ao portão verde."}
+  ],
+  "review_status": "unrecorded; no human reference attestation or quality claim"
+}
