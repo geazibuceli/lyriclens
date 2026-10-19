@@ -2,6 +2,8 @@
 
 | Symptom | Action |
 |---|---|
+| `ERR_CONNECTION_REFUSED` at localhost:5181 | From the repository root, run `.\start.cmd` after initial setup. It starts/reuses both services and checks the API proxy; errors point to `.runtime` logs. It does not prepare missing models automatically. |
+| Interface appears as plain text with default browser controls | The dev server may have cached an empty stylesheet during a file rewrite. Restart the frontend with `npm.cmd run dev`, then reload with Ctrl+F5. Vite now waits for writes to stabilize before processing changes. `scripts/layout_smoke.py` checks real stylesheet loading and desktop/mobile overflow. |
 | Server starts but processing is disabled | Check `/api/models`; install FFmpeg and explicitly prepare the model. Health does not mean model-ready. |
 | FFmpeg unavailable | Run `ffmpeg -version` in the same shell; reopen the terminal after install or set `LYRICLENS_FFMPEG` to its executable. |
 | Model download fails | Check network/proxy, disk space, repository and pinned revision. Run preparation again; no model is substituted. Runtime remains offline. |
