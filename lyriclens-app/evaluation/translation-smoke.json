@@ -1,0 +1,361 @@
+{
+  "purpose": "Execution diagnostics on original short non-lyrical sentences; no translation quality score or lyric validation",
+  "model": "facebook/m2m100_418M",
+  "revision": "55c2e61bbf05dfb8d7abccdc3fae6fc8512fd636",
+  "license": "MIT",
+  "device": "cpu",
+  "compute_type": "int8",
+  "model_bytes": 490667752,
+  "environment": {
+    "python": "3.11.17",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "ctranslate2": "4.8.3",
+      "transformers": "4.49.0",
+      "sentencepiece": "0.2.1"
+    }
+  },
+  "settings": {
+    "beam_size": 4,
+    "max_input_tokens": 512,
+    "max_output_tokens": 512
+  },
+  "per_pair": [
+    {
+      "source_language": "en",
+      "target_language": "ko",
+      "source_text": "The sun is shining today.",
+      "state": "completed",
+      "translation": "오늘날 태양이 빛나고 있다.",
+      "seconds": 3.499409799987916
+    },
+    {
+      "source_language": "en",
+      "target_language": "ja",
+      "source_text": "The sun is shining today.",
+      "state": "completed",
+      "translation": "今日は太陽が輝いています。",
+      "seconds": 0.12832020000496414
+    },
+    {
+      "source_language": "en",
+      "target_language": "zh",
+      "source_text": "The sun is shining today.",
+      "state": "completed",
+      "translation": "今天,太阳正在发光。",
+      "seconds": 0.13686959999904502
+    },
+    {
+      "source_language": "en",
+      "target_language": "es",
+      "source_text": "The sun is shining today.",
+      "state": "completed",
+      "translation": "El sol está brillando hoy.",
+      "seconds": 0.13316440000198781
+    },
+    {
+      "source_language": "en",
+      "target_language": "pt",
+      "source_text": "The sun is shining today.",
+      "state": "completed",
+      "translation": "O sol brilha hoje.",
+      "seconds": 0.12885419999656733
+    },
+    {
+      "source_language": "en",
+      "target_language": "fr",
+      "source_text": "The sun is shining today.",
+      "state": "completed",
+      "translation": "Le soleil brille aujourd’hui.",
+      "seconds": 0.13241239999479149
+    },
+    {
+      "source_language": "pt",
+      "target_language": "ko",
+      "source_text": "O sol brilha hoje.",
+      "state": "completed",
+      "translation": "오늘은 태양이 빛나고 있습니다.",
+      "seconds": 0.16460190000361763
+    },
+    {
+      "source_language": "pt",
+      "target_language": "ja",
+      "source_text": "O sol brilha hoje.",
+      "state": "completed",
+      "translation": "今日は太陽が輝いています。",
+      "seconds": 0.13791930000297725
+    },
+    {
+      "source_language": "pt",
+      "target_language": "zh",
+      "source_text": "O sol brilha hoje.",
+      "state": "completed",
+      "translation": "今天太阳亮了。",
+      "seconds": 0.11439440000685863
+    },
+    {
+      "source_language": "pt",
+      "target_language": "en",
+      "source_text": "O sol brilha hoje.",
+      "state": "completed",
+      "translation": "The sun shines today.",
+      "seconds": 0.10507309999957215
+    },
+    {
+      "source_language": "pt",
+      "target_language": "es",
+      "source_text": "O sol brilha hoje.",
+      "state": "completed",
+      "translation": "El sol brilla hoy.",
+      "seconds": 0.09271300000546034
+    },
+    {
+      "source_language": "pt",
+      "target_language": "fr",
+      "source_text": "O sol brilha hoje.",
+      "state": "completed",
+      "translation": "Le soleil brille aujourd’hui.",
+      "seconds": 0.11780759999237489
+    },
+    {
+      "source_language": "es",
+      "target_language": "ko",
+      "source_text": "El sol brilla hoy.",
+      "state": "completed",
+      "translation": "오늘은 태양이 빛나고 있습니다.",
+      "seconds": 0.1662250000081258
+    },
+    {
+      "source_language": "es",
+      "target_language": "ja",
+      "source_text": "El sol brilla hoy.",
+      "state": "completed",
+      "translation": "今日は太陽が輝いています。",
+      "seconds": 0.1275344000023324
+    },
+    {
+      "source_language": "es",
+      "target_language": "zh",
+      "source_text": "El sol brilla hoy.",
+      "state": "completed",
+      "translation": "今天太阳亮了。",
+      "seconds": 0.11866569999256171
+    },
+    {
+      "source_language": "es",
+      "target_language": "en",
+      "source_text": "El sol brilla hoy.",
+      "state": "completed",
+      "translation": "The sun shines today.",
+      "seconds": 0.12165939999977127
+    },
+    {
+      "source_language": "es",
+      "target_language": "pt",
+      "source_text": "El sol brilla hoy.",
+      "state": "completed",
+      "translation": "O sol brilha hoje.",
+      "seconds": 0.1050355000043055
+    },
+    {
+      "source_language": "es",
+      "target_language": "fr",
+      "source_text": "El sol brilla hoy.",
+      "state": "completed",
+      "translation": "Le soleil brille aujourd’hui.",
+      "seconds": 0.115193099991302
+    },
+    {
+      "source_language": "fr",
+      "target_language": "ko",
+      "source_text": "Le soleil brille aujourd'hui.",
+      "state": "completed",
+      "translation": "오늘날 태양이 빛나고 있다.",
+      "seconds": 0.15345949999755248
+    },
+    {
+      "source_language": "fr",
+      "target_language": "ja",
+      "source_text": "Le soleil brille aujourd'hui.",
+      "state": "completed",
+      "translation": "今日は太陽が輝いています。",
+      "seconds": 0.14415839999855962
+    },
+    {
+      "source_language": "fr",
+      "target_language": "zh",
+      "source_text": "Le soleil brille aujourd'hui.",
+      "state": "completed",
+      "translation": "今天,太阳亮了。",
+      "seconds": 0.12819629999285098
+    },
+    {
+      "source_language": "fr",
+      "target_language": "en",
+      "source_text": "Le soleil brille aujourd'hui.",
+      "state": "completed",
+      "translation": "The sun shines today.",
+      "seconds": 0.1072338999947533
+    },
+    {
+      "source_language": "fr",
+      "target_language": "es",
+      "source_text": "Le soleil brille aujourd'hui.",
+      "state": "completed",
+      "translation": "El sol brilla hoy.",
+      "seconds": 0.10487949999514967
+    },
+    {
+      "source_language": "fr",
+      "target_language": "pt",
+      "source_text": "Le soleil brille aujourd'hui.",
+      "state": "completed",
+      "translation": "O sol brilha hoje.",
+      "seconds": 0.09378139999171253
+    },
+    {
+      "source_language": "ko",
+      "target_language": "ja",
+      "source_text": "오늘은 해가 빛납니다.",
+      "state": "completed",
+      "translation": "今日は太陽が輝いています。",
+      "seconds": 0.13308249998954125
+    },
+    {
+      "source_language": "ko",
+      "target_language": "zh",
+      "source_text": "오늘은 해가 빛납니다.",
+      "state": "completed",
+      "translation": "今天太阳亮了。",
+      "seconds": 0.11713309999322519
+    },
+    {
+      "source_language": "ko",
+      "target_language": "en",
+      "source_text": "오늘은 해가 빛납니다.",
+      "state": "completed",
+      "translation": "The sun is bright today.",
+      "seconds": 0.10638319999270607
+    },
+    {
+      "source_language": "ko",
+      "target_language": "es",
+      "source_text": "오늘은 해가 빛납니다.",
+      "state": "completed",
+      "translation": "Hoy el sol brilla.",
+      "seconds": 0.09450490000017453
+    },
+    {
+      "source_language": "ko",
+      "target_language": "pt",
+      "source_text": "오늘은 해가 빛납니다.",
+      "state": "completed",
+      "translation": "Hoje o sol brilha.",
+      "seconds": 0.10228619999543298
+    },
+    {
+      "source_language": "ko",
+      "target_language": "fr",
+      "source_text": "오늘은 해가 빛납니다.",
+      "state": "completed",
+      "translation": "Le soleil brille aujourd’hui.",
+      "seconds": 0.13348029999178834
+    },
+    {
+      "source_language": "ja",
+      "target_language": "ko",
+      "source_text": "今日は太陽が輝いています。",
+      "state": "completed",
+      "translation": "오늘은 태양이 빛나고 있다.",
+      "seconds": 0.17018600000301376
+    },
+    {
+      "source_language": "ja",
+      "target_language": "zh",
+      "source_text": "今日は太陽が輝いています。",
+      "state": "completed",
+      "translation": "今天,太阳正在闪耀。",
+      "seconds": 0.12487829999008682
+    },
+    {
+      "source_language": "ja",
+      "target_language": "en",
+      "source_text": "今日は太陽が輝いています。",
+      "state": "completed",
+      "translation": "The sun is shining today.",
+      "seconds": 0.10724329999356996
+    },
+    {
+      "source_language": "ja",
+      "target_language": "es",
+      "source_text": "今日は太陽が輝いています。",
+      "state": "completed",
+      "translation": "Hoy el sol brilla.",
+      "seconds": 0.10692839999683201
+    },
+    {
+      "source_language": "ja",
+      "target_language": "pt",
+      "source_text": "今日は太陽が輝いています。",
+      "state": "completed",
+      "translation": "Hoje o sol brilha.",
+      "seconds": 0.1308024000027217
+    },
+    {
+      "source_language": "ja",
+      "target_language": "fr",
+      "source_text": "今日は太陽が輝いています。",
+      "state": "completed",
+      "translation": "Le soleil brille aujourd’hui.",
+      "seconds": 0.13189529998635408
+    },
+    {
+      "source_language": "zh",
+      "target_language": "ko",
+      "source_text": "今天阳光灿烂。",
+      "state": "completed",
+      "translation": "오늘은 햇빛이 빛나고 있다.",
+      "seconds": 0.16395129999727942
+    },
+    {
+      "source_language": "zh",
+      "target_language": "ja",
+      "source_text": "今天阳光灿烂。",
+      "state": "completed",
+      "translation": "今日は太陽が輝いています。",
+      "seconds": 0.13699939999787603
+    },
+    {
+      "source_language": "zh",
+      "target_language": "en",
+      "source_text": "今天阳光灿烂。",
+      "state": "completed",
+      "translation": "The sun is bright today.",
+      "seconds": 0.10932550000143237
+    },
+    {
+      "source_language": "zh",
+      "target_language": "es",
+      "source_text": "今天阳光灿烂。",
+      "state": "completed",
+      "translation": "Hoy el sol brilla.",
+      "seconds": 0.09887089999392629
+    },
+    {
+      "source_language": "zh",
+      "target_language": "pt",
+      "source_text": "今天阳光灿烂。",
+      "state": "completed",
+      "translation": "Hoje o sol brilha.",
+      "seconds": 0.11868100000720005
+    },
+    {
+      "source_language": "zh",
+      "target_language": "fr",
+      "source_text": "今天阳光灿烂。",
+      "state": "completed",
+      "translation": "Le soleil brille aujourd’hui.",
+      "seconds": 0.12042639999708626
+    }
+  ]
+}
