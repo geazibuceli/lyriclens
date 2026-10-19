@@ -99,8 +99,10 @@ class Worker:
                 decoded = cropped
             self.store.update(job_id, processed_audio={"duration":processed_duration,"original_offset":offset,
                                                      "timeline":"identity plus original_offset"})
-            results = {}
+            results = {name: value for name, value in job.get('results', {}).items() if value['state'] == 'completed'}
             for pipeline in job["pipelines"]:
+                if pipeline in results:
+                    continue  # A resumed job keeps completed routes and user edits intact.
                 if self.canceled(job_id):
                     return
                 t = time.perf_counter()
@@ -116,12 +118,14 @@ class Worker:
                     if self.canceled(job_id):
                         return
                     self.stage(job_id, f"Transcribing {pipeline} audio")
-                    raw = self.transcriber_for(job).transcribe(audio, None if job["requested_language"] == "auto" else job["requested_language"])
+                    raw = self.transcribe_plan(job,audio,folder,pipeline) if job.get('language_plan') else self.transcriber_for(job).transcribe(audio, None if job["requested_language"] == "auto" else job["requested_language"])
                     # Persist raw response before validation; never silently clamp invalid timestamps.
                     (folder / f"{pipeline}-raw.json").write_text(json.dumps(raw, ensure_ascii=False, indent=2), encoding="utf-8")
                     local_segments = validate_segments(raw["segments"], processed_duration)
                     segments = validate_segments([{**s,"start":s["start"]+offset,"end":s["end"]+offset} for s in local_segments], info["duration"])
                     warnings = ["Singing recognition and segment timing may be inaccurate. Review against the audio."]
+                    if job.get('language_plan'):
+                        warnings.append('Languages follow saved user instructions. Only saved passage intervals are transcribed; gaps are omitted. This is not automatic code-switch detection.')
                     if raw.get("signal_control"):
                         warnings.append(raw["signal_control"])
                     if not segments:
@@ -133,6 +137,7 @@ class Worker:
                                          "provenance": {"model_id": job["model_id"], "revision": job["revision"],
                                                         "settings": job["inference"], "region":job.get("region"),
                                                         "timestamp_offset":offset,
+                                                        "language_plan":job.get('language_plan'),
                                                         "model_executed":raw.get("model_executed",True),
                                                         "separator_settings":{"device":self.settings.separation_device,"shifts":0} if pipeline == "vocals" else None,
                                                         "separator": "htdemucs/955717e8-8726e21a" if pipeline == "vocals" else None}}
@@ -156,6 +161,29 @@ class Worker:
                 if self.canceled(job_id):
                     final_changes = dict(state="interrupted" if self.stopping.is_set() else "canceled", stage="Stopped", completed_at=now())
                 self.store.update(job_id, **final_changes)
+
+    def transcribe_plan(self, job, audio, folder, pipeline):
+        output = dict(segments=[],passages=[],language=None,language_source='user-instructed passage languages',model_executed=False)
+        path = folder/f'{pipeline}-raw.json'
+        for index,passage in enumerate(job['language_plan']):
+            if self.canceled(job['id']):
+                raise ValueError('Multilingual transcription stopped')
+            self.stage(job['id'],f"Transcribing passage {index+1}/{len(job['language_plan'])}: {passage['language']}")
+            cropped = folder/f'passage-{pipeline}.wav'
+            duration = self.decoder.crop(audio,cropped,passage['start'],passage['end'])
+            raw = self.transcriber_for(job).transcribe(cropped,None if passage['language']=='auto' else passage['language'])
+            output['passages'].append(dict(region=passage,response=raw))
+            output['model_executed'] = output['model_executed'] or raw.get('model_executed',True)
+            path.write_text(json.dumps(output,ensure_ascii=False,indent=2),encoding='utf-8')
+            local = validate_segments(raw['segments'],duration)
+            for segment in local:
+                mapped = {**segment,'start':segment['start']+passage['start'],'end':segment['end']+passage['start']}
+                if passage['language']!='auto':
+                    mapped.update(language=passage['language'],language_source='user instruction')
+                output['segments'].append(mapped)
+            path.write_text(json.dumps(output,ensure_ascii=False,indent=2),encoding='utf-8')
+            cropped.unlink(missing_ok=True)
+        return output
 
 
 def environment():
