@@ -10,6 +10,7 @@ import wave
 from dataclasses import asdict
 from pathlib import Path
 from typing import Protocol
+from .domain import validate_model_segments
 
 _CUDA_DLL_HANDLES = []
 
@@ -119,13 +120,40 @@ class WhisperTranscriber:
                 prepare_cuda_libraries()
             self.model = WhisperModel(str(self.settings.model_dir), device=self.settings.device,
                                       compute_type=self.settings.compute_type, local_files_only=True)
-        segments, info = self.model.transcribe(str(audio), language=language, **self.settings.inference())
-        raw = [asdict(s) for s in segments]
-        return {"segments": [{"start": s["start"], "end": s["end"], "text": s["text"].strip()} for s in raw],
-                "raw_segments": raw, "language": info.language,
-                "language_source": "user instruction" if language else "whole-clip model estimate",
-                "language_probability_score": info.language_probability,
-                "raw_transcription_info": asdict(info),"model_executed":True}
+        def recognize(options):
+            segments, info = self.model.transcribe(str(audio), language=language, **options)
+            raw = [asdict(s) for s in segments]
+            return {"segments": [{"start": s["start"], "end": s["end"], "text": s["text"].strip()} for s in raw],
+                    "raw_segments": raw, "language": info.language,
+                    "language_source": "user instruction" if language else "whole-clip model estimate",
+                    "language_probability_score": info.language_probability,
+                    "raw_transcription_info": asdict(info), "model_executed": True}
+
+        options = self.settings.inference()
+        initial = recognize(options)
+        if options.get('word_timestamps'):
+            return initial
+        with wave.open(str(audio), 'rb') as source:
+            duration = source.getnframes() / source.getframerate()
+        try:
+            validate_model_segments(initial['segments'], duration)
+            return initial
+        except ValueError:
+            if all(0 <= segment['start'] < segment['end'] <= duration for segment in initial['segments']):
+                return initial  # Other schema errors must not trigger a timing retry.
+        recovery = dict(strategy='same-model native word alignment', initial_response=initial,
+                        succeeded=False, effective_settings={**options, 'word_timestamps': True})
+        try:
+            aligned = recognize(recovery['effective_settings'])
+        except Exception:
+            logging.getLogger('lyriclens').exception('Timestamp recovery inference failed')
+            return {**initial, 'timing_recovery': {**recovery, 'error': 'Native alignment retry failed; inspect local server log.'}}
+        try:
+            validate_model_segments(aligned['segments'], duration)
+            recovery['succeeded'] = True
+        except ValueError:
+            pass  # Preserve the second response; the caller still rejects invalid timing.
+        return {**aligned, 'timing_recovery': recovery}
 
 
 class DemucsSeparator:

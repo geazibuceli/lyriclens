@@ -1,10 +1,10 @@
 # Delivery verification
 
-## Conservative training-source policy
+## Training-source review
 
 Updated 2026-10-16: 95 backend tests passed; four were skipped in the application environment. New checks cover rejecting restrictive/unknown declared licenses, pending rights, additional source agreements, missing component permissions, changed documentary evidence, evidence paths outside the manifest directory and non-destructive original-recording queue preparation. Existing fine-tuning tests now use explicitly synthetic rights-evidence fixtures.
 
-GTSinger acquisition remains disabled; no corpus was downloaded or accepted. The source shortlist, pending rights template and newly authored collection prompts are in `evaluation/`. The existing vocadito ZIP/README and official Zenodo metadata were inspected. A private timestamped copy/hash of provider metadata was saved under `.runtime/permissions-source-audit`; the provider's CC BY 4.0 declaration is recorded without claiming underlying song rights are cleared. No third-party source was approved for training, no new audio was downloaded, and no singing training or model promotion ran. See [TRAINING_SOURCES.md](TRAINING_SOURCES.md).
+The source inventory, rights template and recording prompts are in `evaluation/`. vocadito metadata was checked against the official Zenodo record, with a timestamped copy and hash stored under `.runtime/permissions-source-audit`. Component-rights review is pending. See [TRAINING_SOURCES.md](TRAINING_SOURCES.md) for current source status and requirements.
 
 ## Fine-tuning preparation
 
@@ -12,7 +12,7 @@ Updated 2026-10-16: 87 backend tests passed and four were skipped in the app env
 
 The original HF Whisper Small safetensors/tokenizer/config were explicitly downloaded at revision `973afd24965f72e36ca33b3055d56a652f456b4d`. A separate private random tiny-Whisper probe performed a synthetic gradient update, saved safetensors, converted through the production conversion function and loaded the converted binary in CTranslate2 with local tokenizer assets. This is architecture/format verification, not a pretrained singing experiment or evidence of lower CER.
 
-The 12-clip review queue remains unverified. No real-song training, final evaluation, model promotion or reference attestation was performed. Training requires explicit reviewed adaptation permissions and disjoint development-only train/validation groups. See [FINETUNING.md](FINETUNING.md).
+The 12-clip queue is pending reference and training-permission review. Training and validation require separate song/recording/session groups. See [FINETUNING.md](FINETUNING.md) for the workflow.
 
 ## Drafts, editing and archive checks
 
@@ -94,7 +94,7 @@ Chromium passed the owned-fixture history/waveform/storage workflow on desktop a
 
 Updated 2026-10-16: the backend suite passed **59 tests**, with two opt-in model tests skipped. New tests cover pending/stale reviews, changed audio, development/final leakage, unmatched report rejection, frozen protocol changes, final matrix rejection, isolated runner commands and overwrite prevention. The model runner is tested with an injected subprocess; no newly human-verified singing-quality result is claimed.
 
-A local queue was prepared from the 12 existing research clips: six languages, zero verified references, no Japanese example and no final clips. No human attestation was issued by the assistant. Commands, remaining review work and limits are documented in [BENCHMARK.md](BENCHMARK.md).
+The local queue contains 12 research clips in six languages, pending reference review. Japanese examples and a final set are still needed. See [BENCHMARK.md](BENCHMARK.md) for the review workflow.
 
 ## Multilingual review verification
 

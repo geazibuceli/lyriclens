@@ -134,9 +134,9 @@ function RegionRetry({
         Experimental: retranscribe a passage in another language
       </summary>
       <p className="muted">
-        Your language instruction applies to the chosen passage with two seconds
-        of surrounding context. Results open as a separate job with timestamps
-        in the original clip. No segment language is inferred.
+        Choose a language for this passage. Recognition includes two seconds of
+        surrounding audio and opens a separate result using the original
+        timeline.
       </p>
       <div className="settings">
         <label>
@@ -407,9 +407,8 @@ function Transcript({
       <RegionRetry job={job} pipeline={pipeline} segments={segments} />
       <div className="multilingual-controls">
         <p className="muted">
-          Two or more languages? Set the language on each passage below, adjust
-          its boundaries and save. Labels are your instructions, not automatic
-          language detection.
+          For songs with multiple languages, choose each passage's language,
+          adjust its boundaries and save before retranscribing.
         </p>
         <button
           className="button small"
@@ -472,7 +471,7 @@ function Transcript({
             >
               {reviewFlags(segments, i).map((flag) => (
                 <p className="review-flag" key={flag}>
-                  Review suggestion: {flag}. This is not proof of an error.
+                  Review suggestion: {flag}. Listen to this passage to check.
                 </p>
               ))}
               <label className="segment-language">
@@ -831,7 +830,7 @@ function App() {
         <div className="local-card">
           <span className="live-dot" />
           <strong>Your audio stays yours.</strong>
-          <p>Local processing. No cloud inference. No lyrics lookup.</p>
+          <p>Transcribe, review and export on your computer.</p>
         </div>
         <div className="sidebar-foot">
           A little closer to every word.
@@ -864,7 +863,7 @@ function App() {
             </h1>
             <p>
               {job
-                ? "Listen, review, and refine your transcription. Your original result is always preserved."
+                ? "Listen to the recording, refine the text and save your edits."
                 : "Turn a music clip into an editable transcript, then translate it locally into another language."}
             </p>
             {!job && (
@@ -1023,7 +1022,7 @@ function App() {
                   <small>
                     {models?.profiles?.find((p) => p.id === modelProfile)
                       ?.note ??
-                      "Model output is always preserved. Review singing against the audio."}
+                      "Choose a model, then review the result against the audio."}
                   </small>
                 </label>
               </div>
@@ -1226,15 +1225,15 @@ function App() {
           <div className="bottom-notes">
             <span>
               01 <strong>Original language</strong>
-              <p>Seven language targets. No automatic translation.</p>
+              <p>Choose from seven languages or automatic detection.</p>
             </span>
             <span>
               02 <strong>Your words, your edit</strong>
               <p>Review timestamps, refine text, export freely.</p>
             </span>
             <span>
-              03 <strong>Honest by design</strong>
-              <p>Singing can be difficult. Always check the audio.</p>
+              03 <strong>Listen and check</strong>
+              <p>Replay a passage to check the words and timing.</p>
             </span>
           </div>
           <footer>

@@ -130,10 +130,9 @@ export function TranslationPanel({
     >
       <summary>Translate transcript</summary>
       <p className="muted">
-        Translate saved text locally. Original lyrics stay unchanged. This helps
-        understanding; rhyme and singability are not preserved. Saved segment
-        languages take priority; the source selection applies to unlabeled
-        segments.
+        Translate your saved transcript locally. Review the wording for meaning;
+        rhyme and rhythm may change. Saved language labels take priority over
+        the source selection.
       </p>
       <div className="settings">
         <label>

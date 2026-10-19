@@ -124,10 +124,12 @@ class Worker:
                     local_segments, reordered = validate_model_segments(raw["segments"], processed_duration)
                     segments = validate_segments([{**s,"start":s["start"]+offset,"end":s["end"]+offset} for s in local_segments], info["duration"])
                     warnings = ["Singing recognition and segment timing may be inaccurate. Review against the audio."]
+                    if raw.get('timing_recovery', {}).get('succeeded'):
+                        warnings.append('Recovered invalid timestamps with a native-alignment retry. Both attempts and their settings are available in the raw output.')
                     if reordered or raw.get('timestamp_order_normalized'):
-                        warnings.append('Model segments were reordered by start time; timestamps and overlapping passages are unchanged. The raw response preserves the emitted order.')
+                        warnings.append('Segments were reordered by start time. Original timing and order are available in the raw output.')
                     if job.get('language_plan'):
-                        warnings.append('Languages follow saved user instructions. Only saved passage intervals are transcribed; gaps are omitted. This is not automatic code-switch detection.')
+                        warnings.append('Transcribed the saved intervals using your language labels. Gaps between intervals were skipped.')
                     if raw.get("signal_control"):
                         warnings.append(raw["signal_control"])
                     if not segments:
@@ -138,6 +140,7 @@ class Worker:
                                          "seconds": time.perf_counter() - t,
                                          "provenance": {"model_id": job["model_id"], "revision": job["revision"],
                                                         "settings": job["inference"], "region":job.get("region"),
+                                                        "timing_recovery":{k:v for k,v in raw.get('timing_recovery', {}).items() if k != 'initial_response'} or None,
                                                         "timestamp_offset":offset,
                                                         "language_plan":job.get('language_plan'),
                                                         "model_executed":raw.get("model_executed",True),
@@ -174,6 +177,9 @@ class Worker:
             cropped = folder/f'passage-{pipeline}.wav'
             duration = self.decoder.crop(audio,cropped,passage['start'],passage['end'])
             raw = self.transcriber_for(job).transcribe(cropped,None if passage['language']=='auto' else passage['language'])
+            if raw.get('timing_recovery', {}).get('succeeded'):
+                recovery = output.setdefault('timing_recovery', dict(strategy='same-model native word alignment', succeeded=True, passages=[]))
+                recovery['passages'].append(dict(index=index, effective_settings=raw['timing_recovery']['effective_settings']))
             output['passages'].append(dict(region=passage,response=raw))
             output['model_executed'] = output['model_executed'] or raw.get('model_executed',True)
             path.write_text(json.dumps(output,ensure_ascii=False,indent=2),encoding='utf-8')

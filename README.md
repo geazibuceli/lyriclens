@@ -1,13 +1,5 @@
 # LyricLens
 
-Review songs with multiple languages using saved per-segment language instructions, and compare differences between the two recognition routes. See the [multilingual review guide](lyriclens-app/docs/MULTILINGUAL.md).
-
-For reference review and reproducible model comparisons, see the [human-reviewed benchmark workflow](lyriclens-app/docs/BENCHMARK.md).
-
-Experimental model adaptation is available through a separate [reviewed-data fine-tuning workflow](lyriclens-app/docs/FINETUNING.md). It does not replace the current models automatically.
-
-Training sources follow a [documented permissions policy](lyriclens-app/docs/TRAINING_SOURCES.md); application code, third-party data and trained weights retain separate licensing requirements.
-
 Turn music into editable transcripts, locally. Upload a recording, compare recognition with and without vocal separation, review timestamps, and export the result.
 
 ![LyricLens upload workspace with language, listening mode and recognition model controls](lyriclens-app/docs/images/workspace.png)
@@ -15,10 +7,10 @@ Turn music into editable transcripts, locally. Upload a recording, compare recog
 ## Features
 
 - **Seven language choices:** Korean, Japanese, Mandarin Chinese, English, Spanish, Portuguese and French, plus automatic whole-clip detection.
-- **Local recognition:** Whisper Small or experimental Large-v3, with optional Demucs vocal separation and side-by-side results.
+- **Local recognition:** Whisper Small, experimental Small with native alignment, or experimental Large-v3, with optional Demucs vocal separation and side-by-side results.
 - **Review and export:** waveform seeking, undo/redo, keyboard shortcuts, segment repeat, playback speed, Unicode editing, passage retranscription, and TXT, JSON or SRT export.
 - **Optional local translation:** choose a target language, review translated segments beside the saved source, and export the translation separately.
-- **Persistent history:** saved jobs, cancellation and deletion. Audio stays local; the app does not look up songs or retrieve lyrics.
+- **Persistent history:** saved jobs, cancellation and deletion, with audio stored locally.
 - **Workspace tools:** resume unfinished tasks, inspect stage progress, check local setup and clear generated cache selectively. See [recovery and review tools](lyriclens-app/docs/RELIABILITY.md).
 - **Editing and backup:** recover browser drafts, search lyrics, split/merge segments, export bilingual TXT/SRT and restore per-job backups. See the [editing guide](lyriclens-app/docs/EDITING.md).
 
@@ -52,7 +44,7 @@ After installing dependencies, start both services on Windows with one command f
 .\start.cmd
 ```
 
-The launcher reuses healthy services, checks the API connection and writes logs to `.runtime`. Use `.\start.cmd -Gpu` to request CUDA/float16 when starting a new backend with the documented GPU dependencies prepared. No packages or models are downloaded automatically.
+The launcher reuses healthy services, checks the API connection and writes logs to `.runtime`. Use `.\start.cmd -Gpu` to start a new backend with CUDA/float16 after preparing the [GPU dependencies](lyriclens-app/docs/SETUP.md#models-and-explicit-preparation).
 
 ## Common problems
 
@@ -65,6 +57,7 @@ The launcher reuses healthy services, checks the API connection and writes logs 
 | Inference or vocal separation dependencies fail to install on Python 3.14 | Use the Python 3.11 environment from Quick start. Native inference on Python 3.14 is not verified. |
 | GPU processing fails with a CUDA/cuDNN error or missing `cublas64_12.dll` | Follow the [Windows GPU setup](lyriclens-app/docs/SETUP.md#models-and-explicit-preparation), install the `cuda-windows` extra and restart the backend. Alternatively, explicitly select CPU/int8. |
 | Transcript is empty, inaccurate or in the wrong language | Select the language manually, compare original audio with vocal separation if prepared, and review/edit the result. Singing and instrumental passages can still produce incorrect words. |
+| Processing fails with invalid timestamps | Try **Whisper Small + alignment (experimental)** under **Recognition model**. See [timing recovery](lyriclens-app/docs/SETUP.md#optional-alignment-with-the-configured-model) for how retries work. |
 | Export does not include recent edits | Click **Save edits** before exporting. Original TXT exports intentionally use the original recognition result. |
 
 For additional symptoms, including failed model downloads, interrupted jobs and separation errors, see the [troubleshooting guide](lyriclens-app/docs/TROUBLESHOOTING.md).
@@ -79,6 +72,10 @@ Singing, accompaniment and overlapping voices can produce incorrect words or hal
 |---|---|
 | [Setup and operations](lyriclens-app/docs/SETUP.md) | Installation, model preparation, GPU, Docker and test commands |
 | [Translation](lyriclens-app/docs/TRANSLATION.md) | Optional local model, translated edits and separate exports |
+| [Multilingual review](lyriclens-app/docs/MULTILINGUAL.md) | Language labels, passage retranscription and transcript comparison |
+| [Benchmark](lyriclens-app/docs/BENCHMARK.md) | Reference review and reproducible model comparisons |
+| [Fine-tuning](lyriclens-app/docs/FINETUNING.md) | Experimental model adaptation with reviewed recordings |
+| [Training sources](lyriclens-app/docs/TRAINING_SOURCES.md) | Data selection, permissions and licensing |
 | [Architecture](lyriclens-app/docs/ARCHITECTURE.md) | Backend, frontend, job processing and API |
 | [Models](lyriclens-app/docs/MODELS.md) | Profiles, dependencies and third-party attribution |
 | [Evaluation](lyriclens-app/docs/EVALUATION.md) | Metrics, references and evaluation protocol |

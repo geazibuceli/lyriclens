@@ -1,0 +1,660 @@
+{
+  "split": "development",
+  "language_mode": "manual",
+  "human_review_required": false,
+  "interpretation": "All accuracy and timing totals use only clips completed by all four combinations. Failure counts cover every attempted clip. Development diagnostics do not establish final accuracy. Timing includes cold initialization and model reuse; RSS excludes VRAM. No automatic model selection.",
+  "models": {
+    "small": {
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "inference_device": "cuda",
+      "compute_type": "float16",
+      "environment": {
+        "python": "3.11.17",
+        "platform": "Windows-10-10.0.26300-SP0",
+        "packages": {
+          "fastapi": "0.115.12",
+          "faster-whisper": "1.2.1",
+          "ctranslate2": "4.8.3",
+          "demucs": "4.0.1",
+          "torch": "2.5.1"
+        }
+      }
+    },
+    "large_v3": {
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "inference_device": "cuda",
+      "compute_type": "float16",
+      "environment": {
+        "python": "3.11.17",
+        "platform": "Windows-10-10.0.26300-SP0",
+        "packages": {
+          "fastapi": "0.115.12",
+          "faster-whisper": "1.2.1",
+          "ctranslate2": "4.8.3",
+          "demucs": "4.0.1",
+          "torch": "2.5.1"
+        }
+      }
+    }
+  },
+  "overall": {
+    "clips": 12,
+    "paired_clips": 11,
+    "combinations": {
+      "small/direct": {
+        "attempted": 12,
+        "completed": 11,
+        "failures": 1,
+        "paired_clips": 11,
+        "reference_characters": 904,
+        "micro_cer": 0.08185840707964602,
+        "micro_wer": 0.17446808510638298,
+        "empty_reference_insertions": 0,
+        "total_seconds": 17.206034699978773,
+        "real_time_factor": 0.07160616664828638,
+        "stage_seconds": {
+          "decode": 0.3413831000216305,
+          "recognition": 16.84737860003952
+        },
+        "max_sampled_rss_bytes": 2301149184
+      },
+      "small/vocals": {
+        "attempted": 12,
+        "completed": 11,
+        "failures": 1,
+        "paired_clips": 11,
+        "reference_characters": 904,
+        "micro_cer": 0.09623893805309734,
+        "micro_wer": 0.20425531914893616,
+        "empty_reference_insertions": 0,
+        "total_seconds": 57.84790009999415,
+        "real_time_factor": 0.24074497390259908,
+        "stage_seconds": {
+          "decode": 0.33679489995120093,
+          "recognition": 4.03007500001695,
+          "separation": 53.45581550011411
+        },
+        "max_sampled_rss_bytes": 2315812864
+      },
+      "large_v3/direct": {
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "paired_clips": 11,
+        "reference_characters": 904,
+        "micro_cer": 0.0420353982300885,
+        "micro_wer": 0.09787234042553192,
+        "empty_reference_insertions": 0,
+        "total_seconds": 12.643491500115488,
+        "real_time_factor": 0.052618280455669374,
+        "stage_seconds": {
+          "decode": 0.35471919999690726,
+          "recognition": 12.272067899932154
+        },
+        "max_sampled_rss_bytes": 3276521472
+      },
+      "large_v3/vocals": {
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "paired_clips": 11,
+        "reference_characters": 904,
+        "micro_cer": 0.04314159292035398,
+        "micro_wer": 0.10212765957446808,
+        "empty_reference_insertions": 0,
+        "total_seconds": 61.5835703999619,
+        "real_time_factor": 0.25629167218066745,
+        "stage_seconds": {
+          "decode": 0.3484525000094436,
+          "recognition": 8.111827499989886,
+          "separation": 53.09347470017383
+        },
+        "max_sampled_rss_bytes": 2360553472
+      }
+    }
+  },
+  "per_language": {
+    "ko": {
+      "clips": 2,
+      "paired_clips": 2,
+      "combinations": {
+        "small/direct": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 148,
+          "micro_cer": 0.17567567567567569,
+          "micro_wer": 0.391304347826087,
+          "empty_reference_insertions": 0,
+          "total_seconds": 2.509148399985861,
+          "real_time_factor": 0.032764780020702454,
+          "stage_seconds": {
+            "decode": 0.0870297999936156,
+            "recognition": 2.419558599940501
+          },
+          "max_sampled_rss_bytes": 2277056512
+        },
+        "small/vocals": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 148,
+          "micro_cer": 0.20945945945945946,
+          "micro_wer": 0.45652173913043476,
+          "empty_reference_insertions": 0,
+          "total_seconds": 16.010130100068636,
+          "real_time_factor": 0.20906232203505054,
+          "stage_seconds": {
+            "decode": 0.08694449998438358,
+            "recognition": 1.3536047999514267,
+            "separation": 14.565047800017055
+          },
+          "max_sampled_rss_bytes": 2315812864
+        },
+        "large_v3/direct": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 148,
+          "micro_cer": 0.14189189189189189,
+          "micro_wer": 0.32608695652173914,
+          "empty_reference_insertions": 0,
+          "total_seconds": 2.407215700019151,
+          "real_time_factor": 0.031433729816041645,
+          "stage_seconds": {
+            "decode": 0.09002390003297478,
+            "recognition": 2.3147156999912113
+          },
+          "max_sampled_rss_bytes": 2305040384
+        },
+        "large_v3/vocals": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 148,
+          "micro_cer": 0.14189189189189189,
+          "micro_wer": 0.32608695652173914,
+          "empty_reference_insertions": 0,
+          "total_seconds": 16.975982900010422,
+          "real_time_factor": 0.22167455115734974,
+          "stage_seconds": {
+            "decode": 0.08924120001029223,
+            "recognition": 2.5221950000268407,
+            "separation": 14.359923200041521
+          },
+          "max_sampled_rss_bytes": 2360553472
+        }
+      }
+    },
+    "ja": {
+      "clips": 0,
+      "paired_clips": 0,
+      "combinations": {
+        "small/direct": {
+          "attempted": 0,
+          "completed": 0,
+          "failures": 0,
+          "paired_clips": 0,
+          "reference_characters": 0,
+          "micro_cer": null,
+          "micro_wer": null,
+          "empty_reference_insertions": 0,
+          "total_seconds": 0,
+          "real_time_factor": null,
+          "stage_seconds": {},
+          "max_sampled_rss_bytes": null
+        },
+        "small/vocals": {
+          "attempted": 0,
+          "completed": 0,
+          "failures": 0,
+          "paired_clips": 0,
+          "reference_characters": 0,
+          "micro_cer": null,
+          "micro_wer": null,
+          "empty_reference_insertions": 0,
+          "total_seconds": 0,
+          "real_time_factor": null,
+          "stage_seconds": {},
+          "max_sampled_rss_bytes": null
+        },
+        "large_v3/direct": {
+          "attempted": 0,
+          "completed": 0,
+          "failures": 0,
+          "paired_clips": 0,
+          "reference_characters": 0,
+          "micro_cer": null,
+          "micro_wer": null,
+          "empty_reference_insertions": 0,
+          "total_seconds": 0,
+          "real_time_factor": null,
+          "stage_seconds": {},
+          "max_sampled_rss_bytes": null
+        },
+        "large_v3/vocals": {
+          "attempted": 0,
+          "completed": 0,
+          "failures": 0,
+          "paired_clips": 0,
+          "reference_characters": 0,
+          "micro_cer": null,
+          "micro_wer": null,
+          "empty_reference_insertions": 0,
+          "total_seconds": 0,
+          "real_time_factor": null,
+          "stage_seconds": {},
+          "max_sampled_rss_bytes": null
+        }
+      }
+    },
+    "zh": {
+      "clips": 2,
+      "paired_clips": 1,
+      "combinations": {
+        "small/direct": {
+          "attempted": 2,
+          "completed": 1,
+          "failures": 1,
+          "paired_clips": 1,
+          "reference_characters": 54,
+          "micro_cer": 0.4074074074074074,
+          "micro_wer": null,
+          "empty_reference_insertions": 0,
+          "total_seconds": 0.3986266999854706,
+          "real_time_factor": 0.017124741337369423,
+          "stage_seconds": {
+            "decode": 0.030991300009191036,
+            "recognition": 0.3665027000242844
+          },
+          "max_sampled_rss_bytes": 2230390784
+        },
+        "small/vocals": {
+          "attempted": 2,
+          "completed": 1,
+          "failures": 1,
+          "paired_clips": 1,
+          "reference_characters": 54,
+          "micro_cer": 0.4074074074074074,
+          "micro_wer": null,
+          "empty_reference_insertions": 0,
+          "total_seconds": 4.507675800006837,
+          "real_time_factor": 0.19364679312913666,
+          "stage_seconds": {
+            "decode": 0.029730800015386194,
+            "recognition": 0.3893821000237949,
+            "separation": 4.08698020002339
+          },
+          "max_sampled_rss_bytes": 2238644224
+        },
+        "large_v3/direct": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 1,
+          "reference_characters": 54,
+          "micro_cer": 0.1111111111111111,
+          "micro_wer": null,
+          "empty_reference_insertions": 0,
+          "total_seconds": 1.0245366000453942,
+          "real_time_factor": 0.04401341974103785,
+          "stage_seconds": {
+            "decode": 0.03175110003212467,
+            "recognition": 0.9919371999567375
+          },
+          "max_sampled_rss_bytes": 2279202816
+        },
+        "large_v3/vocals": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 1,
+          "reference_characters": 54,
+          "micro_cer": 0.1111111111111111,
+          "micro_wer": null,
+          "empty_reference_insertions": 0,
+          "total_seconds": 5.307485900004394,
+          "real_time_factor": 0.22800610995857373,
+          "stage_seconds": {
+            "decode": 0.031568000034894794,
+            "recognition": 1.025717500015162,
+            "separation": 4.24871010001516
+          },
+          "max_sampled_rss_bytes": 2279309312
+        }
+      }
+    },
+    "en": {
+      "clips": 2,
+      "paired_clips": 2,
+      "combinations": {
+        "small/direct": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 190,
+          "micro_cer": 0.042105263157894736,
+          "micro_wer": 0.1016949152542373,
+          "empty_reference_insertions": 0,
+          "total_seconds": 12.750695899943821,
+          "real_time_factor": 0.38720820351639235,
+          "stage_seconds": {
+            "decode": 0.060985099989920855,
+            "recognition": 12.68619800003944
+          },
+          "max_sampled_rss_bytes": 2171559936
+        },
+        "small/vocals": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 190,
+          "micro_cer": 0.07368421052631578,
+          "micro_wer": 0.13559322033898305,
+          "empty_reference_insertions": 0,
+          "total_seconds": 13.64560360001633,
+          "real_time_factor": 0.4143844145700643,
+          "stage_seconds": {
+            "decode": 0.05972790002124384,
+            "recognition": 0.7456256999867037,
+            "separation": 12.835232000041287
+          },
+          "max_sampled_rss_bytes": 2197659648
+        },
+        "large_v3/direct": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 190,
+          "micro_cer": 0.021052631578947368,
+          "micro_wer": 0.03389830508474576,
+          "empty_reference_insertions": 0,
+          "total_seconds": 5.7784347999840975,
+          "real_time_factor": 0.17547727399320256,
+          "stage_seconds": {
+            "decode": 0.06522270001005381,
+            "recognition": 5.709758199984208
+          },
+          "max_sampled_rss_bytes": 3276521472
+        },
+        "large_v3/vocals": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 190,
+          "micro_cer": 0.021052631578947368,
+          "micro_wer": 0.03389830508474576,
+          "empty_reference_insertions": 0,
+          "total_seconds": 13.922236599959433,
+          "real_time_factor": 0.4227850985626761,
+          "stage_seconds": {
+            "decode": 0.06263019994366914,
+            "recognition": 1.291324399993755,
+            "separation": 12.563379400002304
+          },
+          "max_sampled_rss_bytes": 2183536640
+        }
+      }
+    },
+    "es": {
+      "clips": 1,
+      "paired_clips": 1,
+      "combinations": {
+        "small/direct": {
+          "attempted": 1,
+          "completed": 1,
+          "failures": 0,
+          "paired_clips": 1,
+          "reference_characters": 79,
+          "micro_cer": 0.0379746835443038,
+          "micro_wer": 0.19047619047619047,
+          "empty_reference_insertions": 0,
+          "total_seconds": 0.3098422000184655,
+          "real_time_factor": 0.008800334018054239,
+          "stage_seconds": {
+            "decode": 0.03256110002985224,
+            "recognition": 0.2760186000377871
+          },
+          "max_sampled_rss_bytes": 2223345664
+        },
+        "small/vocals": {
+          "attempted": 1,
+          "completed": 1,
+          "failures": 0,
+          "paired_clips": 1,
+          "reference_characters": 79,
+          "micro_cer": 0.0379746835443038,
+          "micro_wer": 0.19047619047619047,
+          "empty_reference_insertions": 0,
+          "total_seconds": 7.876587599981576,
+          "real_time_factor": 0.22371581985336736,
+          "stage_seconds": {
+            "decode": 0.03216020000400022,
+            "recognition": 0.44691559998318553,
+            "separation": 7.395382500020787
+          },
+          "max_sampled_rss_bytes": 2242207744
+        },
+        "large_v3/direct": {
+          "attempted": 1,
+          "completed": 1,
+          "failures": 0,
+          "paired_clips": 1,
+          "reference_characters": 79,
+          "micro_cer": 0.02531645569620253,
+          "micro_wer": 0.14285714285714285,
+          "empty_reference_insertions": 0,
+          "total_seconds": 0.6766316000139341,
+          "real_time_factor": 0.019218118406525063,
+          "stage_seconds": {
+            "decode": 0.03204600000753999,
+            "recognition": 0.6433902999851853
+          },
+          "max_sampled_rss_bytes": 2250891264
+        },
+        "large_v3/vocals": {
+          "attempted": 1,
+          "completed": 1,
+          "failures": 0,
+          "paired_clips": 1,
+          "reference_characters": 79,
+          "micro_cer": 0.0379746835443038,
+          "micro_wer": 0.19047619047619047,
+          "empty_reference_insertions": 0,
+          "total_seconds": 7.987061799969524,
+          "real_time_factor": 0.22685357791283547,
+          "stage_seconds": {
+            "decode": 0.032772400008980185,
+            "recognition": 0.657850299961865,
+            "separation": 7.294137700053398
+          },
+          "max_sampled_rss_bytes": 2283466752
+        }
+      }
+    },
+    "pt": {
+      "clips": 3,
+      "paired_clips": 3,
+      "combinations": {
+        "small/direct": {
+          "attempted": 3,
+          "completed": 3,
+          "failures": 0,
+          "paired_clips": 3,
+          "reference_characters": 106,
+          "micro_cer": 0.03773584905660377,
+          "micro_wer": 0.15384615384615385,
+          "empty_reference_insertions": 0,
+          "total_seconds": 0.49174139997921884,
+          "real_time_factor": 0.015418510448854197,
+          "stage_seconds": {
+            "decode": 0.06793529994320124,
+            "recognition": 0.4218506999895908
+          },
+          "max_sampled_rss_bytes": 2301149184
+        },
+        "small/vocals": {
+          "attempted": 3,
+          "completed": 3,
+          "failures": 0,
+          "paired_clips": 3,
+          "reference_characters": 106,
+          "micro_cer": 0.03773584905660377,
+          "micro_wer": 0.15384615384615385,
+          "empty_reference_insertions": 0,
+          "total_seconds": 6.761509699863382,
+          "real_time_factor": 0.21200657085569427,
+          "stage_seconds": {
+            "decode": 0.06656039989320561,
+            "recognition": 0.4258012000354938,
+            "separation": 6.265341799997259
+          },
+          "max_sampled_rss_bytes": 2301157376
+        },
+        "large_v3/direct": {
+          "attempted": 3,
+          "completed": 3,
+          "failures": 0,
+          "paired_clips": 3,
+          "reference_characters": 106,
+          "micro_cer": 0.018867924528301886,
+          "micro_wer": 0.07692307692307693,
+          "empty_reference_insertions": 0,
+          "total_seconds": 0.9775798000046052,
+          "real_time_factor": 0.030651932828101892,
+          "stage_seconds": {
+            "decode": 0.07091129990294576,
+            "recognition": 0.9046496999799274
+          },
+          "max_sampled_rss_bytes": 2347700224
+        },
+        "large_v3/vocals": {
+          "attempted": 3,
+          "completed": 3,
+          "failures": 0,
+          "paired_clips": 3,
+          "reference_characters": 106,
+          "micro_cer": 0.018867924528301886,
+          "micro_wer": 0.07692307692307693,
+          "empty_reference_insertions": 0,
+          "total_seconds": 7.250291200005449,
+          "real_time_factor": 0.22733227389283042,
+          "stage_seconds": {
+            "decode": 0.068847700022161,
+            "recognition": 0.8883758999872953,
+            "separation": 6.284841900051106
+          },
+          "max_sampled_rss_bytes": 2346164224
+        }
+      }
+    },
+    "fr": {
+      "clips": 2,
+      "paired_clips": 2,
+      "combinations": {
+        "small/direct": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 327,
+          "micro_cer": 0.03363914373088685,
+          "micro_wer": 0.10843373493975904,
+          "empty_reference_insertions": 0,
+          "total_seconds": 0.7459801000659354,
+          "real_time_factor": 0.0184658489562468,
+          "stage_seconds": {
+            "decode": 0.06188050005584955,
+            "recognition": 0.6772500000079162
+          },
+          "max_sampled_rss_bytes": 2205515776
+        },
+        "small/vocals": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 327,
+          "micro_cer": 0.039755351681957186,
+          "micro_wer": 0.13253012048192772,
+          "empty_reference_insertions": 0,
+          "total_seconds": 9.046393300057389,
+          "real_time_factor": 0.22393269239071883,
+          "stage_seconds": {
+            "decode": 0.061671100032981485,
+            "recognition": 0.6687456000363454,
+            "separation": 8.307831200014334
+          },
+          "max_sampled_rss_bytes": 2221883392
+        },
+        "large_v3/direct": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 327,
+          "micro_cer": 0.009174311926605505,
+          "micro_wer": 0.012048192771084338,
+          "empty_reference_insertions": 0,
+          "total_seconds": 1.7790930000483058,
+          "real_time_factor": 0.04403932841520068,
+          "stage_seconds": {
+            "decode": 0.06476420001126826,
+            "recognition": 1.7076168000348844
+          },
+          "max_sampled_rss_bytes": 2207633408
+        },
+        "large_v3/vocals": {
+          "attempted": 2,
+          "completed": 2,
+          "failures": 0,
+          "paired_clips": 2,
+          "reference_characters": 327,
+          "micro_cer": 0.009174311926605505,
+          "micro_wer": 0.012048192771084338,
+          "empty_reference_insertions": 0,
+          "total_seconds": 10.140512000012677,
+          "real_time_factor": 0.25101629777348133,
+          "stage_seconds": {
+            "decode": 0.06339299998944625,
+            "recognition": 1.726364400004968,
+            "separation": 8.34248240001034
+          },
+          "max_sampled_rss_bytes": 2222522368
+        }
+      }
+    }
+  }
+}

@@ -114,8 +114,7 @@ export function ReviewPlayback({
         )}
       </div>
       <p className="muted">
-        Speed changes playback only. Transcript timestamps and exported files
-        stay unchanged.
+        Adjust listening speed while keeping transcript and export times.
       </p>
       {error && (
         <p className="error" role="alert">

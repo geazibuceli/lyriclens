@@ -49,6 +49,32 @@ def test_multilingual_recognition_preserves_original_and_maps_timing(tmp_path, p
         assert client.put(path+'/edit',json=dict(pipeline='direct',segments=passages)).status_code == 422
 
 
+def test_passage_recovery_keeps_per_passage_raw_and_provenance(tmp_path):
+    class RecoveredModel(Model):
+        def transcribe(self, *args):
+            raw = super().transcribe(*args)
+            raw['timing_recovery'] = dict(succeeded=True, effective_settings={'word_timestamps': True},
+                                          initial_response={'segments': [{'start': 0, 'end': 30, 'text': 'invalid timing'}]})
+            return raw
+
+    app = create_app(Settings(root=tmp_path), PassageDecoder(), RecoveredModel())
+    with TestClient(app) as client:
+        parent = wait(client, upload(client).json()['id'])
+        path = f"/api/jobs/{parent['id']}"
+        passages = [dict(start=0, end=3, text='First', language='en'),
+                    dict(start=3, end=6, text='Second', language='pt')]
+        assert client.put(path+'/edit', json=dict(pipeline='direct', segments=passages)).status_code == 200
+        response = client.post(path+'/retranscribe-multilingual', json={})
+        child = wait(client, response.json()['id'])
+        assert child['state'] == 'completed'
+        result = child['results']['direct']
+        assert any('native-alignment retry' in warning for warning in result['warnings'])
+        assert [p['index'] for p in result['provenance']['timing_recovery']['passages']] == [0, 1]
+        raw = client.get(f"/api/jobs/{child['id']}/raw").json()
+        assert all(p['response']['timing_recovery']['initial_response']['segments'][0]['end'] == 30
+                   for p in raw['passages'])
+
+
 def test_mixed_translation_resolves_each_segment_and_marks_language_edits_stale(tmp_path):
     translator = Translator()
     app = create_app(Settings(root=tmp_path),Decoder(),Model(),translator=translator)

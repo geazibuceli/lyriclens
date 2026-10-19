@@ -431,7 +431,7 @@ def test_explicit_model_selection_and_region_inheritance(setup):
     client,settings,app,model=setup
     from lyriclens.profiles import LARGE_MODEL,LARGE_REVISION
     profiles=client.get('/api/models').json()['profiles']
-    assert {p['id'] for p in profiles}=={'configured','large-v3'}
+    assert {p['id'] for p in profiles}=={'configured','aligned','large-v3'}
     assert upload(client,model_profile='unknown').status_code==422
     job=wait(client,upload(client,model_profile='large-v3',language='ko').json()['id'])
     assert job['model_id']==LARGE_MODEL
@@ -442,6 +442,24 @@ def test_explicit_model_selection_and_region_inheritance(setup):
     assert child['model_id']==LARGE_MODEL
     assert child['revision']==LARGE_REVISION
     assert child['inference']==job['inference']
+
+
+def test_aligned_profile_reuses_weights_and_region_keeps_alignment(setup):
+    from lyriclens.profiles import profile_settings
+    client, settings, app, model = setup
+    aligned = profile_settings(settings, 'aligned')
+    assert aligned.model_dir == settings.model_dir
+    assert aligned.model_id == settings.model_id and aligned.revision == settings.revision
+    assert aligned.word_timestamps and not settings.word_timestamps
+    job = wait(client, upload(client, model_profile='aligned', language='pt').json()['id'])
+    assert job['model_profile'] == 'aligned'
+    assert job['model_id'] == settings.model_id
+    assert job['inference']['word_timestamps'] is True
+    child = client.post(f"/api/jobs/{job['id']}/retranscribe",
+                        json={'language': 'pt', 'start': 0, 'end': 3, 'context_seconds': 0})
+    assert child.status_code == 202
+    assert child.json()['model_profile'] == 'aligned'
+    assert child.json()['inference']['word_timestamps'] is True
 
 
 def test_worker_selects_requested_model_and_reuses_bounded_cache(tmp_path):

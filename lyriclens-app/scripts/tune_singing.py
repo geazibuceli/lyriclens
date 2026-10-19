@@ -13,9 +13,10 @@ from pathlib import Path
 
 from lyriclens.adapters import FFmpegDecoder, WhisperTranscriber, DemucsSeparator
 from lyriclens.config import Settings, LANGUAGES
-from lyriclens.domain import validate_segments, text_of
+from lyriclens.domain import validate_model_segments, text_of
 from lyriclens.evaluate import load_manifest, metrics
-from lyriclens.profiles import profile_settings
+from lyriclens.profiles import profile_settings, PROFILE_IDS
+from lyriclens.experiments import screen
 
 
 VARIANTS = {
@@ -25,6 +26,10 @@ VARIANTS = {
     'shorter': {'beam_size': 10, 'length_penalty': 0.8},
     'tempo-115': {'audio_tempo': 1.15},
     'tempo-130': {'audio_tempo': 1.30},
+    'native-alignment': {'word_timestamps': True},
+    'beam-3': {'beam_size': 3},
+    'longer': {'length_penalty': 1.2},
+    'keep-blank': {'suppress_blank': False},
 }
 
 
@@ -45,15 +50,25 @@ def main():
     parser.add_argument('--manifest', type=Path, default=repo/'.runtime/singing-research/manifest.jsonl')
     parser.add_argument('--variants', nargs='+', choices=list(VARIANTS), default=['baseline','wide-search','context','shorter'])
     parser.add_argument('--reuse-derived', action='store_true', help='Verify cached audio against prior baseline hashes before reuse')
+    parser.add_argument('--cache-baseline', type=Path, help='Prior private raw report with baseline rows; defaults to decoding-experiments/raw-results.json')
     parser.add_argument('--report-name', default='singing-decoding-experiments')
+    parser.add_argument('--model-profile', choices=PROFILE_IDS, default='large-v3')
+    parser.add_argument('--device', choices=['cpu', 'cuda'], default='cuda')
+    parser.add_argument('--compute', default='float16')
     args = parser.parse_args()
+    if Path(args.report_name).name != args.report_name:
+        parser.error('--report-name must be a filename stem, not a path')
     root = args.manifest.parent/'decoding-experiments'
     root.mkdir(exist_ok=True)
+    target = repo/'lyriclens-app/evaluation'/f'{args.report_name}.json'
+    private_name = 'raw-results.json' if args.report_name=='singing-decoding-experiments' else args.report_name+'-raw.json'
+    if target.exists() or (root/private_name).exists():
+        parser.error('Experiment output already exists; choose a new --report-name')
     rows = [r for r in load_manifest(args.manifest) if r['split']=='development']
-    settings = replace(profile_settings(Settings(), 'large-v3'), device='cuda', compute_type='float16')
+    settings = replace(profile_settings(Settings(), args.model_profile), device=args.device, compute_type=args.compute)
     decoder, separator = FFmpegDecoder(settings), DemucsSeparator(settings)
     inputs = []
-    previous = json.loads((root/'raw-results.json').read_text(encoding='utf-8')) if args.reuse_derived else []
+    previous = json.loads((args.cache_baseline or root/'raw-results.json').read_text(encoding='utf-8')) if args.reuse_derived else []
     try:
         for row in rows:
             folder = root/row['id']
@@ -97,13 +112,13 @@ def main():
                 raw = model.transcribe(audio, row['language'])
                 result['raw'] = raw
                 segments = [{**s,'start':s['start']*tempo,'end':s['end']*tempo} for s in raw['segments']]
-                validate_segments(segments, duration)
-                result.update(state='completed', metrics=metrics(row['reference'], text_of(raw['segments']), row['language']))
+                segments, reordered = validate_model_segments(segments, duration)
+                result.update(state='completed', timestamp_order_normalized=reordered,
+                              metrics=metrics(row['reference'], text_of(segments), row['language']))
             except Exception as exc:
                 result.update(state='failed', error=str(exc))
             result['asr_seconds'] = time.perf_counter()-started
             reports.append(result)
-            private_name = 'raw-results.json' if args.report_name=='singing-decoding-experiments' else args.report_name+'-raw.json'
             (root/private_name).write_text(json.dumps(reports,ensure_ascii=False,indent=2),encoding='utf-8')
     summaries = []
     for variant in args.variants:
@@ -120,11 +135,13 @@ def main():
         item = {k:v for k,v in run.items() if k not in {'raw','metrics'}}
         item['metrics'] = {k:v for k,v in run.get('metrics',{}).items() if not k.startswith('normalized_')}
         public.append(item)
-    target = repo/'lyriclens-app/evaluation'/f'{args.report_name}.json'
     target.write_text(json.dumps(dict(purpose='Development-only decoding search; not final evaluation',
+                                     profile=args.model_profile, device=args.device, compute_type=args.compute,
+                                     manifest_sha256=hashlib.sha256(args.manifest.read_bytes()).hexdigest(),
                                      selection='Fixed variants before inference; no references supplied to ASR',
                                      audio='Same hashed original clips; derived input hashes and tempo recorded per run; ASR-only timing excludes transformations',
-                                     runtime_changed=False, per_clip=public, summaries=summaries),indent=2),encoding='utf-8')
+                                     runtime_changed=False, per_clip=public, summaries=summaries,
+                                     screening=screen(reports)),indent=2),encoding='utf-8')
     print(f'Wrote {target}',flush=True)
 
 

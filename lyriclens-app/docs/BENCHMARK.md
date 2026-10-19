@@ -1,6 +1,6 @@
 # Human-reviewed singing benchmark
 
-This local CLI workflow prepares reference review, freezes an evaluation protocol and compares model runs. It does not generate reference lyrics, certify a reviewer, train models or establish a new accuracy result. A human fluent in each language must listen and check references and permissions. Existing diagnostic reports remain separate.
+Prepare reviewed references, freeze an evaluation protocol and compare model runs. A fluent reviewer checks each recording, its reference text and the relevant permissions.
 
 Run commands from the repository root with the installed Python 3.11 environment. All paths below are local and ignored by Git. Keep restricted audio, reference text, reviewer identities and full evaluation outputs private.
 
@@ -15,7 +15,7 @@ Start with a JSONL manifest described in [EVALUATION.md](EVALUATION.md). Require
 
 Every imported reference starts **pending**, including dataset-supplied annotations. No ASR output is imported as a reference. The queue contains absolute audio paths and editable reference metadata. Preparation refuses to overwrite an existing queue.
 
-The existing research manifest has 12 development clips spanning six languages, with restricted sources retained locally. It has no Japanese example and no untouched final set. This queue is a starting point, not a representative seven-language benchmark. Add appropriately authorized independent recordings covering all seven languages, accompaniment, overlapping voices, effects, noise and language switching. Keep previously inspected recordings in development.
+The current manifest contains 12 development clips in six languages. Add Japanese recordings and an independent final set, with varied singers, accompaniment, overlapping voices, effects, noise and language switching. Keep previously inspected recordings in development.
 
 ## Human review
 
@@ -31,13 +31,13 @@ Open the queue JSON in your editor and listen to the exact recording in your aud
 .\.venv311\Scripts\python.exe -m lyriclens.benchmark verify .runtime/singing-review.json CLIP_ID --reviewer "YOUR_REVIEWER_ID" --confirm-listened-and-text-permission
 ```
 
-This records an explicit attestation, time and annotation fingerprint. It cannot prove that the operator listened. The assistant must not issue it on a person's behalf or invent a reviewer. Any change to reference, language, split, group, path, hash or other annotation invalidates the attestation. Audio content changes are also rejected. Keep pending additions in a separate queue if they should not block an already curated dataset version.
+Verification records the reviewer, time and annotation fingerprint. The reviewer must listen to the recording and check text permissions before running this command. Changes to annotations or audio require a new review. Keep pending additions in a separate queue when extending a reviewed dataset.
 
 ```powershell
 .\.venv311\Scripts\python.exe -m lyriclens.benchmark export .runtime/singing-review.json .runtime/reviewed-v1.jsonl
 ```
 
-Export requires every included clip to be reviewed, validates audio hashes, rejects split leakage and reports seven-language coverage, including zeros. It refuses to replace an existing manifest. Fingerprints detect accidental changes; they are not cryptographic proof of human review or permission.
+Export checks review status, audio hashes and split isolation, then reports coverage for all seven languages. Choose a new filename for each manifest version.
 
 ## Freeze and run development comparisons
 
@@ -58,7 +58,36 @@ You can compare existing compatible reports explicitly:
 .\.venv311\Scripts\python.exe -m lyriclens.benchmark compare BASELINE.json CANDIDATE.json .runtime/comparison-v1.json
 ```
 
-Different clip sets, audio hashes, references, language labels, conditions, splits or missing pipeline rows are rejected. A comparison is evidence on that sample, not proof of statistical significance or universal improvement.
+Reports must use the same clips, hashes, references, language labels, conditions, splits and pipeline rows. Interpret improvements within that sample; statistical significance needs a separate analysis.
+
+## Four-way quality and timing summary
+
+After evaluating the same manifest with Small and Large-v3, summarize both original-audio and separated-vocal routes together:
+
+```powershell
+.\.venv311\Scripts\python.exe -m lyriclens.benchmark summarize SMALL_REPORT.json LARGE_REPORT.json .runtime/four-way-summary.json
+```
+
+Pass the Small report first and Large-v3 second, using the same language mode. For example, reviewed protocol outputs can be `development-v1.runs/configured-manual.json` and `development-v1.runs/large-v3-manual.json`. The summary refuses to overwrite an existing output. It contains aggregate metrics and model configuration, without lyrics, hypotheses, raw responses, clip IDs or audio paths.
+
+All four combinations use **the same successful clips** for accuracy and timing, overall and per language. Micro CER/WER uses summed error counts divided by summed reference counts, rather than an average of clip percentages. Attempted, completed and failed counts still cover every clip. Missing languages and unavailable metrics remain explicit. Empty-reference insertion counts remain visible because CER has no nonzero reference denominator for instrumental recordings. Do not interpret fewer failures as proof of better lyric recognition.
+
+New evaluator reports record `stage_seconds` for decode, separation (including its output decode) and recognition. Recognition includes initial model loading when needed; separation includes initial worker loading when needed. End-to-end time also includes validation and local bookkeeping. Times are diagnostic measurements with model reuse, rather than steady-state latency estimates. Old reports remain supported but unavailable stage timings are omitted. Sampled RSS excludes GPU memory.
+
+Unreviewed diagnostics carry `human_review_required: false` in the summary. Complete reference review and evaluate an independent final set before changing model defaults.
+
+Recognition without alignment now permits one same-checkpoint native-alignment retry for invalid timing. Evaluator rows record `timing_recovery` and private raw reports retain both attempts. Recognition time includes the retry when one occurs. `benchmark compare` includes per-pair attempted/succeeded recovery flags, and keeps CER deltas null for formerly failed pairs. See [the recovery rerun](SINGING.md#automatic-timing-recovery-rerun) for current evidence; historical reports remain unchanged.
+
+To rerun the local unreviewed development comparison without replacing earlier reports, create a new output directory, then run:
+
+```powershell
+New-Item -ItemType Directory .runtime/singing-comparison-v2
+.\.venv311\Scripts\python.exe -m lyriclens.evaluate .runtime/singing-research/manifest.jsonl --split development --manual-language --model-profile configured --device cuda --compute float16 --output .runtime/singing-comparison-v2/small.json
+.\.venv311\Scripts\python.exe -m lyriclens.evaluate .runtime/singing-research/manifest.jsonl --split development --manual-language --model-profile large-v3 --device cuda --compute float16 --output .runtime/singing-comparison-v2/large-v3.json
+.\.venv311\Scripts\python.exe -m lyriclens.benchmark summarize .runtime/singing-comparison-v2/small.json .runtime/singing-comparison-v2/large-v3.json .runtime/singing-comparison-v2/summary.json
+```
+
+These commands require the local research manifest and explicitly prepared models; they download nothing. For CPU, use `--device cpu --compute int8` in both evaluations. Use the reviewed protocol workflow above for curated evaluation.
 
 ## Final evaluation
 
@@ -69,6 +98,6 @@ Choose one model and one language mode using development results, then freeze a 
 .\.venv311\Scripts\python.exe -m lyriclens.benchmark run .runtime/final-v1.json
 ```
 
-Final protocols reject a tuning matrix. Inspect the frozen protocol before execution and run final once. The filesystem guard prevents overwriting that run, but cannot prevent someone from creating a different protocol or deleting files. After inspecting final outcomes, further tuning requires a new untouched final set.
+Final protocols accept one model and language mode. Inspect the protocol, run final evaluation once and keep the output. Further tuning needs a new untouched final set.
 
-The existing evaluator also accepts `--require-reviewed` for direct invocations. Legacy diagnostics remain runnable without this flag and must not be represented as the reviewed benchmark. Fine-tuning and a claim of reduced singing error remain future work requiring sufficient reviewed/licensed data, hardware and independent final evaluation.
+For direct evaluator calls, pass `--require-reviewed` to enforce reference review. Use legacy diagnostic runs for development and the reviewed protocol for final comparisons.

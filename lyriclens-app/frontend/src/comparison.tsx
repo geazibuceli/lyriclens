@@ -101,9 +101,9 @@ export function TranscriptComparison({
         {changed === 1 ? "passage differs" : "passages differ"}
       </summary>
       <p className="muted">
-        Marked text differs between the original-audio and isolated-vocal
-        routes. Neither output is automatically correct. Passages are grouped by
-        overlapping times; unsaved edits are not compared.
+        Compare saved wording from the original audio and isolated vocals.
+        Highlights show differences in passages with overlapping times. Save
+        edits before comparing, and listen to check the wording.
       </p>
       <label className="comparison-filter">
         <input

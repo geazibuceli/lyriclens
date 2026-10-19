@@ -19,7 +19,7 @@
 | Invalid or corrupt audio | Re-export to WAV/FLAC and try again. Extension alone does not prove format validity. |
 | Transcript is empty/wrong | Select language manually, compare vocal separation, try clearer/longer audio within the limit, or edit. Instrumental sections should have no words; model hallucinations remain possible. |
 | Wrong writing system | Check manual language and original audio. No translation or romanization is requested; preserve raw output for diagnosis. |
-| Invalid model timestamps | That pipeline fails instead of manufacturing/clamping timing. Inspect its raw response, change model/settings only with development evaluation. |
+| Invalid model timestamps | Recognition without native alignment now retries once with alignment using the same checkpoint if model timing is invalid. Both attempts and effective settings are preserved in raw output; recovered jobs display a warning. An already-aligned response or an unsuccessful retry still fails strict validation. No timestamps are clamped. Inspect the raw response if the problem persists. |
 | Edits missing from export | Click Save edits first. JSON includes original and edits; original TXT exports intentionally ignore edits. |
 | Second server cannot start | Stop the first server using that data directory. The OS lock is released on process exit; do not delete live data. |
 | `npm.ps1` is blocked in PowerShell | Use `npm.cmd ci` and `npm.cmd run dev`. No execution-policy change is needed. |

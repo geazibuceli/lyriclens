@@ -3,15 +3,16 @@ import argparse
 import json
 from pathlib import Path
 from playwright.sync_api import sync_playwright
+from lyriclens.profiles import PROFILE_IDS
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--url',default='http://127.0.0.1:5181')
-    parser.add_argument('--model-profile',choices=['configured','large-v3'],default='configured')
+    parser.add_argument('--model-profile',choices=PROFILE_IDS,default='configured')
     args=parser.parse_args()
     root=Path(__file__).resolve().parents[1]
-    output=root/'artifacts'/('browser' if args.model_profile=='configured' else 'browser-large-v3')
+    output=root/'artifacts'/('browser' if args.model_profile=='configured' else f'browser-{args.model_profile}')
     output.mkdir(parents=True,exist_ok=True)
     with sync_playwright() as playwright:
         browser=playwright.chromium.launch(headless=True)
@@ -48,6 +49,8 @@ def main():
         assert job.get('model_profile','configured')==args.model_profile
         if args.model_profile=='large-v3':
             assert job['model_id']=='Systran/faster-whisper-large-v3'
+        if args.model_profile=='aligned':
+            assert job['inference']['word_timestamps'] is True
         assert 'UI verification' not in job['results']['direct']['original_text']
         assert job['results']['direct']['edited'][0]['text'].startswith('UI verification')
         (output/'real-job.json').write_text(json.dumps(job,ensure_ascii=False,indent=2),encoding='utf-8')
@@ -73,6 +76,7 @@ def main():
         assert all(s['start']>=3 and s['end']<=11 for s in child['results']['direct']['original'])
         assert child['source_job_id']==job['id']
         assert child['model_id']==job['model_id'] and child['revision']==job['revision']
+        assert child['inference']==job['inference']
         (output/'region-job.json').write_text(json.dumps(child,ensure_ascii=False,indent=2),encoding='utf-8')
         page.screenshot(path=str(output/'region-results.png'),full_page=True)
         assert not errors, errors

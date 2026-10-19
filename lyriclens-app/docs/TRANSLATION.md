@@ -1,6 +1,6 @@
 # Local transcript translation
 
-Translation is an explicit step after recognition. It translates the saved transcript text, preferably after review, and keeps the original transcript unchanged. No audio or text is sent to an external translation service. This is a translation for understanding, not an adaptation that preserves rhyme, rhythm or singability.
+Translate a reviewed transcript locally, then edit and export the translation alongside the saved source. Translation aims to convey meaning; rhyme and rhythm may change.
 
 ## Setup
 
@@ -37,7 +37,7 @@ A dedicated single translation thread reuses one lazy-loaded model and has a bou
 
 At most 1000 source segments and 100000 source characters are accepted per request. Each segment is limited to 512 input tokens and 512 generated tokens, using beam size 4. Text is never silently truncated: oversized or incomplete generation fails with a message to shorten/split the source. Empty segments remain empty. Long segments can be split using the transcript editor before translation. Segments are translated separately, so context across lines can be lost and poetic or ambiguous language may be mistranslated.
 
-Model errors and ASR errors can propagate into translation. The feature has no calibrated translation confidence or validated lyric-quality score. A translation failure preserves the completed ASR result.
+Review translations against the source: recognition errors and ambiguous lyrics can affect the wording. Translation quality on lyrics has not been benchmarked. A failed translation leaves the transcript available.
 
 ## API
 
@@ -57,7 +57,7 @@ Jobs expose translations in `translations`, keyed by `pipeline:target_language`.
 
 Integration tests inject a deterministic translator to verify all 42 cross-language request routes, saved-source snapshots, Unicode edits, independent exports, inherited timing, stale-source guards, queue rollback, failure isolation, cancellation, deletion guards and restart recovery. These tests do not measure model quality.
 
-The real local checkpoint completed **42/42** executions on original short non-lyrical sentences. Input, output, model size, settings, environment and timings are in [translation-smoke.json](../evaluation/translation-smoke.json). This is execution evidence, not a translation benchmark or a singing-quality result. Reproduce from the repository root:
+The local checkpoint completed **42/42** smoke-test executions on short non-lyrical sentences. [translation-smoke.json](../evaluation/translation-smoke.json) records inputs, outputs, settings, environment and timings. Lyric translation quality still needs evaluation. Reproduce from the repository root:
 
 ```powershell
 .\.venv311\Scripts\python.exe lyriclens-app/scripts/translation_smoke.py
@@ -65,7 +65,7 @@ The real local checkpoint completed **42/42** executions on original short non-l
 .\.venv\Scripts\python.exe lyriclens-app/scripts/translation_browser_smoke.py
 ```
 
-The browser script creates and deletes its own silence fixture and supplies original sample text through the editor; it never modifies user recordings. Browser reports/screenshots stay in ignored `artifacts/browser-translation`.
+The browser test uses a temporary silence recording and sample text. Reports and screenshots are saved under ignored `artifacts/browser-translation`.
 
 ## Docker
 

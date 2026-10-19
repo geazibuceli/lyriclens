@@ -1,5 +1,7 @@
 # Model and dependency review
 
+The `aligned` profile (**Whisper Small + alignment (experimental)** in the default setup) enables native word alignment using the prepared checkpoint. See [setup](SETUP.md#optional-alignment-with-the-configured-model) and [measurements](SINGING.md#additional-experiments-on-2026-10-19).
+
 Optional text translation uses [Meta M2M100 418M](https://huggingface.co/facebook/m2m100_418M/tree/55c2e61bbf05dfb8d7abccdc3fae6fc8512fd636), MIT-tagged, pinned revision `55c2e61bbf05dfb8d7abccdc3fae6fc8512fd636`, explicitly converted to CPU/int8 CTranslate2. It is separate from Whisper transcription and supports the seven product language codes. [Translation setup and verification](TRANSLATION.md) describe the independent model cache, dependencies and limits. Translation quality on lyrics has not been evaluated; 42 real short-sentence pair executions are smoke evidence only.
 
 Reviewed official documentation on 2026-10-15. These are published capabilities and requirements, not application measurements.
@@ -14,7 +16,7 @@ Reviewed official documentation on 2026-10-15. These are published capabilities 
 | Portuguese | pt | Both pipelines | Both models/pipelines | 3 development clips, Brazilian samples |
 | French | fr | Both pipelines | Both models/pipelines | 2 development clips |
 
-See [singing measurements and restrictions](SINGING.md). These small mostly unaccompanied examples do not validate general singing accuracy. Large-v3 is an explicit experimental choice; its native cross-attention word alignment is enabled to improve segment timing. Raw word/segment responses remain available, while the UI continues to show approximate segment times. There is no separate alignment model download or invented word timing.
+See [singing measurements](SINGING.md) for sample coverage and review status. Large-v3 uses native word alignment to refine segment timing with the same checkpoint. Raw word and segment responses are available for inspection; the interface shows approximate segment times.
 
 Automatic and manual speech runs are recorded separately. One clip per language is a diagnostic, not representative support evidence. See measured per-clip CER/WER, detection, runtime and memory in `evaluation/speech-results.json` and `evaluation/manual-speech-results.json`.
 

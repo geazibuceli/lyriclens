@@ -64,6 +64,20 @@ This explicitly downloads Meta's `htdemucs` checkpoint `955717e8-8726e21a.th` an
 
 Verified CPU profile: `LYRICLENS_DEVICE=cpu`, `LYRICLENS_COMPUTE=int8`, `LYRICLENS_SEPARATION_DEVICE=cpu`. Verified Windows ASR GPU profile: install `pip install -e './backend[cuda-windows]'`, then set `LYRICLENS_DEVICE=cuda` and `LYRICLENS_COMPUTE=float16`. These explicitly installed CUDA 12 cuBLAS/cuDNN 9 DLLs are discovered locally; no fallback occurs. Demucs has a separate device setting and stays on CPU unless explicitly changed; GPU separation requires a compatible PyTorch CUDA build and has not been tested. Diagnostic process-tree memory peaks and timings are in the evaluation reports, not hardware minimum guarantees. Apple Metal acceleration is not implemented. Run `python -m lyriclens.doctor` for a no-download prerequisite check.
 
+## Optional alignment with the configured model
+
+Recognition checks segment timing and retries once with native alignment when an unaligned result has invalid timestamps. The retry uses the same model, language instruction and device. Valid, empty and merely unordered responses return without a retry. Invalid aligned results still fail validation.
+
+Recovered jobs display a notice. Raw JSON stores the first response under `timing_recovery.initial_response`, plus the final response, status and effective settings. Result provenance includes recovery settings for the full clip or individual passages. If alignment fails, the report keeps the original response and an error. Affected jobs take an extra recognition call.
+
+Choose **Whisper Small + alignment (experimental)** in the upload form to enable native word alignment while reusing the configured model's existing weights. The profile ID is `aligned`; it also preserves an explicitly configured custom model's ID/revision, although custom models remain unverified. It needs no extra model download. Its preparation status is shared with the configured profile.
+
+This is an explicit per-job choice. Small without alignment remains the default. Saved jobs, passage retranscription and Run again preserve the selected profile and inference settings. Switching profiles can create separate in-memory model instances within the existing two-instance cache limit. Alignment may add processing time; segment times still require review.
+
+On the 12 development clips, alignment completed both routes (24/24 versus 22/24) with no higher CER in shared successful language/route groups. See [the measurements](SINGING.md#additional-experiments-on-2026-10-19) for sample coverage and review status.
+
+For command-line evaluation, use `python -m lyriclens.evaluate MANIFEST.jsonl --split development --model-profile aligned --output NEW_REPORT.json`; add the desired language/device flags as documented in [the benchmark workflow](BENCHMARK.md). Reviewed protocols accept `--profiles configured aligned large-v3` for development comparisons.
+
 ## Explicit larger model for singing
 
 The upload form offers **Whisper Large-v3 (experimental)** as a per-job choice. Prepare it with `python -m lyriclens.models download --profile large-v3`; verified weight-file size is 3,087,284,237 bytes plus tokenizer/configuration. Its pinned revision is `edaa852ec7e145841d8ffdb056a99866b5f0a478`. Small remains the default. Region retranscription inherits the parent's model, revision and device. Missing weights never trigger a request-time download. The worker retains at most two recognition model instances; memory depends on their combination.
@@ -80,7 +94,7 @@ The [verification record](VERIFICATION.md) distinguishes mocked tests, actual de
 
 Automatic detection is an estimate for the whole clip. It may return a language outside the seven targets, which is preserved without relabeling. Manual language is a user instruction, not a verified fact. Portuguese output is not regional dialect detection. Mandarin support does not imply every Chinese variety. Source writing systems and diacritics are preserved; no Chinese script conversion is applied.
 
-Singing, heavy accompaniment, rap, overlapping voices, live audio, effects, and language switching may produce wrong words or hallucinations. Empty output is allowed. Fluent output is not evidence of accuracy. Whisper thresholds are not a reliable vocal detector: real negative controls produced hallucinations, preserved in `evaluation/control-results.before-silence-guard.json`. Exact all-zero PCM now bypasses ASR/separation with an explicit recorded signal-control reason; this does not classify quiet singing as silence. A pure-tone control can still produce hallucinated words, preserved in the current report. VAD remains disabled because speech VAD may remove singing. Raw scores are uncalibrated. Invalid timestamps fail that pipeline and preserve raw output; no word timing is invented.
+Singing, accompaniment, rap, overlapping voices, effects and language changes can produce incorrect words. Review the result against the recording. Silence and pure-tone controls are recorded in the evaluation reports: exact all-zero PCM returns an empty transcript, while a pure tone can still produce hallucinations. VAD stays disabled to retain sung passages. Raw scores are uncalibrated, and timestamps that remain invalid after recovery fail validation.
 
 ## Verification
 

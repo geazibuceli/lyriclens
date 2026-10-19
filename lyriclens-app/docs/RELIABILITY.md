@@ -4,11 +4,11 @@
 
 Each transcript editor has **Undo transcript edit** and **Redo transcript edit** controls. They cover text, language labels, timings, segment removal and additions. Ctrl/Cmd+Z undoes, Ctrl/Cmd+Shift+Z or Ctrl/Cmd+Y redoes, and Ctrl/Cmd+Enter saves. Saving preserves the open editor history; undoing a saved edit changes the draft until you save again. Exports continue to use saved text.
 
-History is local to the currently open transcript editor, capped at 50 changes and two million serialized characters in each direction; large transcripts keep fewer steps. It is not a persistent revision archive. Reloading or switching jobs discards undo history; browser drafts can recover unsaved editor content with an explicit restore action. See [EDITING.md](EDITING.md) for draft limits, split/merge, search, bilingual exports and backups. Translation editing retains its separate save flow; transcript shortcuts do not intercept translation fields.
+Undo history belongs to the open editor and resets when you reload or switch jobs. It stores up to 50 changes and two million serialized characters in each direction, with fewer steps for large transcripts. Use browser drafts to restore unsaved content after reloading. See [EDITING.md](EDITING.md) for drafts, search, exports and backups. Translation fields have their own save controls.
 
-Choose **Load audio waveform** below the original audio player. The server decodes the full original into temporary mono PCM16, returns at most 1200 amplitude peaks, and removes the temporary file. It does not recognize words, remove silence or alter timestamps. Use **Waveform position seconds** or its arrow keys to seek. Seeking stops segment repeat. Amplitude is not a word-boundary or confidence estimate. Waveform loading requires FFmpeg and a readable original recording.
+Choose **Load audio waveform** below the player to display up to 1200 amplitude peaks from the recording. Use **Waveform position seconds** or the arrow keys to seek. Seeking stops segment repeat. Loading the waveform requires FFmpeg and the original audio; word boundaries are reviewed in the transcript.
 
-Review suggestions flag passages longer than 20 seconds, identical adjacent text and some repeated text patterns. They do not change text or estimate a calibrated probability of error. Choruses can legitimately repeat. The existing direct/vocal comparison exposes disagreements separately. These tools help listening and correction; they do not establish lower CER/WER.
+Review suggestions highlight passages longer than 20 seconds and repeated text patterns. Listen before editing: choruses often repeat. Use the direct/vocal comparison to check disagreements between the two results.
 
 ## Resume stopped work
 
@@ -16,15 +16,15 @@ The server marks queued/processing jobs and translations **interrupted** on star
 
 Resume requires the original recording to exist and match its stored SHA-256. Active work and full queues are rejected; a rejected submission restores the previous saved state. Model/dependency failures remain visible. Region and multilingual instructions remain part of the saved job.
 
-Translation persists each completed segment with its progress count. **Resume translation from saved segments** continues a stopped translation from that checkpoint using the saved source snapshot and language instructions. Changed source text or language labels require a new translation. Checkpoints created before segment persistence was introduced may have no saved segments and therefore restart from the beginning. A crash during one model call repeats only that unfinished segment; it does not claim a checkpoint inside inference. Model downloads remain explicit.
+Translation saves progress after each segment. **Resume translation from saved segments** continues from that point using the saved source and languages. Changed source text or labels require a new translation. Older checkpoints without saved segments restart from the beginning; a crash during a segment repeats that segment.
 
 ## Progress
 
-Active recognition shows the actual stage, elapsed time in the current attempt and recorded stage transitions. Decoding, region extraction, vocal separation, recognition and multilingual passage stages have distinct labels. Earlier completed routes remain visible after resume. Translation shows completed segments, a segment-count progress bar and elapsed time for the current attempt. There is no invented ASR percentage or reliable remaining-time estimate. Cancellation waits for the current operation to return.
+Active recognition shows the processing stage, elapsed time and stage history. Translation also shows completed segments and a progress bar. Cancellation takes effect when the current operation returns.
 
 ## Environment and storage
 
-**Environment checks** runs on workspace load and can be refreshed. The Windows launcher also prints setup notices. Checks cover FFmpeg, recognition and optional separation dependencies, prepared ASR profiles, the separation checkpoint and the configured CTranslate2 device/compute support. No inference, installation or download is triggered. A successful device check does not guarantee enough GPU memory or that every inference library call will succeed. Optional features can require setup while direct recognition works.
+**Environment checks** runs on workspace load and can be refreshed. It checks FFmpeg, dependencies, prepared models and device/compute support. The launcher prints setup notices too. GPU memory and runtime inference should be checked with an actual recording; optional features may need separate setup.
 
 Open **Local storage and cache** and select **Measure local storage** to inspect managed job sizes, generated cache, model directories and free drive space. Measurement is on demand. Python/Node environments, external evaluation files and launcher logs are outside these totals. Model entries are read-only; no model-removal action is provided.
 

@@ -42,9 +42,9 @@ export function BackupPanel({
     <details className="backup-panel">
       <summary>Backup and restore a job</summary>
       <p>
-        Backups contain the original recording, saved transcripts, translations,
-        raw responses and job settings. Models, generated cache and browser
-        drafts are excluded. Save edits first. Keep archives private.
+        Save your edits, then download the recording, transcripts, translations,
+        raw responses and job settings in one archive. Model files, cache and
+        browser drafts are stored separately. Keep backups private.
       </p>
       {jobId && !active && (
         <a className="button small" href={`/api/jobs/${jobId}/backup`}>
@@ -53,9 +53,8 @@ export function BackupPanel({
       )}
       {active && <p>Stop active work before creating a consistent backup.</p>}
       <p>
-        Restore creates a separate library job and never replaces an existing
-        one or starts recognition. Imported recognition snapshots cannot resume;
-        upload the recording again for new recognition.
+        Restore adds a separate job to your library. To transcribe the recording
+        again, upload it as a new job.
       </p>
       <label>
         Job backup ZIP

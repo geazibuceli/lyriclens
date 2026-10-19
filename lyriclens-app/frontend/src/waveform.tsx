@@ -99,8 +99,7 @@ export function Waveform({
             />
           </label>
           <p className="muted">
-            Waveform shows amplitude, not word boundaries. Use the slider or
-            arrow keys to seek.
+            Use the waveform slider or arrow keys to move through the recording.
           </p>
         </>
       )}

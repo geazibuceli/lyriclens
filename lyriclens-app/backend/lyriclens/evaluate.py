@@ -9,10 +9,10 @@ from pathlib import Path
 from dataclasses import replace
 from .adapters import FFmpegDecoder, WhisperTranscriber, DemucsSeparator
 from .config import Settings, LANGUAGES
-from .domain import validate_segments, text_of
+from .domain import validate_model_segments, text_of
 from .memory import PeakMemory
 from .worker import environment
-from .profiles import profile_settings
+from .profiles import profile_settings, PROFILE_IDS
 
 
 def normalize(text):
@@ -86,7 +86,7 @@ def main():
     parser.add_argument("--manual-language", action="store_true", help="Default uses whole-clip detection")
     parser.add_argument('--require-reviewed', action='store_true', help='Reject missing/stale human reference review and split leakage')
     parser.add_argument('--candidate',type=Path,help='Evaluate a local converted fine-tuned model without changing the app')
-    parser.add_argument("--model-profile",choices=["configured","large-v3"],default="configured")
+    parser.add_argument("--model-profile",choices=PROFILE_IDS,default="configured")
     parser.add_argument("--device",choices=["cpu","cuda"])
     parser.add_argument("--compute",help="Explicit CTranslate2 compute type; no fallback")
     args = parser.parse_args()
@@ -118,31 +118,46 @@ def main():
             print(f"Running {row['id']}: {pipeline}",flush=True)
             memory = PeakMemory().start()
             started = time.perf_counter()
+            stage_seconds = {}
+            stage = 'decode'
+            stage_started = started
             try:
                 with tempfile.TemporaryDirectory() as tmp:
                     directory = Path(tmp)
                     decoded = directory / "decoded.wav"
                     info = decoder.decode(row["resolved_path"], decoded)
+                    stage_seconds[stage] = time.perf_counter() - stage_started
                     if abs(info["duration"] - row["duration"]) > .1:
                         raise ValueError("Manifest duration does not match decoded audio")
                     audio = decoded
                     if pipeline == "vocals":
+                        stage = 'separation'
+                        stage_started = time.perf_counter()
                         audio = directory / "vocals.wav"
                         vocal_info = decoder.decode(separator.separate(decoded, directory / "stems"), audio)
+                        stage_seconds[stage] = time.perf_counter() - stage_started
                         report["separator_process_id"] = separator.process.pid if separator.process else None
                         if abs(vocal_info["duration"] - info["duration"]) > .1:
                             raise ValueError("Separation timeline mismatch")
+                    stage = 'recognition'
+                    stage_started = time.perf_counter()
                     raw = model.transcribe(audio, row["language"] if args.manual_language else None)
+                    stage_seconds[stage] = time.perf_counter() - stage_started
                     report["raw"] = raw
-                    validate_segments(raw["segments"], info["duration"])
-                    hypothesis = text_of(raw["segments"])
+                    report['timing_recovery'] = {k:v for k,v in raw.get('timing_recovery', {}).items() if k != 'initial_response'} or None
+                    segments, reordered = validate_model_segments(raw["segments"], info["duration"])
+                    report['timestamp_order_normalized'] = reordered
+                    hypothesis = text_of(segments)
                     report.update(state="completed", raw=raw, hypothesis=hypothesis,
                                   metrics=metrics(row["reference"], hypothesis, row["language"]),
                                   language_detection_correct=None if args.manual_language or row["language_switching"] or not row["reference"].strip() else raw.get("language") == row["language"])
             except Exception as exc:
+                if stage not in stage_seconds:
+                    stage_seconds[stage] = time.perf_counter() - stage_started
                 report.update(state="failed", error=str(exc))
             seconds = time.perf_counter() - started
-            report.update(seconds=seconds, real_time_factor=seconds / row["duration"], peak_memory_bytes=memory.stop(),
+            report.update(seconds=seconds, stage_seconds=stage_seconds,
+                          real_time_factor=seconds / row["duration"], peak_memory_bytes=memory.stop(),
                           memory_method="sampled process-tree summed RSS every 50ms; null when psutil unavailable; excludes VRAM")
             reports.append(report)
     summaries = []
@@ -162,6 +177,7 @@ def main():
                               "max_sampled_rss_bytes":max((r["peak_memory_bytes"] for r in group if r["peak_memory_bytes"] is not None), default=None),
                               "language_detection_accuracy":sum(r["language_detection_correct"] for r in labeled)/len(labeled) if labeled else None})
     args.output.write_text(json.dumps({"split": args.split, "human_review_required":args.require_reviewed,
+                                      "language_mode":'manual' if args.manual_language else 'auto',
                                       "manifest_sha256":hashlib.sha256(args.manifest.read_bytes()).hexdigest(),
                                       "per_clip":reports,"per_language":summaries}, ensure_ascii=False, indent=2), encoding="utf-8")
     separator.close()

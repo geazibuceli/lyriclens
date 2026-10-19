@@ -4,7 +4,7 @@
 
 Transcript and translation text changes are stored automatically in this browser profile after a 300 ms pause. A best-effort flush also runs when leaving the page. After reloading or reopening a job, choose **Restore browser draft** or **Discard browser draft**. Restoring changes the editor only. **Save edits** or **Save translation edits** still updates the server, exports and backups.
 
-Drafts are separate for each job, recognition route and translation target. A changed saved baseline produces a conflict notice; there is no automatic merge or overwrite of the server record. Stale translations must be regenerated before restoring an old translation draft. Drafts do not include undo history. They are local to the browser/origin, not synchronized across devices or tabs, not encrypted, and not included in backups. Browser storage cleanup/private mode, quota limits and a hard crash before the debounce/flush can lose a draft. Storage failures are shown explicitly; saving to the job remains available. Each stored draft is capped at two million serialized characters, and the browser's overall quota can be smaller than the sum of drafts.
+Drafts are stored per job, route and translation target in the current browser. Conflicting saved changes produce a notice; stale translations need regeneration before draft restoration. Drafts exclude undo history and backups, and stay local to the browser without encryption or synchronization. Clearing browser storage, private mode, quota limits or an abrupt crash can lose a draft. Each draft is capped at two million serialized characters, subject to the browser quota. Save edits to keep a server copy.
 
 ## Search and segment boundaries
 
@@ -16,7 +16,7 @@ Open **Split or merge segment N**. Choose an interior split time and a text cut 
 
 ## Bilingual exports
 
-After saving a current translation, open **Export translation** and choose **Bilingual TXT** or **Bilingual SRT**. Each block contains the saved source snapshot followed by its generated or edited translation. SRT retains source segment times. Source changes, including language labels or split/merge, make older translations stale; regenerate before bilingual export. This is a two-line/block comprehension export, not a singable translation.
+After saving a current translation, open **Export translation** and choose **Bilingual TXT** or **Bilingual SRT**. Each block contains the saved source followed by the translation. SRT uses the source timings. Regenerate translations after changing source text, language labels or segment boundaries.
 
 API: `GET /api/jobs/{id}/export?pipeline=direct&translation=pt&bilingual=true&format=srt`. Bilingual mode supports TXT and SRT; missing translations, stale source or unavailable alignment are rejected.
 
@@ -34,7 +34,7 @@ API: `GET /api/jobs/{id}/backup` downloads one stopped job; `POST /api/backups/r
 
 ## Continuous checks
 
-The GitHub workflow checks backend tests, frontend formatting and the production build. A separate Chromium job installs only test/browser/FFmpeg tools and runs owned-silence editing, recovery UI, waveform, storage and playback checks with temporary app data. No recognition or translation model is downloaded by this job. Logs/screenshots are uploaded as diagnostics on failure or success. Real-model quality evaluations remain explicit and separate.
+The GitHub workflow runs backend tests, frontend formatting and the production build. A Chromium job checks editing, recovery, waveform, storage and playback using temporary data and silence recordings. It uploads logs and screenshots. Run real-model evaluations separately with prepared checkpoints.
 
 Run the same isolated browser workflow locally with installed dependencies and Playwright Chromium:
 

@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 from .config import LANGUAGES
 from .evaluate import load_manifest
+from .profiles import PROFILE_IDS
 
 
 def digest(value):
@@ -130,6 +131,8 @@ def compare(baseline, candidate):
         before, after = old.get('metrics', {}).get('cer'), new.get('metrics', {}).get('cer')
         pairs.append(dict(id=key[0], pipeline=key[1], language=old['language'],
                           baseline_state=old['state'], candidate_state=new['state'],
+                          timing_recovery_attempted=bool(new.get('timing_recovery')),
+                          timing_recovery_succeeded=bool((new.get('timing_recovery') or {}).get('succeeded')),
                           cer_delta=after-before if old['state'] == new['state'] == 'completed'
                           and before is not None and after is not None else None))
     return dict(split=left['split'], pairs=pairs,
@@ -216,7 +219,7 @@ def main():
     p.add_argument('manifest', type=Path)
     p.add_argument('output', type=Path)
     p.add_argument('--split', required=True, choices=['development','final'])
-    p.add_argument('--profiles', nargs='+', choices=['configured','large-v3'], default=['configured','large-v3'])
+    p.add_argument('--profiles', nargs='+', choices=PROFILE_IDS, default=['configured','large-v3'])
     p.add_argument('--language-modes', nargs='+', choices=['auto','manual'], default=['auto'])
     p.add_argument('--device', choices=['cpu','cuda'], default='cpu')
     p.add_argument('--compute', default='int8')
@@ -233,6 +236,10 @@ def main():
     p.add_argument('queue', type=Path)
     p.add_argument('output', type=Path)
     p = sub.add_parser('compare')
+    p.add_argument('baseline', type=Path)
+    p.add_argument('candidate', type=Path)
+    p.add_argument('output', type=Path)
+    p = sub.add_parser('summarize', help='Text-free Small/Large-v3 x direct/vocals summary on shared successful clips')
     p.add_argument('baseline', type=Path)
     p.add_argument('candidate', type=Path)
     p.add_argument('output', type=Path)
@@ -253,6 +260,12 @@ def main():
                                   args.language_modes, args.device, args.compute), indent=2))
         elif args.command == 'run':
             run(args.protocol)
+        elif args.command == 'summarize':
+            from .benchmark_summary import summarize
+            result = summarize(args.baseline, args.candidate)
+            with args.output.open('x', encoding='utf-8') as output:
+                json.dump(result, output, indent=2)
+            print(f'Wrote text-free four-way summary to {args.output}')
         else:
             if args.output.exists():
                 raise ValueError('Comparison output already exists')

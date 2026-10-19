@@ -4,13 +4,13 @@ import hashlib
 import json
 import urllib.request
 from .config import Settings
-from .profiles import profile_settings
+from .profiles import profile_settings, PROFILE_IDS
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=["download", "separation-download", "translation-download", "status"])
-    parser.add_argument("--profile", choices=["configured", "large-v3"], default="configured")
+    parser.add_argument("--profile", choices=PROFILE_IDS, default="configured")
     args = parser.parse_args()
     settings = profile_settings(Settings(), args.profile)
     if args.action == "translation-download":

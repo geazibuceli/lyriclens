@@ -1,0 +1,246 @@
+{
+  "split": "development",
+  "pairs": [
+    {
+      "id": "vocadito-6",
+      "pipeline": "direct",
+      "language": "en",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "vocadito-6",
+      "pipeline": "vocals",
+      "language": "en",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "vocadito-10",
+      "pipeline": "direct",
+      "language": "en",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "vocadito-10",
+      "pipeline": "vocals",
+      "language": "en",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "vocadito-13",
+      "pipeline": "direct",
+      "language": "fr",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "vocadito-13",
+      "pipeline": "vocals",
+      "language": "fr",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "vocadito-23",
+      "pipeline": "direct",
+      "language": "fr",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "vocadito-23",
+      "pipeline": "vocals",
+      "language": "fr",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "vocadito-2",
+      "pipeline": "direct",
+      "language": "es",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "vocadito-2",
+      "pipeline": "vocals",
+      "language": "es",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "vocadito-35",
+      "pipeline": "direct",
+      "language": "zh",
+      "baseline_state": "failed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": true,
+      "timing_recovery_succeeded": true,
+      "cer_delta": null
+    },
+    {
+      "id": "vocadito-35",
+      "pipeline": "vocals",
+      "language": "zh",
+      "baseline_state": "failed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": true,
+      "timing_recovery_succeeded": true,
+      "cer_delta": null
+    },
+    {
+      "id": "vocadito-36",
+      "pipeline": "direct",
+      "language": "zh",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "vocadito-36",
+      "pipeline": "vocals",
+      "language": "zh",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "csd-kr007a",
+      "pipeline": "direct",
+      "language": "ko",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "csd-kr007a",
+      "pipeline": "vocals",
+      "language": "ko",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "csd-kr011a",
+      "pipeline": "direct",
+      "language": "ko",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "csd-kr011a",
+      "pipeline": "vocals",
+      "language": "ko",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "covox-S07_NR_pop_L",
+      "pipeline": "direct",
+      "language": "pt",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "covox-S07_NR_pop_L",
+      "pipeline": "vocals",
+      "language": "pt",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "covox-S09_NR_pop_L",
+      "pipeline": "direct",
+      "language": "pt",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "covox-S09_NR_pop_L",
+      "pipeline": "vocals",
+      "language": "pt",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "covox-S05_AL_cl_L",
+      "pipeline": "direct",
+      "language": "pt",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    },
+    {
+      "id": "covox-S05_AL_cl_L",
+      "pipeline": "vocals",
+      "language": "pt",
+      "baseline_state": "completed",
+      "candidate_state": "completed",
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": false,
+      "cer_delta": 0.0
+    }
+  ],
+  "interpretation": "Negative CER delta favors candidate. Failures remain visible. No automatic model selection or statistical significance claim."
+}
