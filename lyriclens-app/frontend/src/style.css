@@ -438,6 +438,60 @@ audio {
 .preview-audio {
   margin-bottom: 0;
 }
+.review-playback {
+  margin: 18px 0;
+}
+.review-playback audio {
+  margin: 0 0 12px;
+}
+.review-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  padding: 14px;
+  background: #eaf0e2;
+  border-radius: 8px;
+}
+.review-controls label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+.review-controls select {
+  padding: 8px;
+  border: 1px solid #b7c4ad;
+  border-radius: 5px;
+  background: #fcfcf8;
+  font-size: 16px;
+}
+.review-controls .muted {
+  font-size: 13px;
+  margin: 0;
+}
+.repeat-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+.segment-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+}
+.segment-repeat {
+  font-size: 12px;
+  padding: 6px 4px;
+}
+.segment-repeat[aria-pressed="true"] {
+  background: #cde3ad;
+  border-radius: 4px;
+}
 .results {
   display: grid;
   gap: 20px;
@@ -729,4 +783,260 @@ main .results + .button {
 .region-retry .settings {
   margin: 14px 0;
   gap: 12px;
+}
+
+.translation-panel {
+  font-size: 15px;
+  scroll-margin-top: 24px;
+  margin-top: 22px;
+  border-top: 1px solid #d9e0d0;
+  padding-top: 18px;
+}
+.translation-panel summary {
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.translation-panel .muted,
+.translation-panel .notice {
+  font-size: 13px;
+  line-height: 1.7;
+}
+.translation-panel label {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.translation-panel select {
+  font-size: 15px;
+}
+.translation-panel .settings {
+  margin: 16px 0;
+  gap: 12px;
+}
+.translation-panel select,
+.translation-panel textarea {
+  width: 100%;
+  min-width: 0;
+}
+.translation-panel textarea {
+  min-height: 120px;
+  font-size: 16px;
+  line-height: 1.8;
+  padding: 12px;
+  resize: vertical;
+}
+.translation-rows {
+  margin-top: 18px;
+}
+.translation-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  padding: 14px 0;
+  border-top: 1px solid #d9e0d0;
+}
+.translation-source {
+  font-size: 16px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+}
+.translation-panel code {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .translation-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+}
+.transcript-comparison {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #64748b;
+  border-radius: 12px;
+}
+.comparison-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.comparison-filter input {
+  width: auto;
+}
+.comparison-passage {
+  border-top: 1px solid #64748b;
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+}
+.comparison-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.comparison-columns p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.comparison-columns mark {
+  background: #fef08a;
+  color: #292524;
+}
+.segment-language {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 13px;
+  margin-bottom: 0.75rem;
+}
+.segment-language select {
+  width: 100%;
+  min-width: 0;
+  font-size: 16px;
+  padding: 0.5rem;
+}
+.multilingual-controls {
+  margin: 1rem 0;
+  overflow-wrap: anywhere;
+}
+.multilingual-controls button {
+  white-space: normal;
+}
+@media (max-width: 700px) {
+  .comparison-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.workspace-tools {
+  margin: 1.25rem 0;
+  padding: 1rem;
+  border: 1px solid #64748b;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+.workspace-tools details + details {
+  margin-top: 1rem;
+}
+.workspace-tools p,
+.workspace-tools li,
+.resume-task p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.workspace-tools summary {
+  cursor: pointer;
+}
+.storage-jobs {
+  padding-left: 1.25rem;
+}
+.storage-jobs li {
+  margin: 1rem 0;
+}
+.storage-jobs span {
+  display: block;
+}
+.storage-jobs button {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+.edit-history {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.edit-history p {
+  flex-basis: 100%;
+}
+.review-flag {
+  padding: 0.5rem;
+  background: #fef3c7;
+  color: #713f12;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.task-progress,
+.resume-task {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #64748b;
+  border-radius: 12px;
+}
+.task-progress ol {
+  padding-left: 1.25rem;
+  line-height: 1.8;
+}
+.waveform {
+  margin-top: 1rem;
+  width: 100%;
+  min-width: 0;
+}
+.waveform svg {
+  display: block;
+  width: 100%;
+  height: 80px;
+  color: #426c65;
+  background: #edf3f0;
+  border-radius: 6px;
+}
+.waveform label {
+  display: block;
+  font-size: 14px;
+  margin-top: 0.5rem;
+}
+.waveform input {
+  width: 100%;
+}
+.draft-status,
+.transcript-search,
+.backup-panel {
+  margin: 1rem 0;
+  overflow-wrap: anywhere;
+}
+.backup-panel {
+  padding: 1rem;
+  border: 1px solid #64748b;
+  border-radius: 12px;
+}
+.backup-panel p,
+.segment-tools p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.backup-panel label,
+.transcript-search label,
+.segment-tools label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0.7rem 0;
+  font-size: 14px;
+}
+.backup-panel input,
+.transcript-search input,
+.segment-tools input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.5rem;
+  font-size: 16px;
+}
+.transcript-search ul {
+  padding-left: 1rem;
+}
+.transcript-search button {
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.segment-tools {
+  margin: 0.7rem 0;
+}
+.split-preview {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
