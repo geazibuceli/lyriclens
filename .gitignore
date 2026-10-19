@@ -11,6 +11,7 @@
 **/pytest-cache-files-*/
 .python311/
 .venv311/
+.venv-training/
 .uvcache/
 .runtime/
 **/evaluation/audio/
