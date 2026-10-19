@@ -1,5 +1,7 @@
 # Model and dependency review
 
+Optional text translation uses [Meta M2M100 418M](https://huggingface.co/facebook/m2m100_418M/tree/55c2e61bbf05dfb8d7abccdc3fae6fc8512fd636), MIT-tagged, pinned revision `55c2e61bbf05dfb8d7abccdc3fae6fc8512fd636`, explicitly converted to CPU/int8 CTranslate2. It is separate from Whisper transcription and supports the seven product language codes. [Translation setup and verification](TRANSLATION.md) describe the independent model cache, dependencies and limits. Translation quality on lyrics has not been evaluated; 42 real short-sentence pair executions are smoke evidence only.
+
 Reviewed official documentation on 2026-10-15. These are published capabilities and requirements, not application measurements.
 
 | Target | Identifier | Speech exercised | Natural singing exercised | Singing quality evaluated |
