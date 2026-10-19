@@ -48,9 +48,10 @@ def metrics(reference, hypothesis, language):
     return result
 
 
-def load_manifest(path):
+def load_manifest(path, require_reviewed=False):
     rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
     ids = set()
+    groups, hashes = {}, {}
     for row in rows:
         for key in ("id", "path", "sha256", "language", "reference", "reference_source", "permissions", "duration", "conditions", "language_switching", "split"):
             if key not in row:
@@ -66,6 +67,14 @@ def load_manifest(path):
         if hashlib.sha256(clip.read_bytes()).hexdigest() != row["sha256"]:
             raise ValueError(f"Audio hash mismatch: {row['id']}")
         row["resolved_path"] = clip
+        if require_reviewed:
+            from .benchmark import checked
+            if not checked(row) or not row.get('group_id', '').strip():
+                raise ValueError(f"Missing or stale human review: {row['id']}")
+            for mapping, key in ((groups, row['group_id']), (hashes, row['sha256'])):
+                if key in mapping and mapping[key] != row['split']:
+                    raise ValueError('Development/final leakage detected')
+                mapping[key] = row['split']
     return rows
 
 
@@ -75,18 +84,28 @@ def main():
     parser.add_argument("--split", required=True, choices=["development", "final"])
     parser.add_argument("--output", type=Path, default=Path("evaluation-report.json"))
     parser.add_argument("--manual-language", action="store_true", help="Default uses whole-clip detection")
+    parser.add_argument('--require-reviewed', action='store_true', help='Reject missing/stale human reference review and split leakage')
+    parser.add_argument('--candidate',type=Path,help='Evaluate a local converted fine-tuned model without changing the app')
     parser.add_argument("--model-profile",choices=["configured","large-v3"],default="configured")
     parser.add_argument("--device",choices=["cpu","cuda"])
     parser.add_argument("--compute",help="Explicit CTranslate2 compute type; no fallback")
     args = parser.parse_args()
     settings = profile_settings(Settings(),args.model_profile)
+    if args.candidate:
+        if not args.require_reviewed or args.model_profile!='configured':
+            parser.error('Candidate evaluation requires --require-reviewed and no other model profile')
+        from .finetune import candidate_settings
+        settings=candidate_settings(settings,args.candidate)
     if args.device:
         settings = replace(settings,device=args.device)
     if args.compute:
         settings = replace(settings,compute_type=args.compute)
     decoder, model, separator = FFmpegDecoder(settings), WhisperTranscriber(settings), DemucsSeparator(settings)
     reports = []
-    for row in load_manifest(args.manifest):
+    rows = load_manifest(args.manifest, require_reviewed=args.require_reviewed)
+    if args.require_reviewed and not any(row['split'] == args.split for row in rows):
+        raise ValueError('No reviewed clips in the requested split')
+    for row in rows:
         if row["split"] != args.split:
             continue
         for pipeline in ("direct", "vocals"):
@@ -142,7 +161,9 @@ def main():
                               "mean_real_time_factor":sum(r["real_time_factor"] for r in group)/len(group) if group else None,
                               "max_sampled_rss_bytes":max((r["peak_memory_bytes"] for r in group if r["peak_memory_bytes"] is not None), default=None),
                               "language_detection_accuracy":sum(r["language_detection_correct"] for r in labeled)/len(labeled) if labeled else None})
-    args.output.write_text(json.dumps({"split": args.split, "per_clip":reports,"per_language":summaries}, ensure_ascii=False, indent=2), encoding="utf-8")
+    args.output.write_text(json.dumps({"split": args.split, "human_review_required":args.require_reviewed,
+                                      "manifest_sha256":hashlib.sha256(args.manifest.read_bytes()).hexdigest(),
+                                      "per_clip":reports,"per_language":summaries}, ensure_ascii=False, indent=2), encoding="utf-8")
     separator.close()
     print(f"Wrote {len(reports)} pipeline runs to {args.output}")
 
