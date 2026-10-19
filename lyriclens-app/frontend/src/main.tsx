@@ -12,10 +12,27 @@ import {
   Check,
   LoaderCircle,
   X,
+  Languages,
 } from "lucide-react";
 import "./style.css";
+import { TranslationPanel, type Translation } from "./translation";
+import { ReviewPlayback, type RepeatRange } from "./playback";
+import { TranscriptComparison } from "./comparison";
+import { useHistory } from "./history";
+import { reviewFlags } from "./review-flags";
+import { WorkspaceTools } from "./workspace-tools";
+import { TaskProgress } from "./progress";
+import { useDraft, validSegments } from "./drafts";
+import { SegmentTools } from "./segment-tools";
+import { BackupPanel } from "./backup-panel";
 
-type Segment = { start: number; end: number; text: string };
+type Segment = {
+  start: number;
+  end: number;
+  text: string;
+  language?: string;
+  language_source?: string;
+};
 type Result = {
   state: string;
   original: Segment[];
@@ -34,9 +51,14 @@ type Job = {
   stage: string;
   requested_language: string;
   results: Record<string, Result>;
+  translations?: Record<string, Translation>;
   audio?: { duration: number };
   error?: string;
   created_at: string;
+  started_at?: string;
+  stage_history?: { stage: string; at: string }[];
+  pipelines: string[];
+  imported_snapshot?: boolean;
 };
 type Models = {
   prepared: boolean;
@@ -171,19 +193,46 @@ function Transcript({
   result,
   seek,
   saved,
+  repeat,
+  repeating,
+  stopReview,
 }: {
   job: Job;
   pipeline: string;
   result: Result;
   seek: (n: number) => void;
   saved: () => void;
+  repeat: (segment: Segment, index: number) => void;
+  repeating: RepeatRange | null;
+  stopReview: () => void;
 }) {
-  const [segments, setSegments] = useState<Segment[]>(
-    result.edited ?? result.original ?? [],
-  );
+  const history = useHistory<Segment[]>(result.edited ?? result.original ?? []);
+  const segments = history.value,
+    setSegments = history.set;
+  const [savedVersion, setSavedVersion] = useState(JSON.stringify(segments));
+  const dirty = JSON.stringify(segments) !== savedVersion;
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
-  const [dirty, setDirty] = useState(false);
+  const [multilingualBusy, setMultilingualBusy] = useState(false);
+  const [query, setQuery] = useState("");
+  const draft = useDraft(
+    `${job.id}:${pipeline}`,
+    segments,
+    savedVersion,
+    setSegments,
+    validSegments,
+    result.state === "completed",
+  );
+  const matches = query.trim()
+    ? segments
+        .map((s, i) => ({ s, i }))
+        .filter(({ s }) =>
+          s.text
+            .normalize("NFC")
+            .toLocaleLowerCase()
+            .includes(query.trim().normalize("NFC").toLocaleLowerCase()),
+        )
+    : [];
   if (result.state === "failed")
     return (
       <section className="transcript">
@@ -195,13 +244,14 @@ function Transcript({
     );
   async function save() {
     setSaving(true);
+    setError("");
     try {
       await api(`/jobs/${job.id}/edit`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ pipeline, segments }),
       });
-      setDirty(false);
+      setSavedVersion(JSON.stringify(segments));
       saved();
     } catch (e) {
       setError((e as Error).message);
@@ -209,8 +259,106 @@ function Transcript({
       setSaving(false);
     }
   }
+  async function recognizePassages() {
+    setMultilingualBusy(true);
+    setError("");
+    try {
+      const child = await api<Job>(
+        `/jobs/${job.id}/retranscribe-multilingual`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pipeline, default_language: "auto" }),
+        },
+      );
+      window.location.assign(`?job=${child.id}`);
+    } catch (e) {
+      setError((e as Error).message);
+      setMultilingualBusy(false);
+    }
+  }
   return (
-    <section className="transcript">
+    <section
+      className="transcript"
+      onKeyDown={(event) => {
+        if ((event.target as HTMLElement).closest(".translation-panel")) return;
+        if (!(event.ctrlKey || event.metaKey) || event.altKey) return;
+        const key = event.key.toLowerCase();
+        if (key === "z" || key === "y") {
+          event.preventDefault();
+          if (saving) return;
+          stopReview();
+          if (key === "y" || event.shiftKey) history.redo();
+          else history.undo();
+        } else if (event.key === "Enter" && dirty && !saving) {
+          event.preventDefault();
+          void save();
+        }
+      }}
+    >
+      {draft}
+      <div className="transcript-search">
+        <label>
+          Search transcript
+          <input
+            type="search"
+            aria-label="Search transcript"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </label>
+        {query.trim() && (
+          <>
+            <p>{matches.length} matching segments (including unsaved text)</p>
+            <ul>
+              {matches.map(({ s, i }) => (
+                <li key={i}>
+                  <button
+                    className="text-button"
+                    onClick={() => {
+                      document
+                        .getElementById(`segment-${job.id}-${pipeline}-${i}`)
+                        ?.scrollIntoView({
+                          block: "center",
+                          behavior: "smooth",
+                        });
+                      seek(s.start);
+                    }}
+                  >
+                    Segment {i + 1} at {clock(s.start)}: {s.text.slice(0, 100)}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+      <div className="edit-history">
+        <button
+          className="button small"
+          disabled={!history.canUndo || saving}
+          onClick={() => {
+            stopReview();
+            history.undo();
+          }}
+        >
+          Undo transcript edit
+        </button>
+        <button
+          className="button small"
+          disabled={!history.canRedo || saving}
+          onClick={() => {
+            stopReview();
+            history.redo();
+          }}
+        >
+          Redo transcript edit
+        </button>
+        <p className="muted">
+          Ctrl/Cmd+Z: undo ? Ctrl/Cmd+Shift+Z: redo ? Ctrl/Cmd+Enter: save.
+          History stays in this open editor.
+        </p>
+      </div>
       <div className="result-heading">
         <div>
           <span className="eyebrow">
@@ -223,32 +371,149 @@ function Transcript({
         <span className="badge">{result.seconds.toFixed(1)}s</span>
       </div>
       <p className="muted">
-        {result.language_source === "user instruction"
-          ? "Language instruction"
-          : "Estimated language"}
-        : <strong>{result.detected_language || "Unknown"}</strong> · Segment
-        timing is approximate
+        {result.language_source === "user-instructed passage languages"
+          ? "Languages: saved segment instructions"
+          : result.language_source === "user instruction"
+            ? "Language instruction"
+            : "Estimated language"}
+        :{" "}
+        <strong>
+          {result.language_source === "user-instructed passage languages"
+            ? "See segment labels"
+            : result.detected_language || "Unknown"}
+        </strong>{" "}
+        · Segment timing is approximate
       </p>
+      <button
+        className="button small translation-shortcut"
+        onClick={() => {
+          const panel = document.getElementById(
+            `translation-${job.id}-${pipeline}`,
+          ) as HTMLDetailsElement | null;
+          if (panel) {
+            panel.open = true;
+            panel.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }}
+      >
+        <Languages size={16} />
+        Translate transcript
+      </button>
       {result.warnings?.map((w) => (
         <p className="notice" key={w}>
           {w}
         </p>
       ))}
       <RegionRetry job={job} pipeline={pipeline} segments={segments} />
+      <div className="multilingual-controls">
+        <p className="muted">
+          Two or more languages? Set the language on each passage below, adjust
+          its boundaries and save. Labels are your instructions, not automatic
+          language detection.
+        </p>
+        <button
+          className="button small"
+          disabled={
+            dirty ||
+            multilingualBusy ||
+            new Set(segments.map((s) => s.language).filter(Boolean)).size < 2
+          }
+          onClick={recognizePassages}
+        >
+          {multilingualBusy
+            ? "Queuing passages…"
+            : "Retranscribe saved multilingual passages"}
+        </button>
+        <p className="muted">
+          Creates a separate result from saved passage intervals. Gaps outside
+          those intervals are omitted; unlabeled passages use automatic
+          detection.
+        </p>
+      </div>
       {!segments.length && (
         <p>No words returned. You can add and edit a segment below.</p>
       )}
       <div className="segments">
         {segments.map((s, i) => (
           <div className="segment" key={i}>
-            <button
-              className="timestamp"
-              onClick={() => seek(s.start)}
-              aria-label={`Play from ${s.start} seconds`}
+            <div className="segment-controls">
+              <button
+                className="timestamp"
+                onClick={() => seek(s.start)}
+                aria-label={`Play from ${s.start} seconds`}
+              >
+                {clock(s.start)}
+              </button>
+              <button
+                className="text-button segment-repeat"
+                aria-label={`Repeat segment ${i + 1}`}
+                aria-pressed={
+                  repeating?.pipeline === pipeline && repeating.index === i
+                }
+                disabled={
+                  !Number.isFinite(s.start) ||
+                  !Number.isFinite(s.end) ||
+                  s.start < 0 ||
+                  s.end <= s.start ||
+                  s.end > (job.audio?.duration ?? 0)
+                }
+                onClick={() =>
+                  repeating?.pipeline === pipeline && repeating.index === i
+                    ? stopReview()
+                    : repeat(s, i)
+                }
+              >
+                Repeat
+              </button>
+            </div>
+            <div
+              className="segment-content"
+              id={`segment-${job.id}-${pipeline}-${i}`}
             >
-              {clock(s.start)}
-            </button>
-            <div className="segment-content">
+              {reviewFlags(segments, i).map((flag) => (
+                <p className="review-flag" key={flag}>
+                  Review suggestion: {flag}. This is not proof of an error.
+                </p>
+              ))}
+              <label className="segment-language">
+                Segment {i + 1} language
+                <select
+                  aria-label={`Segment ${i + 1} language`}
+                  value={s.language ?? ""}
+                  onChange={(e) => {
+                    setSegments(
+                      segments.map((segment, n) =>
+                        n === i
+                          ? {
+                              ...segment,
+                              language: e.target.value || undefined,
+                              language_source: e.target.value
+                                ? "user instruction"
+                                : undefined,
+                            }
+                          : segment,
+                      ),
+                    );
+                  }}
+                >
+                  <option value="">
+                    Unspecified (use clip/fallback language)
+                  </option>
+                  {Object.entries({
+                    ko: "Korean",
+                    ja: "Japanese",
+                    zh: "Mandarin Chinese",
+                    en: "English",
+                    es: "Spanish",
+                    pt: "Portuguese",
+                    fr: "French",
+                  }).map(([code, name]) => (
+                    <option key={code} value={code}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <div className="timing">
                 <label>
                   Start{" "}
@@ -259,7 +524,8 @@ function Transcript({
                     step="0.01"
                     value={s.start}
                     onChange={(e) => {
-                      setDirty(true);
+                      stopReview();
+
                       setSegments(
                         segments.map((v, n) =>
                           n === i ? { ...v, start: Number(e.target.value) } : v,
@@ -277,7 +543,8 @@ function Transcript({
                     step="0.01"
                     value={s.end}
                     onChange={(e) => {
-                      setDirty(true);
+                      stopReview();
+
                       setSegments(
                         segments.map((v, n) =>
                           n === i ? { ...v, end: Number(e.target.value) } : v,
@@ -290,18 +557,24 @@ function Transcript({
                   className="icon"
                   aria-label={`Remove segment ${i + 1}`}
                   onClick={() => {
-                    setDirty(true);
+                    stopReview();
+
                     setSegments(segments.filter((_, n) => i !== n));
                   }}
                 >
                   <X size={14} />
                 </button>
               </div>
+              <SegmentTools
+                segments={segments}
+                index={i}
+                change={setSegments}
+                stop={stopReview}
+              />
               <textarea
                 aria-label={`Segment ${i + 1} transcript`}
                 value={s.text}
                 onChange={(e) => {
-                  setDirty(true);
                   setSegments(
                     segments.map((v, n) =>
                       n === i ? { ...v, text: e.target.value } : v,
@@ -316,7 +589,6 @@ function Transcript({
       <button
         className="text-button"
         onClick={() => {
-          setDirty(true);
           setSegments([
             ...segments,
             {
@@ -373,6 +645,18 @@ function Transcript({
         </details>
       </div>
       {dirty && <p className="muted">Save edits before exporting.</p>}
+      <TranslationPanel
+        jobId={job.id}
+        pipeline={pipeline}
+        translations={job.translations ?? {}}
+        sourceLanguage={result.detected_language ?? job.requested_language}
+        sourceDirty={dirty}
+        sourceLanguages={(result.edited ?? result.original ?? [])
+          .filter((s) => s.text.trim())
+          .map((s) => s.language)}
+        refresh={saved}
+        seek={seek}
+      />
       {error && (
         <p role="alert" className="error">
           {error}
@@ -399,6 +683,14 @@ function App() {
   const audio = useRef<HTMLAudioElement>(null),
     input = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState("");
+  const [repeatRange, setRepeatRange] = useState<RepeatRange | null>(null);
+  useEffect(() => {
+    setRepeatRange(null);
+  }, [selected]);
+  function stopReview() {
+    setRepeatRange(null);
+    audio.current?.pause();
+  }
   useEffect(() => {
     if (!file) {
       setPreview("");
@@ -573,9 +865,30 @@ function App() {
             <p>
               {job
                 ? "Listen, review, and refine your transcription. Your original result is always preserved."
-                : "Turn a music clip into an editable transcript, in its original language. Start with a moment worth listening to."}
+                : "Turn a music clip into an editable transcript, then translate it locally into another language."}
             </p>
+            {!job && (
+              <p className="muted">
+                Already have a transcription? Open it in Your Library and choose{" "}
+                <strong>Translate transcript</strong>.
+              </p>
+            )}
           </div>
+          <WorkspaceTools />
+          <BackupPanel
+            jobId={job?.id}
+            active={
+              !!job &&
+              (active(job) ||
+                Object.values(job.translations ?? {}).some((t) =>
+                  ["queued", "processing"].includes(t.state),
+                ))
+            }
+            onRestored={(id) => {
+              setSelected(id);
+              void refresh();
+            }}
+          />
           {error && (
             <div className="error global-error" role="alert">
               {error}
@@ -781,45 +1094,114 @@ function App() {
                   <button
                     className="icon"
                     onClick={remove}
-                    disabled={deleting}
+                    disabled={
+                      deleting ||
+                      Object.values(job.translations ?? {}).some((t) =>
+                        ["queued", "processing"].includes(t.state),
+                      )
+                    }
+                    title="Cancel active translation before deleting this job"
                     aria-label="Delete job and its audio"
                   >
                     <Trash2 size={18} />
                   </button>
                 )}
               </div>
-              <audio
-                ref={audio}
+              {!job.imported_snapshot &&
+                ["interrupted", "canceled", "failed", "completed"].includes(
+                  job.state,
+                ) &&
+                job.pipelines.some(
+                  (p) => job.results[p]?.state !== "completed",
+                ) && (
+                  <div className="resume-task">
+                    <p>
+                      Resume keeps completed routes and saved edits. An
+                      unfinished recognition route starts again from its
+                      beginning.
+                    </p>
+                    <button
+                      className="button small"
+                      disabled={busy}
+                      onClick={async () => {
+                        setBusy(true);
+                        setError("");
+                        try {
+                          await api(`/jobs/${job.id}/resume`, {
+                            method: "POST",
+                          });
+                          await refresh();
+                        } catch (e) {
+                          setError((e as Error).message);
+                        } finally {
+                          setBusy(false);
+                        }
+                      }}
+                    >
+                      Resume unfinished transcription
+                    </button>
+                  </div>
+                )}
+              <ReviewPlayback
                 key={job.id}
-                controls
-                src={deleting ? undefined : `/api/jobs/${job.id}/audio`}
-                aria-label="Original clip playback"
+                audio={audio}
+                jobId={job.id}
+                deleting={deleting}
+                range={repeatRange}
+                stop={stopReview}
               />
-              {active(job) && (
-                <div className="processing" role="status">
-                  <LoaderCircle className="spin" />
-                  {job.stage}
-                  <p>
-                    Processing locally. Cancellation waits for the current
-                    operation.
-                  </p>
-                </div>
-              )}
+              {active(job) && <TaskProgress job={job} />}
               {job.error && (
                 <p role="alert" className="error">
                   {job.error}
                 </p>
               )}
+              <TranscriptComparison
+                results={job.results}
+                seek={(time) => {
+                  setRepeatRange(null);
+                  if (audio.current) {
+                    audio.current.currentTime = time;
+                    void audio.current.play().catch(() => {});
+                  }
+                }}
+              />
               <div
                 className={`results ${Object.keys(job.results).length > 1 ? "compare" : ""}`}
               >
                 {Object.entries(job.results).map(([p, r]) => (
                   <Transcript
-                    key={`${job.id}-${p}`}
+                    key={`${job.id}-${p}-${r.state}`}
                     job={job}
                     pipeline={p}
                     result={r}
+                    repeating={repeatRange}
+                    stopReview={stopReview}
+                    repeat={(segment, index) => {
+                      if (!audio.current) return;
+                      setRepeatRange({
+                        pipeline: p,
+                        index,
+                        start: segment.start,
+                        end: segment.end,
+                      });
+                      try {
+                        audio.current.currentTime = segment.start;
+                        void audio.current.play().catch(() => {
+                          stopReview();
+                          setError(
+                            "Audio could not be played. Try the original player controls.",
+                          );
+                        });
+                      } catch {
+                        stopReview();
+                        setError(
+                          "Audio is not ready. Wait for it to load and try again.",
+                        );
+                      }
+                    }}
                     seek={(n) => {
+                      setRepeatRange(null);
                       if (audio.current) {
                         audio.current.currentTime = n;
                         void audio.current.play().catch(() => {});
