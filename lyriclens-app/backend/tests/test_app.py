@@ -71,6 +71,10 @@ def test_vertical_slice_and_unicode(setup, language):
     assert client.get(path+"/export").text == "Olá 世界"
     assert "안녕" in client.get(path+"/export?original=true").text
     assert "00:00:00,300 --> 00:00:02,500" in client.get(path+"/export?format=srt").text
+    lyrics = client.get(path+"/export?format=lrc")
+    assert lyrics.status_code == 200
+    assert lyrics.text == "[00:00.30]" + edited[0]['text'] + "\n"
+    assert lyrics.headers['content-disposition'].endswith('.lrc"')
     assert client.get(path+"/export?format=json").json()["sha256"] == job["sha256"]
     assert client.get(path+"/raw").json()["segments"] == original
     assert client.get(path+"/audio").content == b"audio"
@@ -78,6 +82,22 @@ def test_vertical_slice_and_unicode(setup, language):
     assert client.delete(path).status_code == 204
     assert not (settings.root/"jobs"/job["id"]).exists()
     assert client.get(path).status_code == 404
+
+
+def test_rename_preserves_original_and_persists_in_library(setup):
+    client, settings, app, model = setup
+    job = wait(client, upload(client).json()['id'])
+    path = f"/api/jobs/{job['id']}"
+    response = client.patch(path, json={'title': '  Ensaio café 世界  '})
+    assert response.status_code == 200
+    assert response.json()['title'] == 'Ensaio café 世界'
+    assert response.json()['filename'] == job['filename']
+    assert response.json()['sha256'] == job['sha256']
+    assert client.get('/api/jobs').json()[0]['title'] == 'Ensaio café 世界'
+    assert client.patch(path, json={'title': 'x' * 201}).status_code == 422
+    assert client.get(path).json()['title'] == 'Ensaio café 世界'
+    assert client.patch(path, json={'title': '   '}).json()['title'] == ''
+    assert client.patch('/api/jobs/missing', json={'title': 'test'}).status_code == 404
 
 
 def test_delete_retries_busy_audio_and_preserves_record_on_failure(setup, monkeypatch):
@@ -92,7 +112,7 @@ def test_delete_retries_busy_audio_and_preserves_record_on_failure(setup, monkey
         raise PermissionError('File in use')
     with monkeypatch.context() as patch:
         patch.setattr(shutil, 'rmtree', locked)
-        patch.setattr('lyriclens.api.time.sleep', lambda _: None)
+        patch.setattr('lyriclens.routes.jobs.time.sleep', lambda _: None)
         response = client.delete(path)
         assert response.status_code == 409
         assert 'still in use' in response.json()['detail']
@@ -106,7 +126,7 @@ def test_delete_retries_busy_audio_and_preserves_record_on_failure(setup, monkey
         original_rmtree(folder)
     with monkeypatch.context() as patch:
         patch.setattr(shutil, 'rmtree', temporarily_locked)
-        patch.setattr('lyriclens.api.time.sleep', lambda _: None)
+        patch.setattr('lyriclens.routes.jobs.time.sleep', lambda _: None)
         assert client.delete(path).status_code == 204
     assert len(attempts) == 2
     assert client.get(path).status_code == 404
