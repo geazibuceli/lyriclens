@@ -24,6 +24,7 @@ def main():
         page.screenshot(path=str(output/'desktop-upload.png'),full_page=True)
         page.get_by_label('Upload music clip').set_input_files(root/'evaluation'/'audio'/'singing'/'mary.wav')
         page.get_by_label('Audio language').select_option('en')
+        page.get_by_text('Advanced transcription options', exact=True).click()
         page.get_by_label('Recognition model').select_option(args.model_profile)
         page.get_by_label('Listening mode').select_option('both')
         page.get_by_role('button',name='Transcribe clip').click()

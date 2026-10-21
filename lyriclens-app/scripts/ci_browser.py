@@ -14,6 +14,8 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--backend-port',type=int,default=8011)
     parser.add_argument('--frontend-port',type=int,default=5181)
+    choices = ('onboarding_browser_smoke.py', 'editor_browser_smoke.py', 'reliability_browser_smoke.py', 'review_browser_smoke.py')
+    parser.add_argument('--scripts', nargs='+', choices=choices, default=list(choices))
     args=parser.parse_args()
     root=Path(__file__).resolve().parents[2]
     output=root/'lyriclens-app/artifacts/browser-ci'
@@ -40,7 +42,7 @@ def main():
                 if any(p.poll() is not None for p in processes) or time.monotonic()>deadline:
                     raise RuntimeError('Local CI services failed; inspect browser-ci logs')
                 time.sleep(.25)
-            for script in ('editor_browser_smoke.py','reliability_browser_smoke.py','review_browser_smoke.py'):
+            for script in args.scripts:
                 subprocess.run([sys.executable,str(root/'lyriclens-app/scripts'/script)],cwd=root,env=env,check=True)
         finally:
             for process in reversed(processes):
