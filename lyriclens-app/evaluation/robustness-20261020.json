@@ -1,0 +1,198 @@
+{
+  "synthetic_diagnostic": true,
+  "models": [
+    {
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "inference_device": "cuda",
+      "compute_type": "float16"
+    },
+    {
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "inference_device": "cuda",
+      "compute_type": "float16"
+    }
+  ],
+  "per_condition": [
+    {
+      "variant": "long_repeated",
+      "pipeline": "direct",
+      "models": [
+        {
+          "report": 0,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 2014,
+          "micro_cer": 0.11717974180734857,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 5.621267300040927
+        },
+        {
+          "report": 1,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 2014,
+          "micro_cer": 0.18768619662363456,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 9.535594999964815
+        }
+      ]
+    },
+    {
+      "variant": "noise",
+      "pipeline": "direct",
+      "models": [
+        {
+          "report": 0,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 362,
+          "micro_cer": 0.5607734806629834,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 1.9192074000602588
+        },
+        {
+          "report": 1,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 362,
+          "micro_cer": 0.09944751381215469,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 2.2649105999735184
+        }
+      ]
+    },
+    {
+      "variant": "original",
+      "pipeline": "direct",
+      "models": [
+        {
+          "report": 0,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 362,
+          "micro_cer": 0.03867403314917127,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 2.0921364000532776
+        },
+        {
+          "report": 1,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 362,
+          "micro_cer": 0.024861878453038673,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 8.969771199976094
+        }
+      ]
+    },
+    {
+      "variant": "repeated",
+      "pipeline": "direct",
+      "models": [
+        {
+          "report": 0,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 1086,
+          "micro_cer": 0.17495395948434622,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 3.148858900065534
+        },
+        {
+          "report": 1,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 1086,
+          "micro_cer": 0.027624309392265192,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 6.059443900070619
+        }
+      ]
+    },
+    {
+      "variant": "reverb",
+      "pipeline": "direct",
+      "models": [
+        {
+          "report": 0,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 362,
+          "micro_cer": 0.03038674033149171,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 1.062990499951411
+        },
+        {
+          "report": 1,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 362,
+          "micro_cer": 0.027624309392265192,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 2.1233181000570767
+        }
+      ]
+    },
+    {
+      "variant": "telephone",
+      "pipeline": "direct",
+      "models": [
+        {
+          "report": 0,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 362,
+          "micro_cer": 0.04143646408839779,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 1.0405346999759786
+        },
+        {
+          "report": 1,
+          "attempted": 3,
+          "completed": 3,
+          "paired_clips": 3,
+          "reference_characters": 362,
+          "micro_cer": 0.027624309392265192,
+          "empty_reference_insertions": 0,
+          "recognition_seconds": 2.0039945000316948
+        }
+      ]
+    }
+  ],
+  "interpretation": "CER uses the same completed clips in every compared model. Synthetic stress results supplement reviewed real-recording evaluation."
+}
