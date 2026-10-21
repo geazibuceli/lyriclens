@@ -1,5 +1,7 @@
 # Architecture and API
 
+Application creation and lifecycle live in `api.py`. HTTP handlers are grouped under `routes/` and share an `ApiContext`; [the developer guide](CONTRIBUTING.md) lists responsibilities. Frontend entry, application state, upload, transcript editing and passage tools are separate modules.
+
 Optional text translation runs after ASR in a separate bounded single-thread worker. The M2M100 CPU/int8 model is prepared explicitly and loaded from a separate local cache. Each translation persists a hash and snapshot of the saved source segments, model provenance, generated output and independent edits under the job's `translations` map. Source edits mark translations stale; stale exports are rejected. Job deletion is blocked until active translation finishes or acknowledges cancellation. See [TRANSLATION.md](TRANSLATION.md) for lifecycle, API and limits.
 
 React/TypeScript calls localhost FastAPI (native frontend 5181, backend 8011). One daemon worker consumes a bounded queue of eight waiting jobs and runs one pipeline operation at a time. Recognition loads models on demand and caches up to two configurations. The separator uses a persistent isolated process with an operation deadline. First-call timing includes initialization. ASR and separation devices are configured separately. An OS file lock protects the data directory; use one Uvicorn worker without reload during jobs. SQLite uses short connections and a process-local mutation lock.

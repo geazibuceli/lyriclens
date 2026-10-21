@@ -1,0 +1,42 @@
+# Developer guide
+
+## Code layout
+
+The frontend entry point is `frontend/src/main.tsx`. `app.tsx` coordinates the library and selected job. Features are split into `upload-form.tsx`, `transcript-editor.tsx`, `region-retry.tsx`, translation, playback and workspace tools. Shared API requests and types live in `api.ts` and `types.ts`.
+
+The backend entry point is `backend/lyriclens/api.py`. It constructs services, middleware and the application lifecycle. `context.py` provides shared services to route groups under `routes/`:
+
+| Module | Responsibility |
+|---|---|
+| `jobs.py` | Upload, library, edits, cancellation, resume and deletion |
+| `recognition.py` | Passage and multilingual retranscription |
+| `translation.py` | Translation lifecycle and saved edits |
+| `environment.py` | Readiness, diagnostics, waveform and storage |
+| `archives.py` | Job backup and restore |
+| `exports.py` | Transcript/translation exports and raw responses |
+
+Recognition runs in `worker.py` through the adapters in `adapters.py`. Model preparation, evaluation and training remain separate CLI tools.
+
+## Local checks
+
+From the repository root, with the development dependencies installed:
+
+```powershell
+.\.venv311\Scripts\python.exe -m pytest lyriclens-app/backend/tests -q
+npm.cmd --prefix lyriclens-app/frontend run format:check
+npm.cmd --prefix lyriclens-app/frontend run build
+```
+
+The initial setup installs runtime dependencies. Add tests with `python -m pip install -e './lyriclens-app/backend[test]'` using the same environment.
+
+Browser checks use isolated data and ports; install the `browser` extra and Playwright Chromium first:
+
+```powershell
+python lyriclens-app/scripts/ci_browser.py --backend-port 8013 --frontend-port 5183
+```
+
+The runner covers simple upload, editing, recovery, playback, mobile layouts and accessibility. It creates and removes its own fixtures and stops only its own processes. `--scripts onboarding_browser_smoke.py` runs the upload check alone. Screenshot and log artifacts go under ignored `lyriclens-app/artifacts`.
+
+## Recognition changes
+
+Use [the quality plan](QUALITY.md) and [reviewed benchmark](BENCHMARK.md) when changing recognition settings. Keep source permissions, reference review, model revision and input hashes with the evaluation. Unit and browser tests validate software behavior; record model quality separately by language and recording condition.

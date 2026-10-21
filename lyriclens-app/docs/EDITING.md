@@ -8,11 +8,33 @@ Drafts are stored per job, route and translation target in the current browser. 
 
 ## Search and segment boundaries
 
+The library searches recording titles and original filenames with Unicode normalization and case-insensitive matching. Filter by job status or requested language. Filters affect the library list, not the open editor. **Rename recording** saves a display title; leaving it blank restores the filename display. Renaming preserves the original file, transcript and audio hash, and titles travel with job backups.
+
 Each route has **Search transcript**, which searches saved or unsaved text using Unicode NFC and case-insensitive matching while retaining accents. Matching buttons scroll to the segment and seek the original audio. Search does not change text or locate exact word times.
 
 Open **Split or merge segment N**. Choose an interior split time and a text cut separately. The preview shows the cut; no forced alignment is inferred. Text positions count Unicode code points, preserving surrogate pairs but not guaranteeing complete grapheme clusters. Both new segments inherit the original language and can then be relabeled. There is a maximum of 1000 segments.
 
 **Merge segment N with next** requires ordered, nonoverlapping segments with the same language. It spans the first start to the next end, includes any intervening gap and joins the texts with a newline. Different-language segments must remain separate or be relabeled explicitly first. Merged text is limited to 20000 characters. Split/merge changes participate in undo/redo and browser drafts; save them before retranscription, translation or export. Neither operation rewrites the original recognition output.
+
+## Review suggestions and synchronized lyrics
+
+### Import lyrics
+
+Open **Import lyrics (TXT / LRC)** in a completed transcript. Paste text or choose a UTF-8 TXT/LRC file up to 2 MB, then choose:
+
+- **Keep current passage times:** one nonempty line per existing passage. Language labels and times are preserved.
+- **Distribute lines evenly:** creates approximate passages across the recording for manual synchronization. This does not align words to audio or infer passage languages.
+- **Use timestamps from LRC:** reads `[mm:ss]`, `[mm:ss.xx]` or millisecond timestamps. Repeated tags are expanded, entries are sorted and text at the same time is combined. A blank timestamp ends the preceding passage. Common descriptive metadata is ignored; offset and enhanced word-timestamp formats are unsupported.
+
+The preview shows the passage count and first five passages. **Apply imported lyrics** replaces the editor as one undoable change; it preserves the original recognition output. Review timing, then save edits. Imports are limited to 1000 passages and 20000 characters per passage; invalid or out-of-bounds timestamps are rejected.
+
+### Review and export
+
+Open **Review suggestions** above the transcript to navigate passages with empty text, invalid or unordered times, long duration or repeated text. Selecting a suggestion seeks the audio and focuses the passage editor. Suggestions update with unsaved edits and are listening prompts, not model confidence scores. Repeated choruses may be correct.
+
+Save edits before exporting. The transcript's current-version export links are unavailable while edits are unsaved. Original TXT and raw responses remain available independently.
+
+Choose **LRC** under **Export** for synchronized lyrics. Each nonempty line receives its passage's start time, rounded to centiseconds (`[mm:ss.xx]`). Multiline passages share a timestamp; LRC has no end times or word-level timing. API: `GET /api/jobs/{id}/export?pipeline=direct&format=lrc`.
 
 ## Bilingual exports
 
