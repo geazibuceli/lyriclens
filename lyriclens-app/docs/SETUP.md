@@ -4,6 +4,12 @@
 
 ## Native setup
 
+### Guided Windows setup
+
+From the repository root, run `.\setup.cmd -InstallPrerequisites`, then `.\start.cmd`. Setup can install missing Python 3.11 and Node.js through winget, creates or reuses a Python 3.11 environment, installs backend/frontend dependencies and bundled FFmpeg, and prepares Small. Downloads require internet access; optional separation, translation and GPU dependencies remain separate choices below.
+
+Use `.\setup.cmd` when prerequisites are present, `-SkipModelDownload` to defer weights, or `-CheckOnly` for a read-only JSON readiness report. Check-only exits 0 when the base installation and model are ready, otherwise 1. The installer reports the failing step and can be rerun. See [Quick start](QUICKSTART.md) for first use.
+
 ### Daily startup on Windows
 
 After the initial dependency installation below, run `.\start.cmd` from the repository root. The wrapper invokes `start.ps1` with a process-scoped execution policy, starts backend 8011 and frontend 5181 with hidden windows, waits for readiness, and verifies the frontend's API proxy. It reuses healthy existing services and refuses occupied ports that do not identify as LyricLens, without stopping processes. Errors name the relevant log under `.runtime`; model preparation stays explicit.
