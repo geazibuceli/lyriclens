@@ -1,5 +1,25 @@
 # Delivery verification
 
+## Lyric imports, library organization and batch upload, 2026-10-21
+
+The backend suite passed with **132 tests and four skips**. Rename API coverage checks Unicode titles, whitespace trimming, persistence in library responses, unchanged filenames/hashes, length rejection, title reset and missing jobs. Frontend formatting and the TypeScript/Vite production build passed.
+
+The isolated Chromium onboarding and editor workflows passed using temporary data at ports 8013/5183. Added checks cover reading TXT files, preserving passage times, evenly distributed manual timing, LRC end markers, out-of-bounds rejection, import undo, title search and status/language filters, and title preservation through backup restore. Batch checks simulate a full queue on the second upload, continue without repeating the accepted first recording, and verify mobile overflow. Existing recovery, waveform and repeat-playback browser workflows also passed, including mobile and axe audits. Model readiness is mocked for onboarding and audio fixtures are owned silence; these checks do not measure recognition quality or validate clean-machine installation.
+
+## Review navigation and LRC, 2026-10-21
+
+The backend suite passed with **131 tests and four skips**. Added LRC checks cover edited Unicode text through the export API, attachment naming, centisecond rollover, multiline passages and empty output. Frontend formatting and the TypeScript/Vite production build passed.
+
+The isolated Chromium editor workflow passed on temporary data at ports 8013/5183 using the existing browser environment. Added checks cover disabled current-transcript export while dirty, navigating a repeated-text suggestion to focus its editor, and clearing the suggestion after correction. Existing draft, split/merge, backup, mobile and accessibility checks also passed. No models were downloaded or evaluated; these changes do not establish improved recognition accuracy.
+
+## Quality workflow and module split, 2026-10-20
+
+The backend suite passed with **130 tests and four skips** on the local Windows environment. TypeScript/Vite production build and frontend formatting passed. The isolated browser runner passed upload/onboarding, editor/draft/backup, recovery/workspace and playback workflows, including mobile overflow checks and the existing accessibility audits.
+
+The new Windows setup checker reports the prepared local environment as ready. An automated empty-directory check confirms that `-CheckOnly` reports missing setup without creating an environment. Automatic prerequisite installation still needs validation on a clean Windows installation.
+
+Small and Large-v3 completed **36 direct-route robustness executions** on 18 derived cases. [The quality plan](QUALITY.md) records the paired condition results and remaining real-recording coverage. Reference review and independent final recordings are pending. The documentation link check passed for 98 local links across 19 Markdown files.
+
 ## Training-source review
 
 Updated 2026-10-16: 95 backend tests passed; four were skipped in the application environment. New checks cover rejecting restrictive/unknown declared licenses, pending rights, additional source agreements, missing component permissions, changed documentary evidence, evidence paths outside the manifest directory and non-destructive original-recording queue preparation. Existing fine-tuning tests now use explicitly synthetic rights-evidence fixtures.
