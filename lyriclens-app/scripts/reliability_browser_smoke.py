@@ -56,13 +56,13 @@ def main():
             undo.click()
             assert editor.get_by_label('Segment 1 start seconds',exact=True).input_value() == '0.1'
             editor.get_by_role('button',name='Remove segment 2',exact=True).click()
-            assert editor.locator('textarea').count() == 1
+            assert editor.locator('.segments textarea').count() == 1
             undo.click()
-            assert editor.locator('textarea').count() == 2
+            assert editor.locator('.segments textarea').count() == 2
             editor.get_by_role('button',name='+ Add segment',exact=True).click()
-            assert editor.locator('textarea').count() == 3
+            assert editor.locator('.segments textarea').count() == 3
             undo.click()
-            assert editor.locator('textarea').count() == 2
+            assert editor.locator('.segments textarea').count() == 2
             first.press('Control+Enter')
             editor.get_by_role('button',name='Saved',exact=True).wait_for()
             assert page.request.get(path+'/export').text().startswith('Corrected sample line')

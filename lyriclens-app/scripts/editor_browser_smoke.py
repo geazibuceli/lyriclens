@@ -36,7 +36,53 @@ def main():
             page.goto(base+'/?job='+identifier)
             editor=page.locator('.transcript').first
             first=editor.get_by_label('Segment 1 transcript',exact=True)
-            first.wait_for();first.fill('Unsaved café世界')
+            first.wait_for()
+            page.get_by_text('Rename recording',exact=True).click()
+            page.get_by_label('Recording title',exact=True).fill('Ensaio café 世界')
+            page.get_by_role('button',name='Save title',exact=True).click()
+            page.get_by_role('button',name='Ensaio café 世界',exact=False).wait_for()
+            assert page.request.get(path).json()['filename']=='editor-ui-fixture.wav'
+            page.get_by_label('Search library',exact=True).fill('CAFÉ')
+            assert page.locator('nav .job-link').count()==1
+            page.get_by_label('Job status',exact=True).select_option('failed')
+            assert page.locator('nav .job-link').count()==0
+            page.get_by_label('Job status',exact=True).select_option('completed')
+            page.get_by_label('Requested language',exact=True).select_option('en')
+            assert page.locator('nav .job-link').count()==1
+            page.get_by_label('Search library',exact=True).fill('')
+            page.get_by_label('Job status',exact=True).select_option('')
+            page.get_by_label('Requested language',exact=True).select_option('')
+            editor.get_by_text('Import lyrics (TXT / LRC)',exact=True).click()
+            lyrics=editor.get_by_label('Lyrics text',exact=True)
+            editor.get_by_label('Lyrics file',exact=True).set_input_files(dict(name='owned-lyrics.txt',mimeType='text/plain',buffer=b'First imported line\nSecond imported line'))
+            editor.get_by_role('button',name='Apply imported lyrics',exact=True).click()
+            assert first.input_value()=='First imported line'
+            assert editor.get_by_label('Segment 1 start seconds',exact=True).input_value()=='0.1'
+            editor.get_by_role('button',name='Undo transcript edit',exact=True).click()
+            assert first.input_value()==original[0]['text']
+            editor.get_by_label('Import timing',exact=True).select_option('even')
+            lyrics.fill('One\nTwo\nThree\nFour')
+            editor.get_by_role('button',name='Apply imported lyrics',exact=True).click()
+            assert editor.get_by_label('Segment 4 start seconds',exact=True).input_value()=='3'
+            editor.get_by_role('button',name='Undo transcript edit',exact=True).click()
+            editor.get_by_label('Import timing',exact=True).select_option('lrc')
+            lyrics.fill('[00:00.50]Hello 世界\n[00:02.00]Next\n[00:03.50]')
+            editor.get_by_role('button',name='Apply imported lyrics',exact=True).click()
+            assert first.input_value()=='Hello 世界'
+            assert editor.get_by_label('Segment 2 end seconds',exact=True).input_value()=='3.5'
+            editor.get_by_role('button',name='Undo transcript edit',exact=True).click()
+            lyrics.fill('[00:09.00]Outside audio')
+            assert editor.get_by_role('button',name='Apply imported lyrics',exact=True).is_disabled()
+            lyrics.fill('')
+            editor.get_by_text('Import lyrics (TXT / LRC)',exact=True).click()
+            first.fill('Unsaved café世界')
+            assert editor.get_by_role('link',name='LRC',exact=True).count()==0
+            editor.get_by_label('Segment 2 transcript',exact=True).fill('Unsaved café世界')
+            editor.locator('.review-queue summary').click()
+            editor.get_by_role('button',name='Review segment 2:',exact=False).click()
+            assert editor.get_by_label('Segment 2 transcript',exact=True).evaluate('el => el === document.activeElement')
+            editor.get_by_label('Segment 2 transcript',exact=True).fill(original[1]['text'])
+            assert editor.get_by_role('button',name='Review segment 2:',exact=False).count()==0
             draft_key='lyriclens:draft:v1:'+identifier+':direct'
             page.wait_for_function('(key)=>localStorage.getItem(key)?.includes("Unsaved")',arg=draft_key)
             page.reload();first.wait_for()
@@ -51,19 +97,19 @@ def main():
             editor.get_by_label('Segment 1 split seconds',exact=True).fill('0.9')
             editor.get_by_label('Segment 1 text cut',exact=True).fill('7')
             editor.get_by_role('button',name='Split segment 1',exact=True).click()
-            assert editor.locator('textarea').count()==3
+            assert editor.locator('.segments textarea').count()==3
             assert first.input_value()=='Unsaved'
             assert editor.get_by_label('Segment 2 transcript',exact=True).input_value()==' café世界'
             assert editor.get_by_label('Segment 2 start seconds',exact=True).input_value()=='0.9'
             editor.get_by_role('button',name='Merge segment 1 with next',exact=True).click()
-            assert editor.locator('textarea').count()==2
+            assert editor.locator('.segments textarea').count()==2
             assert first.input_value()=='Unsaved\n café世界'
             undo=editor.get_by_role('button',name='Undo transcript edit',exact=True)
-            undo.click();assert editor.locator('textarea').count()==3
-            undo.click();assert editor.locator('textarea').count()==2
+            undo.click();assert editor.locator('.segments textarea').count()==3
+            undo.click();assert editor.locator('.segments textarea').count()==2
             editor.get_by_label('Segment 2 language',exact=True).select_option('pt')
             editor.get_by_role('button',name='Merge segment 1 with next',exact=True).click()
-            assert editor.locator('textarea').count()==2
+            assert editor.locator('.segments textarea').count()==2
             assert 'same language' in editor.inner_text()
             undo.click()
             first.press('Control+Enter')
@@ -90,6 +136,7 @@ def main():
             ids.append(restored)
             assert page.request.get(base+'/api/jobs/'+restored+'/audio').body()==buffer.getvalue()
             assert page.request.get(base+'/api/jobs/'+restored+'/export').text().startswith('Updated saved source')
+            assert page.request.get(base+'/api/jobs/'+restored).json()['title']=='Ensaio café 世界'
             assert page.request.get(path).status==200
             for width,height in [(1440,1000),(390,844)]:
                 page.set_viewport_size({'width':width,'height':height})
