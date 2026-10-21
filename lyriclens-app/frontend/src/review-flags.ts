@@ -1,10 +1,22 @@
 export function reviewFlags(
   segments: { start: number; end: number; text: string }[],
   index: number,
+  duration?: number,
 ) {
   const segment = segments[index];
   const text = segment.text.trim();
   const flags: string[] = [];
+  if (
+    !Number.isFinite(segment.start) ||
+    !Number.isFinite(segment.end) ||
+    segment.start < 0 ||
+    segment.end <= segment.start ||
+    (duration !== undefined && segment.end > duration)
+  )
+    flags.push("Invalid timing: keep start and end within the clip");
+  if (index > 0 && segment.start < segments[index - 1].start)
+    flags.push("Passage starts before the previous passage");
+  if (!text) flags.push("Empty passage: add words or remove this segment");
   if (segment.end - segment.start > 20)
     flags.push("Long passage: review words and timing");
   if (index > 0 && text && text === segments[index - 1].text.trim())
