@@ -317,6 +317,25 @@ header {
   font-size: 11px;
   font-weight: 550;
 }
+.primary-settings {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 360px;
+}
+.advanced-options {
+  margin: 0 0 24px;
+  padding: 14px 16px;
+  border: 1px solid #d4dccb;
+  border-radius: 8px;
+}
+.advanced-options summary {
+  cursor: pointer;
+  font-size: 13px;
+}
+.advanced-options > p {
+  margin-top: 12px;
+  color: #59694f;
+  font-size: 12px;
+}
 .settings select {
   display: block;
   width: 100%;
@@ -1039,4 +1058,73 @@ main .results + .button {
 .split-preview {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+}
+
+.lyrics-import,
+.job-title {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #64748b;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+.lyrics-import label,
+.job-title label,
+.library-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0.7rem 0;
+  font-size: 13px;
+}
+.lyrics-import input,
+.lyrics-import textarea,
+.lyrics-import select,
+.job-title input,
+.library-filters input,
+.library-filters select {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 16px;
+  border: 1px solid #64748b;
+  border-radius: 5px;
+  background: #fff;
+  color: #23372e;
+}
+.lyrics-import textarea {
+  min-height: 140px;
+}
+.library-filters {
+  flex-shrink: 0;
+}
+.library-filters p {
+  font-size: 12px;
+}
+.import-preview {
+  padding-left: 1.2rem;
+  white-space: pre-wrap;
+}
+.batch-upload {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #64748b;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+.batch-upload input {
+  display: block;
+  max-width: 100%;
+  margin: 0.6rem 0;
+}
+@media (max-width: 720px) {
+  .library-filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 0.6rem;
+  }
+  .library-filters label:first-child {
+    grid-column: 1 / -1;
+  }
 }
