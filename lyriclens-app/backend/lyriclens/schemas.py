@@ -23,6 +23,7 @@ class Job(BaseModel):
     model_config = ConfigDict(extra="allow")
     id: str
     filename: str
+    title: str = Field(default="", max_length=200)
     sha256: str
     bytes: int
     state: State

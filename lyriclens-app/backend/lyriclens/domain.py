@@ -26,6 +26,10 @@ class Edit(BaseModel):
     segments: list[Segment] = Field(max_length=1000)
 
 
+class RenameJob(BaseModel):
+    title: str = Field(max_length=200)
+
+
 class Retranscribe(BaseModel):
     language: str
     pipeline: Literal["direct", "vocals", "both"] = "direct"
@@ -78,6 +82,16 @@ def validate_model_segments(segments, duration):
 
 def text_of(segments):
     return "\n".join(s["text"] for s in segments)
+
+
+def lrc(segments):
+    lines = []
+    for segment in segments:
+        centiseconds = round(segment['start'] * 100)
+        stamp = f"[{centiseconds // 6000:02}:{centiseconds // 100 % 60:02}.{centiseconds % 100:02}]"
+        # Every line of a merged passage shares its passage start time.
+        lines.extend(stamp + line.strip() for line in segment['text'].splitlines() if line.strip())
+    return '\n'.join(lines) + ('\n' if lines else '')
 
 
 def srt(segments):
