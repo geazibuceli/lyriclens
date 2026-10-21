@@ -89,6 +89,7 @@ def main():
     parser.add_argument("--model-profile",choices=PROFILE_IDS,default="configured")
     parser.add_argument("--device",choices=["cpu","cuda"])
     parser.add_argument("--compute",help="Explicit CTranslate2 compute type; no fallback")
+    parser.add_argument('--pipelines', nargs='+', choices=['direct', 'vocals'], default=['direct', 'vocals'])
     args = parser.parse_args()
     settings = profile_settings(Settings(),args.model_profile)
     if args.candidate:
@@ -108,7 +109,7 @@ def main():
     for row in rows:
         if row["split"] != args.split:
             continue
-        for pipeline in ("direct", "vocals"):
+        for pipeline in args.pipelines:
             report = {k:v for k,v in row.items() if k != "resolved_path"}
             report.update(pipeline=pipeline, model=settings.model_id, revision=settings.revision, settings=settings.inference())
             report["environment"] = environment()

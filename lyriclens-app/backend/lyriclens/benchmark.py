@@ -139,7 +139,7 @@ def compare(baseline, candidate):
                 interpretation='Negative CER delta favors candidate. Failures remain visible. No automatic model selection or statistical significance claim.')
 
 
-def plan(manifest, output, split, profiles, modes, device, compute):
+def plan(manifest, output, split, profiles, modes, device, compute, representative=False, minimum_groups=2):
     if output.exists():
         raise ValueError('Protocol already exists; refusing to overwrite')
     rows = load_manifest(manifest, require_reviewed=True)
@@ -148,11 +148,17 @@ def plan(manifest, output, split, profiles, modes, device, compute):
         raise ValueError('No reviewed clips in this split')
     if split == 'final' and (len(profiles) != 1 or len(modes) != 1):
         raise ValueError('Choose one model and language mode on development data before final evaluation')
+    if representative:
+        from .quality import audit
+        if not audit(manifest, minimum_groups)['ready_for_representative_comparison']:
+            raise ValueError('Representative coverage is incomplete; run lyriclens.quality audit to inspect gaps')
     protocol = dict(version=1, manifest=str(manifest.resolve()),
                     manifest_sha256=hashlib.sha256(manifest.read_bytes()).hexdigest(), split=split,
                     profiles=profiles, language_modes=modes, device=device, compute=compute,
                     pipelines=['direct','vocals'],
                     coverage={lang: sum(r['language'] == lang for r in selected) for lang in LANGUAGES})
+    if representative:
+        protocol['representative_coverage'] = dict(minimum_independent_groups=minimum_groups)
     from .profiles import profile_settings
     from .config import Settings
     from dataclasses import replace
@@ -177,6 +183,10 @@ def run(protocol_path):
     if hashlib.sha256(manifest.read_bytes()).hexdigest() != protocol['manifest_sha256']:
         raise ValueError('Manifest changed after protocol freeze')
     load_manifest(manifest, require_reviewed=True)
+    if protocol.get('representative_coverage'):
+        from .quality import audit
+        if not audit(manifest, protocol['representative_coverage']['minimum_independent_groups'])['ready_for_representative_comparison']:
+            raise ValueError('Representative coverage no longer satisfies the frozen protocol')
     from .profiles import profile_settings
     from .config import Settings
     from dataclasses import replace
@@ -223,6 +233,8 @@ def main():
     p.add_argument('--language-modes', nargs='+', choices=['auto','manual'], default=['auto'])
     p.add_argument('--device', choices=['cpu','cuda'], default='cpu')
     p.add_argument('--compute', default='int8')
+    p.add_argument('--representative', action='store_true', help='Require reviewed real coverage for every language and condition in development and final splits')
+    p.add_argument('--minimum-groups', type=int, default=2)
     p = sub.add_parser('run', help='Execute a frozen protocol with prepared local models, without downloading')
     p.add_argument('protocol', type=Path)
     p = sub.add_parser('verify', help='Human operator attests to listening and checking text permissions')
@@ -257,7 +269,8 @@ def main():
             print(json.dumps(export(args.queue, args.output), indent=2))
         elif args.command == 'plan':
             print(json.dumps(plan(args.manifest, args.output, args.split, args.profiles,
-                                  args.language_modes, args.device, args.compute), indent=2))
+                                  args.language_modes, args.device, args.compute,
+                                  args.representative, args.minimum_groups), indent=2))
         elif args.command == 'run':
             run(args.protocol)
         elif args.command == 'summarize':
