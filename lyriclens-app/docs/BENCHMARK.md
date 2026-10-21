@@ -1,5 +1,9 @@
 # Human-reviewed singing benchmark
 
+Use the [quality plan](QUALITY.md) to collect representative recordings and audit language, condition and split coverage before freezing a protocol.
+
+For representative comparisons, add `--representative` to `plan`. This requires reviewed original groups for all seven languages and recording conditions in both splits. The minimum defaults to two independent groups and is saved in the protocol. Leave the flag off for small development diagnostics.
+
 Prepare reviewed references, freeze an evaluation protocol and compare model runs. A fluent reviewer checks each recording, its reference text and the relevant permissions.
 
 Run commands from the repository root with the installed Python 3.11 environment. All paths below are local and ignored by Git. Keep restricted audio, reference text, reviewer identities and full evaluation outputs private.
