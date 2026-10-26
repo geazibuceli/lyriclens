@@ -9,6 +9,7 @@
 - [Multilingual review](MULTILINGUAL.md): language labels and passage retranscription.
 - [Review and recovery](RELIABILITY.md): playback, progress, interrupted jobs and storage.
 - [Troubleshooting](TROUBLESHOOTING.md): installation and runtime problems.
+- [Recognition mistakes](TRANSCRIPTION_QUALITY.md): compare models and routes, retry passages and test optional gap protection.
 
 ## Develop and operate
 
