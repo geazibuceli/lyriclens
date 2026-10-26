@@ -16,6 +16,8 @@ type UploadFormProps = {
   language: string;
   pipeline: string;
   modelProfile: string;
+  reduceHallucinations: boolean;
+  setReduceHallucinations: (value: boolean) => void;
   busy: boolean;
   drag: boolean;
   input: React.RefObject<HTMLInputElement | null>;
@@ -34,6 +36,8 @@ export function UploadForm({
   language,
   pipeline,
   modelProfile,
+  reduceHallucinations,
+  setReduceHallucinations,
   busy,
   drag,
   input,
@@ -47,6 +51,9 @@ export function UploadForm({
   const chosenModelPrepared =
     models?.profiles?.find((p) => p.id === modelProfile)?.prepared ??
     models?.prepared;
+  const vocalFilterProfile = ["large-v3", "aligned", "configured"].find((id) =>
+    models?.profiles?.some((p) => p.id === id && p.prepared),
+  );
   return (
     <form onSubmit={submit}>
       <div
@@ -106,6 +113,7 @@ export function UploadForm({
         <label>
           Audio language
           <select
+            aria-label="Audio language"
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
           >
@@ -129,6 +137,87 @@ export function UploadForm({
           <small>You can correct the language and run it again.</small>
         </label>
       </div>
+      <section
+        className="recognition-guidance"
+        aria-label="Singing recognition settings"
+      >
+        <strong>Check the recognition route before transcribing</strong>
+        <p className="muted">
+          Selected:{" "}
+          {models?.profiles?.find((p) => p.id === modelProfile)?.label ??
+            modelProfile}
+          {" · "}
+          {pipeline === "both"
+            ? "Original audio and isolated vocals"
+            : pipeline === "vocals"
+              ? "Isolated vocals"
+              : "Original audio"}
+          .
+          {language === "auto"
+            ? " If you know the sung language, select it above to avoid a wrong language guess."
+            : " The selected language will be used for recognition."}
+        </p>
+        <div className="studio-toolbar">
+          <button
+            type="button"
+            className="button small"
+            disabled={
+              !models?.profiles?.some((p) => p.id === "large-v3" && p.prepared)
+            }
+            onClick={() => {
+              setModelProfile("large-v3");
+              setPipeline(models?.separation_prepared ? "both" : "direct");
+            }}
+          >
+            Try Large-v3{models?.separation_prepared ? " + compare vocals" : ""}
+          </button>
+          <button
+            type="button"
+            className="button small"
+            disabled={!models?.separation_prepared || !vocalFilterProfile}
+            onClick={() => {
+              setModelProfile(vocalFilterProfile!);
+              setPipeline("vocals");
+              setReduceHallucinations(true);
+            }}
+          >
+            Filter instrumental sections
+          </button>
+          <button
+            type="button"
+            className="text-button"
+            onClick={() => {
+              setModelProfile("configured");
+              setPipeline("direct");
+              setReduceHallucinations(false);
+            }}
+          >
+            Use the lighter model
+          </button>
+        </div>
+        <label>
+          <input
+            type="checkbox"
+            checked={reduceHallucinations}
+            onChange={(e) => setReduceHallucinations(e.target.checked)}
+          />{" "}
+          Reduce suspected hallucinations around instrumental gaps
+          (experimental)
+        </label>
+        <p className="muted">
+          Detects likely vocals conservatively, retaining three seconds of
+          context and short gaps. It also uses native word alignment. It can
+          skip legitimate singing; turn it off and compare if words are missing.
+          Compare isolated vocals for music with strong accompaniment. The
+          instrumental-filter shortcut selects isolated vocals and enables this
+          protection.
+        </p>
+        <p className="muted">
+          Large-v3 uses more time and memory. Compare the results by listening;
+          vocal isolation can also distort words. Detailed model and route
+          controls are below.
+        </p>
+      </section>
       <details className="advanced-options">
         <summary>Advanced transcription options</summary>
         <p>Adjust voice isolation and recognition model.</p>
@@ -136,6 +225,7 @@ export function UploadForm({
           <label>
             Listening mode
             <select
+              aria-label="Listening mode"
               value={pipeline}
               onChange={(e) => setPipeline(e.target.value)}
             >
@@ -198,7 +288,11 @@ export function UploadForm({
         <button
           className="button"
           disabled={
-            !file || busy || !chosenModelPrepared || !models?.ffmpeg_available
+            !file ||
+            busy ||
+            !chosenModelPrepared ||
+            !models?.ffmpeg_available ||
+            (pipeline !== "direct" && !models?.separation_prepared)
           }
           type="submit"
         >
@@ -211,6 +305,7 @@ export function UploadForm({
         </button>
       </div>
       <BatchUpload
+        reduceHallucinations={reduceHallucinations}
         language={language}
         pipeline={pipeline}
         modelProfile={modelProfile}

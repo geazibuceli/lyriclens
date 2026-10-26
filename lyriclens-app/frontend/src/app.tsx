@@ -30,6 +30,7 @@ export function App() {
     [language, setLanguage] = useState("auto"),
     [pipeline, setPipeline] = useState("direct"),
     [modelProfile, setModelProfile] = useState("configured");
+  const [reduceHallucinations, setReduceHallucinations] = useState(false);
   const [error, setError] = useState(""),
     [deleting, setDeleting] = useState(false),
     [busy, setBusy] = useState(false),
@@ -89,6 +90,7 @@ export function App() {
       form.append("language", language);
       form.append("pipeline", pipeline);
       form.append("model_profile", modelProfile);
+      form.append("reduce_hallucinations", String(reduceHallucinations));
       const j = await api<Job>("/jobs", { method: "POST", body: form });
       setSelected(j.id);
       await refresh();
@@ -125,6 +127,15 @@ export function App() {
       if (!response.ok) throw new Error("Audio could not be loaded");
       setFile(new File([await response.blob()], job.filename));
       setModelProfile(job.model_profile ?? "configured");
+      setReduceHallucinations(
+        job.inference?.hallucination_silence_threshold != null,
+      );
+      setLanguage(
+        job.requested_language === "mixed" ? "auto" : job.requested_language,
+      );
+      setPipeline(
+        job.pipelines.length > 1 ? "both" : (job.pipelines[0] ?? "direct"),
+      );
       setSelected(null);
     } catch (e) {
       setError((e as Error).message);
@@ -215,6 +226,8 @@ export function App() {
               language={language}
               pipeline={pipeline}
               modelProfile={modelProfile}
+              reduceHallucinations={reduceHallucinations}
+              setReduceHallucinations={setReduceHallucinations}
               busy={busy}
               drag={drag}
               input={input}

@@ -7,11 +7,13 @@ export function BatchUpload({
   language,
   pipeline,
   modelProfile,
+  reduceHallucinations = false,
   ready,
 }: {
   language: string;
   pipeline: string;
   modelProfile: string;
+  reduceHallucinations?: boolean;
   ready: boolean;
 }) {
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -38,6 +40,7 @@ export function BatchUpload({
         form.append("language", language);
         form.append("pipeline", pipeline);
         form.append("model_profile", modelProfile);
+        form.append("reduce_hallucinations", String(reduceHallucinations));
         try {
           await api("/jobs", { method: "POST", body: form });
           setEntries((current) =>

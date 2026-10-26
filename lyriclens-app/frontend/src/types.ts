@@ -22,6 +22,7 @@ export type Job = {
   filename: string;
   title?: string;
   model_profile?: string;
+  inference?: { hallucination_silence_threshold?: number | null };
   state: string;
   stage: string;
   requested_language: string;
