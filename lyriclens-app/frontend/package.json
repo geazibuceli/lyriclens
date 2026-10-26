@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5181 --strictPort",
     "build": "tsc -b && vite build",
+    "test:studio": "node tests/lyrics-alignment.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "format": "prettier --write src vite.config.ts tsconfig.json index.html",
     "format:check": "prettier --check src vite.config.ts tsconfig.json index.html"

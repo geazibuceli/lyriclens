@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { alignLyrics } from "./lyrics-alignment";
 import type { Segment } from "./types";
 
 export function parseLyrics(
@@ -75,6 +76,7 @@ export function parseLyrics(
     );
   } else {
     if (lines.length > 1000) throw new Error("Import at most 1000 lines.");
+    if (mode === "align") return alignLyrics(lines, current, duration);
     if (mode === "existing") {
       if (lines.length !== current.length)
         throw new Error(
@@ -182,6 +184,9 @@ export function LyricsImport({
           <option value="existing">
             Keep current passage times (one line per passage)
           </option>
+          <option value="align">
+            Suggest timing from the existing transcript
+          </option>
           <option value="even">
             Distribute lines evenly for manual synchronization
           </option>
@@ -189,9 +194,11 @@ export function LyricsImport({
         </select>
       </label>
       <p className="muted">
-        Even distribution is a rough starting point, not automatic alignment.
-        Adjust passage times while listening. LRC uses the next timestamp as the
-        end; a blank timestamp ends the preceding passage.
+        Timing suggestions match lyrics to recognized text in order and estimate
+        positions within each passage. They do not analyze the audio again;
+        review by listening. Even distribution is only a starting point. Adjust
+        passage times while listening. LRC uses the next timestamp as the end; a
+        blank timestamp ends the preceding passage.
       </p>
       {fileError && (
         <p role="alert" className="error">
