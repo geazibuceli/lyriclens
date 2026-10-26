@@ -63,7 +63,7 @@ def main():
         first.get_by_label('Segment 1 end seconds',exact=True).fill('9')
         first.get_by_role('button',name='Save edits',exact=True).click()
         first.get_by_role('button',name='Saved',exact=True).wait_for()
-        first.get_by_text('Experimental: retranscribe a passage in another language',exact=True).click()
+        first.get_by_text('Retranscribe an unclear passage',exact=True).click()
         first.get_by_label('Passage language instruction',exact=True).select_option('en')
         first.get_by_role('button',name='Retranscribe passage',exact=True).click()
         page.wait_for_url('**/?job=*')
