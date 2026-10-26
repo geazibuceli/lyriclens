@@ -347,6 +347,7 @@ export function App() {
                     key={`${job.id}-${p}-${r.state}`}
                     job={job}
                     audio={audio}
+                    models={models}
                     pipeline={p}
                     result={r}
                     repeating={repeatRange}

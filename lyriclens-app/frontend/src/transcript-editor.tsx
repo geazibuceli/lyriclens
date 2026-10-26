@@ -6,7 +6,7 @@ import { useHistory } from "./history";
 import { reviewFlags } from "./review-flags";
 import { useDraft, validSegments } from "./drafts";
 import { SegmentTools } from "./segment-tools";
-import type { Segment, Result, Job } from "./types";
+import type { Segment, Result, Job, Models } from "./types";
 import { api, clock } from "./api";
 import { RegionRetry } from "./region-retry";
 import { ListeningStudio, useAudioTime } from "./listening-studio";
@@ -22,7 +22,9 @@ export function Transcript({
   repeating,
   stopReview,
   audio,
+  models,
 }: {
+  models: Models | null;
   audio: RefObject<HTMLAudioElement | null>;
   job: Job;
   pipeline: string;
@@ -291,7 +293,12 @@ export function Transcript({
           {w}
         </p>
       ))}
-      <RegionRetry job={job} pipeline={pipeline} segments={segments} />
+      <RegionRetry
+        job={job}
+        pipeline={pipeline}
+        segments={segments}
+        models={models}
+      />
       <div className="multilingual-controls">
         <p className="muted">
           For songs with multiple languages, choose each passage's language,

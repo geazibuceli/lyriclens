@@ -1,18 +1,30 @@
 import React, { useState } from "react";
-import type { Segment, Job } from "./types";
+import type { Segment, Job, Models } from "./types";
 import { active, api, clock } from "./api";
 
 export function RegionRetry({
   job,
   pipeline,
   segments,
+  models,
 }: {
+  models: Models | null;
   job: Job;
   pipeline: string;
   segments: Segment[];
 }) {
+  const sourceLanguage =
+    job.results[pipeline]?.detected_language || job.requested_language;
   const [index, setIndex] = useState(0),
-    [language, setLanguage] = useState("en"),
+    [language, setLanguage] = useState(
+      ["ko", "ja", "zh", "en", "es", "pt", "fr"].includes(sourceLanguage)
+        ? sourceLanguage
+        : "en",
+    ),
+    [modelProfile, setModelProfile] = useState("same"),
+    [reduceHallucinations, setReduceHallucinations] = useState(
+      job.inference?.hallucination_silence_threshold != null,
+    ),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
   if (!segments.length || active(job)) return null;
@@ -26,6 +38,8 @@ export function RegionRetry({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           language,
+          reduce_hallucinations: reduceHallucinations,
+          ...(modelProfile !== "same" ? { model_profile: modelProfile } : {}),
           pipeline,
           start: segment.start,
           end: segment.end,
@@ -40,15 +54,33 @@ export function RegionRetry({
   }
   return (
     <details className="region-retry">
-      <summary>
-        Experimental: retranscribe a passage in another language
-      </summary>
+      <summary>Retranscribe an unclear passage</summary>
       <p className="muted">
-        Choose a language for this passage. Recognition includes two seconds of
-        surrounding audio and opens a separate result using the original
-        timeline.
+        Retry unclear words with a prepared model and an explicit language.
+        Recognition includes two seconds of surrounding audio and opens a
+        separate result using the original timeline.
       </p>
       <div className="settings">
+        <label>
+          Retry model
+          <select
+            aria-label="Passage recognition model"
+            value={modelProfile}
+            onChange={(e) => setModelProfile(e.target.value)}
+          >
+            <option value="same">Same model as this result</option>
+            {models?.profiles?.map((profile) => (
+              <option
+                key={profile.id}
+                value={profile.id}
+                disabled={!profile.prepared}
+              >
+                {profile.label}
+                {profile.prepared ? "" : " (not prepared)"}
+              </option>
+            ))}
+          </select>
+        </label>
         <label>
           Passage
           <select
@@ -88,6 +120,15 @@ export function RegionRetry({
       <button className="button small" disabled={busy} onClick={retry}>
         {busy ? "Queuing…" : "Retranscribe passage"}
       </button>
+      <label>
+        <input
+          type="checkbox"
+          checked={reduceHallucinations}
+          onChange={(e) => setReduceHallucinations(e.target.checked)}
+        />{" "}
+        Reduce suspected hallucinations around gaps (experimental; may omit
+        words)
+      </label>
       {error && (
         <p role="alert" className="error">
           {error}
