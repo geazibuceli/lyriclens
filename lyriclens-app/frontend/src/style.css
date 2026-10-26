@@ -1140,7 +1140,8 @@ main .results + .button {
   padding: 16px;
   box-shadow: 0 6px 20px #172e1710;
 }
-.review-playback audio {
+.review-playback audio,
+.demo-editor audio {
   width: 100%;
 }
 .review-playback .waveform {
@@ -1155,6 +1156,25 @@ main .results + .button {
 .segment-active {
   background: #eaf1dd;
   box-shadow: inset 4px 0 #577c40;
+}
+.demo-card {
+  background: #eaf0df;
+  padding: 24px;
+  border-radius: 16px;
+  margin: 0 0 28px;
+  border: 1px solid #c9d6bb;
+}
+.demo-card h2 {
+  margin-bottom: 8px;
+}
+.demo-editor {
+  margin-top: 20px;
+  display: grid;
+  gap: 12px;
+}
+.demo-editor textarea {
+  width: 100%;
+  min-height: 65px;
 }
 .listening-studio {
   border: 1px solid #d2dbc8;
@@ -1206,5 +1226,8 @@ main .results + .button {
   }
   .review-playback > .muted {
     display: none;
+  }
+  .demo-card {
+    padding: 16px;
   }
 }

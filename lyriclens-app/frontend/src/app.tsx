@@ -1,3 +1,4 @@
+import { DemoStudio } from "./demo-studio";
 import React, { useState, useEffect, useRef } from "react";
 import {
   AudioLines,
@@ -175,10 +176,10 @@ export function App() {
         </header>
         <div className="main-content">
           <div className="intro">
-            <span className="eyebrow">LISTEN BEYOND THE MELODY</span>
+            <span className="eyebrow">YOUR LOCAL LYRICS STUDIO</span>
             <h1>
               {job ? (
-                "Make every word yours."
+                "Listen. Refine. Synchronize."
               ) : (
                 <>
                   The music you love.
@@ -189,8 +190,8 @@ export function App() {
             </h1>
             <p>
               {job
-                ? "Listen to the recording, refine the text and save your edits."
-                : "Choose a recording and its language to get started."}
+                ? "Listen to the recording, refine the lyrics and save your edits."
+                : "Turn your recordings into reviewed, synchronized lyrics."}
             </p>
           </div>
           {error && (
@@ -205,6 +206,7 @@ export function App() {
               </button>
             </div>
           )}
+          {!job && <DemoStudio />}
           {!job ? (
             <UploadForm
               models={models}
