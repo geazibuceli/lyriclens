@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, type RefObject } from "react";
 import { Download, Check, X, Languages } from "lucide-react";
 import { TranslationPanel, type Translation } from "./translation";
 import { ReviewPlayback, type RepeatRange } from "./playback";
@@ -9,6 +9,7 @@ import { SegmentTools } from "./segment-tools";
 import type { Segment, Result, Job } from "./types";
 import { api, clock } from "./api";
 import { RegionRetry } from "./region-retry";
+import { ListeningStudio, useAudioTime } from "./listening-studio";
 import { LyricsImport } from "./lyrics-import";
 
 export function Transcript({
@@ -20,7 +21,9 @@ export function Transcript({
   repeat,
   repeating,
   stopReview,
+  audio,
 }: {
+  audio: RefObject<HTMLAudioElement | null>;
   job: Job;
   pipeline: string;
   result: Result;
@@ -30,6 +33,7 @@ export function Transcript({
   repeating: RepeatRange | null;
   stopReview: () => void;
 }) {
+  const time = useAudioTime(audio);
   const history = useHistory<Segment[]>(result.edited ?? result.original ?? []);
   const segments = history.value,
     setSegments = history.set;
@@ -39,6 +43,10 @@ export function Transcript({
   const [saving, setSaving] = useState(false);
   const [multilingualBusy, setMultilingualBusy] = useState(false);
   const [query, setQuery] = useState("");
+  const savedTranslation = Object.entries(job.translations ?? {}).find(
+    ([key, t]) =>
+      key.startsWith(`${pipeline}:`) && t.state === "completed" && !t.stale,
+  )?.[1];
   const flags = useMemo(
     () => segments.map((_, i) => reviewFlags(segments, i, job.audio?.duration)),
     [segments, job.audio?.duration],
@@ -311,9 +319,23 @@ export function Transcript({
       {!segments.length && (
         <p>No words returned. You can add and edit a segment below.</p>
       )}
+      <ListeningStudio
+        audio={audio}
+        segments={segments}
+        change={setSegments}
+        translation={
+          dirty
+            ? undefined
+            : (savedTranslation?.edited ?? savedTranslation?.segments)
+        }
+      />
       <div className="segments">
         {segments.map((s, i) => (
-          <div className="segment" key={i}>
+          <div
+            className={`segment ${time >= s.start && time < s.end ? "segment-active" : ""}`}
+            key={i}
+            aria-current={time >= s.start && time < s.end ? "true" : undefined}
+          >
             <div className="segment-controls">
               <button
                 className="timestamp"

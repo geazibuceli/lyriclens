@@ -1128,3 +1128,83 @@ main .results + .button {
     grid-column: 1 / -1;
   }
 }
+
+/* Listening workspace */
+.review-playback {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #f6f7f2;
+  border: 1px solid #d2dbc8;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 6px 20px #172e1710;
+}
+.review-playback audio {
+  width: 100%;
+}
+.review-playback .waveform {
+  max-height: 90px;
+}
+.segment {
+  transition:
+    background 0.15s,
+    box-shadow 0.15s;
+  scroll-margin-top: 280px;
+}
+.segment-active {
+  background: #eaf1dd;
+  box-shadow: inset 4px 0 #577c40;
+}
+.listening-studio {
+  border: 1px solid #d2dbc8;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+}
+.studio-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.listening-studio details {
+  margin-top: 14px;
+}
+.listening-studio select {
+  max-width: 100%;
+  margin: 8px;
+}
+.lyric-stage {
+  text-align: center;
+  padding: 30px 16px;
+  min-height: 260px;
+  overflow-wrap: anywhere;
+}
+.lyric-current {
+  font-size: clamp(25px, 4vw, 52px);
+  font-family: Georgia, serif;
+  margin: 20px 0;
+  white-space: pre-wrap;
+}
+.lyric-neighbor {
+  opacity: 0.65;
+  font-size: 18px;
+}
+.listening-studio:fullscreen {
+  background: #14271e;
+  color: #f3f6e9;
+  overflow: auto;
+  padding: clamp(16px, 4vw, 60px);
+}
+.listening-studio:fullscreen .lyric-stage {
+  padding-top: 10vh;
+}
+@media (max-width: 700px) {
+  .review-playback {
+    padding: 8px;
+  }
+  .review-playback > .muted {
+    display: none;
+  }
+}

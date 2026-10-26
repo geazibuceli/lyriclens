@@ -331,6 +331,7 @@ export function App() {
                   <Transcript
                     key={`${job.id}-${p}-${r.state}`}
                     job={job}
+                    audio={audio}
                     pipeline={p}
                     result={r}
                     repeating={repeatRange}
