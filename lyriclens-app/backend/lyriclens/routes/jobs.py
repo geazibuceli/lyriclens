@@ -2,6 +2,7 @@ import hashlib
 import json
 import logging
 import queue
+from dataclasses import replace
 import shutil
 import time
 import uuid
@@ -53,11 +54,14 @@ def register_routes(app, context):
     @app.post("/api/jobs", status_code=202, response_model=Job)
     async def create_job(file: Annotated[UploadFile, File()], language: Annotated[str, Form()] = "auto",
                          pipeline: Annotated[str, Form()] = "direct",
-                         model_profile: Annotated[str, Form()] = "configured"):
+                         model_profile: Annotated[str, Form()] = "configured",
+                         reduce_hallucinations: Annotated[bool, Form()] = False):
         if language not in {"auto", *LANGUAGES} or pipeline not in {"direct", "vocals", "both"}:
             raise HTTPException(422, "Unsupported language or pipeline")
         try:
             selected_model = profile_settings(settings,model_profile)
+            if reduce_hallucinations:
+                selected_model = replace(selected_model, word_timestamps=True, hallucination_silence_threshold=2.0, vad_filter=True)
         except ValueError as exc:
             raise HTTPException(422,str(exc)) from None
         filename = (file.filename or "audio").replace("\\", "/").split("/")[-1][:200]
