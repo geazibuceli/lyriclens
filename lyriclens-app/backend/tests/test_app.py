@@ -464,6 +464,67 @@ def test_explicit_model_selection_and_region_inheritance(setup):
     assert child['inference']==job['inference']
 
 
+@pytest.mark.parametrize('profile', ['aligned', 'large-v3'])
+def test_region_retry_can_upgrade_model_without_changing_source(setup, profile):
+    from lyriclens.profiles import profile_settings
+    client, settings, app, model = setup
+    parent = wait(client, upload(client, language='en').json()['id'])
+    before = client.get(f"/api/jobs/{parent['id']}").json()
+    selected = profile_settings(settings, profile)
+    selected.model_dir.mkdir(parents=True, exist_ok=True)
+    (selected.model_dir / 'READY.json').write_text('{}')
+    response = client.post(f"/api/jobs/{parent['id']}/retranscribe",
+                           json={'language': 'en', 'start': 0, 'end': 3,
+                                 'context_seconds': 0, 'model_profile': profile})
+    assert response.status_code == 202
+    child = wait(client, response.json()['id'])
+    assert child['model_profile'] == profile
+    assert child['model_id'] == selected.model_id
+    assert child['inference']['word_timestamps'] is True
+    assert child['source_job_id'] == parent['id']
+    assert client.get(f"/api/jobs/{parent['id']}").json() == before
+
+
+def test_region_retry_rejects_unknown_or_unprepared_override(setup):
+    client, settings, app, model = setup
+    parent = wait(client, upload(client, language='en').json()['id'])
+    count = len(client.get('/api/jobs').json())
+    path = f"/api/jobs/{parent['id']}/retranscribe"
+    body = {'language': 'en', 'start': 0, 'end': 3, 'model_profile': 'large-v3'}
+    assert client.post(path, json=body).status_code == 409
+    assert client.post(path, json={**body, 'model_profile': 'unknown'}).status_code == 422
+    assert len(client.get('/api/jobs').json()) == count
+
+
+def test_gap_protection_is_opt_in_and_can_be_disabled_on_region_retry(setup):
+    client, settings, app, model = setup
+    ordinary = wait(client, upload(client, language='en').json()['id'])
+    assert 'hallucination_silence_threshold' not in ordinary['inference']
+    protected = wait(client, upload(client, language='en', reduce_hallucinations='true').json()['id'])
+    assert protected['inference']['hallucination_silence_threshold'] == 2.0
+    assert protected['inference']['word_timestamps'] is True
+    assert protected['inference']['vad_filter'] is True
+    assert protected['inference']['vad_parameters'] == {'threshold': .1, 'min_silence_duration_ms': 10000, 'speech_pad_ms': 3000}
+    assert any('skip legitimate' in warning for warning in protected['results']['direct']['warnings'])
+    path = f"/api/jobs/{protected['id']}/retranscribe"
+    body = {'language': 'en', 'start': 0, 'end': 3, 'context_seconds': 0}
+    inherited = client.post(path, json=body)
+    assert inherited.status_code == 202
+    assert inherited.json()['inference']['hallucination_silence_threshold'] == 2.0
+    disabled = client.post(path, json={**body, 'reduce_hallucinations': False})
+    assert disabled.status_code == 202
+    assert 'hallucination_silence_threshold' not in disabled.json()['inference']
+    assert disabled.json()['inference']['vad_filter'] is False
+    assert 'vad_parameters' not in disabled.json()['inference']
+    # Verify production cache separation in addition to the injected API adapter.
+    from lyriclens.worker import Worker
+    from lyriclens.store import Store
+    production = Worker(settings, Store(settings.root))
+    assert production.transcriber_for(ordinary) is not production.transcriber_for(protected)
+    assert production.transcriber_for(protected).settings.hallucination_silence_threshold == 2.0
+    assert production.transcriber_for(protected).settings.vad_filter is True
+
+
 def test_aligned_profile_reuses_weights_and_region_keeps_alignment(setup):
     from lyriclens.profiles import profile_settings
     client, settings, app, model = setup

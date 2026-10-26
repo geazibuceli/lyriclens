@@ -72,6 +72,17 @@ def test_invalid_aligned_output_does_not_retry_or_clamp(tmp_path):
         validate_model_segments(raw['segments'], 3)
 
 
+def test_gap_protection_passes_native_option_without_enabling_vad(tmp_path):
+    transcriber, audio, calls = adapter(tmp_path, [[Segment(.2, 2.8)]], aligned=True)
+    transcriber.settings = replace(transcriber.settings, hallucination_silence_threshold=2.0)
+    raw = transcriber.transcribe(audio, 'en')
+    assert len(calls) == 1
+    assert calls[0]['hallucination_silence_threshold'] == 2.0
+    assert calls[0]['word_timestamps'] is True
+    assert calls[0]['vad_filter'] is False
+    assert raw['segments'] == [{'start': .2, 'end': 2.8, 'text': 'test'}]
+
+
 def test_invalid_text_does_not_trigger_timing_retry(tmp_path):
     transcriber, audio, calls = adapter(tmp_path, [[Segment(0, 2, 'x' * 20001)]])
     raw = transcriber.transcribe(audio, 'pt')
