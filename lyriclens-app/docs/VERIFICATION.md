@@ -140,3 +140,31 @@ These checks use deterministic fixtures and a synthetic speaking voice. They
 do not measure singing recognition, acoustic forced alignment, or full-song
 accuracy. The new collection sheet is unfilled; human-reviewed recordings and
 paired development/final evaluation are still required before quality claims.
+
+## Instrumental hallucination diagnostic — 2026-10-26
+
+An opt-in recognition setting now combines native word alignment, a two-second
+hallucination-gap threshold and conservative Silero VAD (threshold 0.1, ten-second
+minimum silence, three-second padding). The default route is unchanged. Passage
+retries can override the model and protection setting without replacing source
+jobs. The upload form exposes comparison and instrumental-filter shortcuts.
+
+- API and timing suites: 60 passed, two opt-in tests skipped.
+- Frontend production build, formatting and lyric-timing tests: passed.
+- Recognition-settings browser smoke: passed, including multipart settings,
+  explicit guard opt-in, model override, rerun settings and mobile width.
+- A generated three-second pure-tone control returned no words with protection
+  enabled; its temporary job was removed after checking the result.
+- On one local 296.13-second recording, the original and regenerated vocal WAV
+  hashes matched. Large-v3 with protection disabled produced 33 passages ending
+  at 286.10s, including a suspected outro annotation. With protection enabled,
+  it produced 30 passages ending at 265.28s and did not return that annotation.
+  Native timestamps mapped back to the original recording timeline.
+- Word-timing gap protection alone had previously changed but failed to eliminate
+  the suspected annotation; that failure motivated the optional VAD comparison.
+
+These are diagnostics on one unreviewed recording and a synthetic control.
+Fewer passages do not establish better lyric accuracy or prove that no singing
+was omitted. The speech detector can miss singing and react to accompaniment;
+compare with protection disabled. No existing transcript was filtered in place.
+See [recognition mistakes](TRANSCRIPTION_QUALITY.md) for the controls and limits.
