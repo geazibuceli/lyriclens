@@ -32,6 +32,8 @@ class RenameJob(BaseModel):
 
 class Retranscribe(BaseModel):
     language: str
+    model_profile: Literal['configured', 'aligned', 'large-v3'] | None = None
+    reduce_hallucinations: bool | None = None
     pipeline: Literal["direct", "vocals", "both"] = "direct"
     start: float = Field(ge=0, allow_inf_nan=False)
     end: float = Field(gt=0, allow_inf_nan=False)

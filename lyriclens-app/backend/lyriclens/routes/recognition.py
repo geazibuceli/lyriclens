@@ -1,6 +1,7 @@
 import queue
 import shutil
 import uuid
+from dataclasses import replace
 from fastapi import HTTPException
 from ..config import LANGUAGES
 from ..domain import Retranscribe, MultilingualRequest
@@ -8,6 +9,7 @@ from .. import translation as mt
 from ..store import now
 from ..worker import environment
 from ..schemas import Job
+from ..profiles import profile_settings
 
 
 def register_routes(app, context):
@@ -25,6 +27,21 @@ def register_routes(app, context):
             duration = parent["audio"]["duration"]
             if request.end > duration:
                 raise HTTPException(422, "Region must be within the original clip")
+            selected_model = profile_settings(settings, request.model_profile) if request.model_profile else None
+            if selected_model and not (selected_model.model_dir / 'READY.json').is_file():
+                raise HTTPException(409, 'Prepare the selected recognition model before retrying a passage')
+            inference = {**selected_model.inference(), 'device':selected_model.device, 'compute_type':selected_model.compute_type} if selected_model else parent['inference'].copy()
+            guard = request.reduce_hallucinations
+            if guard is None:
+                guard = parent['inference'].get('hallucination_silence_threshold') is not None
+            if guard:
+                guarded = replace(settings, word_timestamps=True, hallucination_silence_threshold=2.0, vad_filter=True).inference()
+                inference.update(word_timestamps=True, hallucination_silence_threshold=2.0,
+                                 vad_filter=True, vad_parameters=guarded['vad_parameters'])
+            else:
+                inference.pop('hallucination_silence_threshold', None)
+                inference.pop('vad_parameters', None)
+                inference['vad_filter'] = False
             identifier = str(uuid.uuid4())
             folder = settings.root / "jobs" / identifier
             folder.mkdir(parents=True)
@@ -34,9 +51,10 @@ def register_routes(app, context):
                          "bytes":parent["bytes"], "state":"queued", "stage":"Waiting for worker",
                          "requested_language":request.language,
                          "pipelines":["direct","vocals"] if request.pipeline == "both" else [request.pipeline],
-                         "model_id":parent["model_id"], "revision":parent["revision"],
-                         "model_profile":parent.get("model_profile","configured"),
-                         "inference":parent["inference"].copy(),
+                         "model_id":selected_model.model_id if selected_model else parent["model_id"],
+                         "revision":selected_model.revision if selected_model else parent["revision"],
+                         "model_profile":request.model_profile or parent.get("model_profile","configured"),
+                         "inference":inference,
                          "environment":environment(), "created_at":now(), "results":{}, "cancel_requested":False,
                          "source_job_id":job_id,
                          "region":{"selected_start":request.start,"selected_end":request.end,
