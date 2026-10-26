@@ -36,8 +36,10 @@ class Worker:
             return self.transcriber
         selected = replace(self.settings,model_id=job["model_id"],revision=job["revision"],
                            device=job["inference"]["device"],compute_type=job["inference"]["compute_type"],
-                           word_timestamps=job["inference"].get("word_timestamps",False))
-        key = (selected.model_id,selected.revision,selected.device,selected.compute_type,selected.word_timestamps)
+                           word_timestamps=job["inference"].get("word_timestamps",False),
+                           hallucination_silence_threshold=job['inference'].get('hallucination_silence_threshold'),
+                           vad_filter=job['inference'].get('vad_filter', False))
+        key = (selected.model_id,selected.revision,selected.device,selected.compute_type,selected.word_timestamps,selected.hallucination_silence_threshold,selected.vad_filter)
         if key not in self.transcribers:
             if len(self.transcribers)>=2:
                 self.transcribers.popitem(last=False)
@@ -124,6 +126,8 @@ class Worker:
                     local_segments, reordered = validate_model_segments(raw["segments"], processed_duration)
                     segments = validate_segments([{**s,"start":s["start"]+offset,"end":s["end"]+offset} for s in local_segments], info["duration"])
                     warnings = ["Singing recognition and segment timing may be inaccurate. Review against the audio."]
+                    if job['inference'].get('hallucination_silence_threshold') is not None:
+                        warnings.append('Experimental gap protection was enabled. It can skip legitimate singing; compare with protection disabled if words are missing.')
                     if raw.get('timing_recovery', {}).get('succeeded'):
                         warnings.append('Recovered invalid timestamps with a native-alignment retry. Both attempts and their settings are available in the raw output.')
                     if reordered or raw.get('timestamp_order_normalized'):
