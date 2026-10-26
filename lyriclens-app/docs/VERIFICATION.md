@@ -123,3 +123,20 @@ Updated 2026-10-16: 52 backend tests passed; two opt-in real-model tests were sk
 `backend/tests/test_multilingual.py` checks instructed passage recognition across all seven language choices, absolute timestamp mapping, original preservation, raw passage responses, overlap/invalid-language rejection, per-segment translation routing, unchanged target-language text and stale translations after language edits. Recognition routing uses an injected model and does not establish recognition quality.
 
 `scripts/multilingual_browser_smoke.py` passed on desktop (1440 px) and mobile (390 px): differing-word highlights, matching-passage filter, saved language selectors, mixed-source target selection, separate multilingual job creation, no horizontal overflow and no axe WCAG A/AA violations. It creates and deletes only its own silence fixture; it does not benchmark singing accuracy.
+## Listening studio checks — 2026-10-26
+
+- Frontend production build: passed (`npm.cmd run build`).
+- Frontend formatting: passed (`npm.cmd run format:check`).
+- Text timing tests: passed (`npm.cmd run test:studio`), covering repeated lines,
+  punctuation/case, mismatches, empty sources, overlapping passages and Unicode.
+- Collection importer: eight pytest cases passed, including pending review,
+  required provenance, explicit conditions, no overwrite and split leakage.
+- `scripts/studio_browser_smoke.py`: passed in Chromium, covering demo playback,
+  current draft text, LRC download, manual marking, 390px mobile overflow,
+  editor highlighting, imported timing, API-fixture save and undo.
+- Screenshot and short WebM walkthrough generated under `docs/images`.
+
+These checks use deterministic fixtures and a synthetic speaking voice. They
+do not measure singing recognition, acoustic forced alignment, or full-song
+accuracy. The new collection sheet is unfilled; human-reviewed recordings and
+paired development/final evaluation are still required before quality claims.

@@ -3,6 +3,7 @@
 ## Use the app
 
 - [Quick start](QUICKSTART.md): installation, first transcription and export.
+- [Listening studio](LISTENING_STUDIO.md): built-in demo, synchronized lyrics, fullscreen and tap-to-sync.
 - [Editing and backups](EDITING.md): drafts, segment boundaries, bilingual exports and restore.
 - [Translation](TRANSLATION.md): prepare and use local text translation.
 - [Multilingual review](MULTILINGUAL.md): language labels and passage retranscription.
@@ -19,6 +20,7 @@
 ## Evaluate and research
 
 - [Quality plan](QUALITY.md): coverage requirements, collection gaps and robustness results.
+- [Real-song collection](REAL_SONG_COLLECTION.md): collection sheet, pending-review importer and paired evaluation workflow.
 - [Reviewed benchmark](BENCHMARK.md): references, fixed protocols and model comparisons.
 - [Evaluation methods](EVALUATION.md): metrics, normalization, timing and memory.
 - [Singing experiments](SINGING.md): development measurements and recovery results.

@@ -1,6 +1,12 @@
 # LyricLens
 
-Turn music into editable transcripts, locally. Upload a recording, compare recognition with and without vocal separation, review timestamps, and export the result.
+Your local studio for reviewed, synchronized lyrics. Upload a recording, listen closely, refine the words, synchronize passages, and export the result.
+
+**Try it before downloading models:** open **Open interactive demo** on the upload page. Edit original English text, follow the prepared synthetic voice, mark line starts and export LRC. The bundled demo works without the backend or recognition models; it demonstrates the editor, not singing accuracy.
+
+![LyricLens listening studio with synchronized lyrics and editable demo passages](lyriclens-app/docs/images/listening-studio.png)
+
+[Watch the short studio walkthrough](lyriclens-app/docs/images/studio-demo.webm) · [Listening and synchronization guide](lyriclens-app/docs/LISTENING_STUDIO.md)
 
 ![LyricLens upload workspace with language selection and advanced transcription options](lyriclens-app/docs/images/workspace.png)
 
@@ -9,9 +15,11 @@ Turn music into editable transcripts, locally. Upload a recording, compare recog
 - **Seven language choices:** Korean, Japanese, Mandarin Chinese, English, Spanish, Portuguese and French, plus automatic whole-clip detection.
 - **Local recognition:** Whisper Small, experimental Small with native alignment, or experimental Large-v3, with optional Demucs vocal separation and side-by-side results. Model and isolation controls are under **Advanced transcription options**.
 - **Review and export:** waveform seeking, undo/redo, keyboard shortcuts, segment repeat, playback speed, Unicode editing, passage retranscription, a navigable review-suggestion list, and TXT, JSON, SRT or LRC export.
+- **Listening studio:** sticky original player, current-passage highlighting, fullscreen lyric following, optional saved translation, and tap-to-synchronize line starts using the current editor text.
 - **Optional local translation:** choose a target language, review translated segments beside the saved source, and export the translation separately.
 - **Persistent history:** saved titles, search, status/language filters, cancellation and deletion, with audio stored locally. Send up to 20 recordings to the existing local queue from the batch uploader.
 - **Bring your lyrics:** import TXT or LRC, preview changes, preserve existing passage times or start manual synchronization from evenly distributed lines.
+- **Suggested lyric timing:** match imported lines to the existing recognized text in order and estimate positions within passages. Review by listening; this is text-based timing assistance, not acoustic forced alignment.
 - **Workspace tools:** resume unfinished tasks, inspect stage progress, check local setup and clear generated cache selectively. See [recovery and review tools](lyriclens-app/docs/RELIABILITY.md).
 - **Editing and backup:** recover browser drafts, search lyrics, split/merge segments, export bilingual TXT/SRT and restore per-job backups. See the [editing guide](lyriclens-app/docs/EDITING.md).
 - **Multilingual review:** assign languages to saved passages, retranscribe them and compare differences between recognition routes. See the [multilingual guide](lyriclens-app/docs/MULTILINGUAL.md).
@@ -67,6 +75,8 @@ Singing, accompaniment and overlapping voices can produce incorrect words; times
 In the shared 11-clip comparison, original-audio CER was 8.19% for Small and 4.20% for Large-v3. A separate 36-run synthetic robustness diagnostic found that Large-v3 handled added noise better but performed worse on long repeated audio. These development results vary by condition; see [singing measurements](lyriclens-app/docs/SINGING.md) and the [quality plan](lyriclens-app/docs/QUALITY.md) for methods, coverage and results.
 
 The benchmark tools audit coverage, keep development and final groups separate, and compare models on matching inputs. Experimental [fine-tuning](lyriclens-app/docs/FINETUNING.md) uses reviewed recordings with documented permission; the [training sources guide](lyriclens-app/docs/TRAINING_SOURCES.md) covers selection and licensing.
+
+The [real-song collection workflow](lyriclens-app/docs/REAL_SONG_COLLECTION.md) provides a 28-slot collection sheet and an importer that records audio hashes, rejects split leakage, and keeps human review pending. New UI features do not change the recognition model or establish an accuracy improvement.
 
 ## Documentation
 
