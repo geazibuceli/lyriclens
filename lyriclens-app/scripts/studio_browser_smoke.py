@@ -9,6 +9,8 @@ def main():
     root = Path(__file__).resolve().parents[1]
     output = root / 'artifacts' / 'studio'
     output.mkdir(parents=True, exist_ok=True)
+    media = Path(os.environ.get('LYRICLENS_STUDIO_MEDIA_DIR', str(root / 'docs/images')))
+    media.mkdir(parents=True, exist_ok=True)
     fixture = json.loads((root / 'frontend/public/demo/transcript.json').read_text())
     base = os.environ.get('LYRICLENS_BROWSER_URL', 'http://127.0.0.1:5181')
     errors = []
@@ -37,7 +39,7 @@ def main():
         demo.get_by_label('Line 1', exact=True).fill('Every word belongs in time.')
         expect(demo.locator('.lyric-current')).to_have_text('Every word belongs in time.')
         page.evaluate('window.scrollTo(0, 0)')
-        page.screenshot(path=str(root / 'docs/images/listening-studio.png'))
+        page.screenshot(path=str(media / 'listening-studio.png'))
         demo.get_by_text('Tap to synchronize', exact=True).click()
         player.evaluate('(a) => { a.currentTime = 0.5; }')
         demo.get_by_role('button', name='Mark start now', exact=True).click()
@@ -52,7 +54,7 @@ def main():
         assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'), 'Mobile overflow'
         video = page.video
         context.close()
-        video.save_as(str(root / 'docs/images/studio-demo.webm'))
+        video.save_as(str(media / 'studio-demo.webm'))
 
         # Exercise a real editor component against a deterministic API fixture.
         page = browser.new_page(viewport={'width': 1440, 'height': 1000})

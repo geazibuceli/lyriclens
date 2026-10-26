@@ -1,6 +1,47 @@
 name: LyricLens checks
 on: [push, pull_request]
 jobs:
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        separation: ['false', 'true']
+    defaults:
+      run:
+        working-directory: lyriclens-app
+    env:
+      COMPOSE_PROJECT_NAME: lyriclens-ci-${{ matrix.separation }}
+      LYRICLENS_WITH_SEPARATION: ${{ matrix.separation }}
+      LYRICLENS_WITH_TRANSLATION: 'false'
+      LYRICLENS_BACKEND_PORT: '18012'
+      LYRICLENS_FRONTEND_PORT: '15182'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: docker compose config --quiet
+      - run: docker compose build
+      - run: docker compose up -d --no-build
+      - name: Check optional vocal dependencies
+        if: matrix.separation == 'true'
+        run: docker compose exec -T backend python -c "import demucs, torch, torchaudio; print('Vocal dependencies available')"
+      - run: python scripts/docker_smoke.py --url http://127.0.0.1:15182 --output artifacts/docker-smoke/report.json
+      - name: Capture container logs
+        if: always()
+        run: |
+          mkdir -p artifacts/docker-smoke
+          docker compose logs --no-color > artifacts/docker-smoke/compose.log 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: docker-diagnostics-separation-${{ matrix.separation }}
+          path: lyriclens-app/artifacts/docker-smoke/
+      - name: Clean up isolated CI containers and volume
+        if: always()
+        run: docker compose down --volumes --remove-orphans
   backend:
     runs-on: ubuntu-latest
     steps:
@@ -24,6 +65,7 @@ jobs:
           cache-dependency-path: lyriclens-app/frontend/package-lock.json
       - run: npm ci
       - run: npm run format:check
+      - run: npm run test:studio
       - run: npm run build
   browser:
     runs-on: ubuntu-latest

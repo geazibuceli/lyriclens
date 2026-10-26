@@ -1,17 +1,28 @@
 services:
   backend:
-    build: .
+    build:
+      context: .
+      args:
+        WITH_SEPARATION: ${LYRICLENS_WITH_SEPARATION:-false}
+        WITH_TRANSLATION: ${LYRICLENS_WITH_TRANSLATION:-false}
     volumes:
       - lyriclens-data:/data
     ports:
       - "127.0.0.1:${LYRICLENS_BACKEND_PORT:-8012}:8000"
     init: true
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import json, urllib.request; r = urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3); assert json.load(r)['worker_alive']"]
+      interval: 10s
+      timeout: 5s
+      start_period: 20s
+      retries: 6
   frontend:
     build: ./frontend
     ports:
       - "127.0.0.1:${LYRICLENS_FRONTEND_PORT:-5182}:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
 volumes:
   lyriclens-data:

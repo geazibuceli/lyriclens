@@ -14,7 +14,8 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--backend-port',type=int,default=8011)
     parser.add_argument('--frontend-port',type=int,default=5181)
-    choices = ('onboarding_browser_smoke.py', 'editor_browser_smoke.py', 'reliability_browser_smoke.py', 'review_browser_smoke.py')
+    choices = ('onboarding_browser_smoke.py', 'editor_browser_smoke.py', 'reliability_browser_smoke.py', 'review_browser_smoke.py',
+               'studio_browser_smoke.py', 'recognition_settings_browser_smoke.py')
     parser.add_argument('--scripts', nargs='+', choices=choices, default=list(choices))
     args=parser.parse_args()
     root=Path(__file__).resolve().parents[2]
@@ -28,7 +29,8 @@ def main():
     with tempfile.TemporaryDirectory() as data, (output/'backend.log').open('w') as backend_log, (output/'frontend.log').open('w') as frontend_log:
         env={**os.environ,'LYRICLENS_DATA':data,'LYRICLENS_DEVICE':'cpu','LYRICLENS_COMPUTE':'int8',
              'LYRICLENS_API_URL':f'http://127.0.0.1:{args.backend_port}',
-             'LYRICLENS_BROWSER_URL':f'http://127.0.0.1:{args.frontend_port}'}
+             'LYRICLENS_BROWSER_URL':f'http://127.0.0.1:{args.frontend_port}',
+             'LYRICLENS_STUDIO_MEDIA_DIR':str(output/'studio-media')}
         try:
             processes.append(subprocess.Popen([sys.executable,'-m','uvicorn','lyriclens.api:app','--host','127.0.0.1','--port',str(args.backend_port)],cwd=root,env=env,stdout=backend_log,stderr=subprocess.STDOUT))
             processes.append(subprocess.Popen(['node',str(root/'lyriclens-app/frontend/node_modules/vite/bin/vite.js'),'--host','127.0.0.1','--port',str(args.frontend_port),'--strictPort'],cwd=root/'lyriclens-app/frontend',env=env,stdout=frontend_log,stderr=subprocess.STDOUT))

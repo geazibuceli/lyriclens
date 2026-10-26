@@ -168,3 +168,24 @@ Fewer passages do not establish better lyric accuracy or prove that no singing
 was omitted. The speech detector can miss singing and react to accompaniment;
 compare with protection disabled. No existing transcript was filtered in place.
 See [recognition mistakes](TRANSCRIPTION_QUALITY.md) for the controls and limits.
+
+## Docker update checks — 2026-10-26
+
+Both Docker variants were built and started locally: the default inference image
+and the CPU vocal-separation image. The production frontend bundle, bundled demo
+audio, Nginx API proxy, guarded digital-silence upload, raw response and all four
+export formats passed `scripts/docker_smoke.py`. Each fixture job was removed.
+The bundled ONNX voice detector executed on silence inside the separation image.
+CPU Demucs, Torch and torchaudio imports also passed.
+
+The existing local Docker installation was updated with vocal separation enabled
+and translation disabled. Its named data volume, two existing job IDs and prepared
+Small/separation weights were preserved. Rollback image tags were retained.
+The temporary default-image test project and its empty volume were removed.
+No recognition weights were downloaded and no singing-accuracy result is claimed.
+
+Compose now persists optional build features through environment flags and waits
+for backend health before starting the frontend. The CI workflow includes the
+same Docker matrix, diagnostics artifacts and isolated cleanup. These builds and
+smoke checks were run locally; the revised GitHub Actions workflow has not yet
+run on GitHub.

@@ -24,6 +24,7 @@ From the repository root, with the development dependencies installed:
 ```powershell
 .\.venv311\Scripts\python.exe -m pytest lyriclens-app/backend/tests -q
 npm.cmd --prefix lyriclens-app/frontend run format:check
+npm.cmd --prefix lyriclens-app/frontend run test:studio
 npm.cmd --prefix lyriclens-app/frontend run build
 ```
 
@@ -36,6 +37,30 @@ python lyriclens-app/scripts/ci_browser.py --backend-port 8013 --frontend-port 5
 ```
 
 The runner covers simple upload, editing, recovery, playback, mobile layouts and accessibility. It creates and removes its own fixtures and stops only its own processes. `--scripts onboarding_browser_smoke.py` runs the upload check alone. Screenshot and log artifacts go under ignored `lyriclens-app/artifacts`.
+
+The default browser run also checks the listening studio and recognition controls
+using deterministic API fixtures, without downloading or loading recognition
+models. To run those checks alone:
+
+```powershell
+python lyriclens-app/scripts/ci_browser.py --backend-port 8013 --frontend-port 5183 --scripts studio_browser_smoke.py recognition_settings_browser_smoke.py
+```
+
+The CI runner sets `LYRICLENS_STUDIO_MEDIA_DIR` to its artifact directory so
+studio checks do not overwrite committed README images and video. Running
+`studio_browser_smoke.py` directly still regenerates documentation media by
+default; set that variable to choose a different output directory.
+
+GitHub Actions runs backend pytest, frontend formatting, lyric-timing tests,
+the production build and all default browser checks. Recognition accuracy on
+real music remains a separate reviewed benchmark, rather than a model download
+or inference requirement for every pull request.
+
+The Docker CI matrix also builds and starts both services with CPU vocal
+separation enabled and disabled. It checks optional imports in the enabled
+image and runs `scripts/docker_smoke.py` through Nginx. Logs and reports are
+uploaded as Docker diagnostics. Only the isolated CI project's containers and
+temporary volume are removed; local application data is not used by that job.
 
 ## Recognition changes
 

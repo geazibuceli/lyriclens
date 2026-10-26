@@ -159,3 +159,28 @@ docker compose up
 
 Open http://127.0.0.1:5182 (Docker backend host port 8012). Persistent data is in `lyriclens-data`. For optional CPU separation, build with `docker compose build --build-arg WITH_SEPARATION=true backend`, then explicitly run `docker compose run --rm backend python -m lyriclens.models separation-download`. This optional image adds CPU-only PyTorch wheels. Do not expose the local MVP publicly without authentication, authorization, origin/CSRF protection, TLS, process/network isolation, quotas, proxy body limits and OS resource limits.
 
+### Update an existing Docker installation
+
+Keep optional build features in a local `lyriclens-app/.env` so later rebuilds
+retain them. For vocal separation, set `LYRICLENS_WITH_SEPARATION=true`. Set
+`LYRICLENS_WITH_TRANSLATION=true` only if you use local translation. Both default
+to false; example values are in `.env.example`. These flags install dependencies,
+not model weights. Existing prepared models stay in the data volume.
+
+From `lyriclens-app`, after active transcription and translation jobs finish:
+
+```sh
+docker compose build
+docker compose up -d --no-build
+python scripts/docker_smoke.py --url http://127.0.0.1:5182 --output artifacts/docker-smoke/report.json
+```
+
+Rebuilding is necessary because application source is copied into the images.
+The backend health check must pass before the frontend starts. The named data
+volume is reused; do not remove it when updating. Native Windows services at
+5181/8011 and Docker services at 5182/8012 have separate data directories.
+
+The smoke check verifies the production frontend, bundled demo audio, API proxy,
+guarded digital-silence processing and exports. It deletes only its own temporary
+job, performs no model downloads, and does not benchmark singing recognition.
+

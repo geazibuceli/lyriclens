@@ -8,8 +8,6 @@ Your local studio for reviewed, synchronized lyrics. Upload a recording, listen 
 
 [Watch the short studio walkthrough](lyriclens-app/docs/images/studio-demo.webm) · [Listening and synchronization guide](lyriclens-app/docs/LISTENING_STUDIO.md)
 
-![LyricLens upload workspace with language selection and advanced transcription options](lyriclens-app/docs/images/workspace.png)
-
 ## Features
 
 - **Seven language choices:** Korean, Japanese, Mandarin Chinese, English, Spanish, Portuguese and French, plus automatic whole-clip detection.
