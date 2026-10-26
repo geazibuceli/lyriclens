@@ -29,6 +29,8 @@ class Settings:
     compute_type: str = os.getenv("LYRICLENS_COMPUTE", "int8")
     separation_device: str = os.getenv("LYRICLENS_SEPARATION_DEVICE", "cpu")
     word_timestamps: bool = False
+    hallucination_silence_threshold: float | None = None
+    vad_filter: bool = False
     max_bytes: int = int(os.getenv("LYRICLENS_MAX_BYTES", str(150 * 1024 * 1024)))
     max_seconds: float = float(os.getenv("LYRICLENS_MAX_SECONDS", "600"))
     queue_size: int = int(os.getenv("LYRICLENS_QUEUE_SIZE", "8"))
@@ -44,6 +46,10 @@ class Settings:
 
     def inference(self):
         return {"task": "transcribe", "beam_size": 5, "temperature": 0.0,
-                "condition_on_previous_text": False, "vad_filter": False,
+                "condition_on_previous_text": False, "vad_filter": self.vad_filter,
                 "no_speech_threshold": 0.6, "log_prob_threshold": -1.0,
-                "compression_ratio_threshold": 2.4, "word_timestamps": self.word_timestamps}
+                "compression_ratio_threshold": 2.4, "word_timestamps": self.word_timestamps,
+                **({'hallucination_silence_threshold': self.hallucination_silence_threshold}
+                   if self.hallucination_silence_threshold is not None else {}),
+                **({'vad_parameters': {'threshold': 0.1, 'min_silence_duration_ms': 10000,
+                                       'speech_pad_ms': 3000}} if self.vad_filter else {})}
