@@ -1,0 +1,644 @@
+{
+  "executed_at": "2026-11-08T16:04:38.617447+00:00",
+  "purpose": "Complete-song inference smoke check; no accuracy scoring",
+  "interpretation": "Completion means inference returned structurally valid timestamps. It does not mean the recognized words are correct or synchronized by human review. Recognition timing includes cold loading and model reuse; separation is recorded separately and reused across profiles. No automatic model or pipeline selection.",
+  "human_review_required": true,
+  "accuracy_scored": false,
+  "independent_groups": 1,
+  "final_recordings": 0,
+  "manifest_sha256": "097632379713ff510b21b1050ca3a29a871896fd70c5631610ed2235514e5457",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "fastapi": "0.115.12",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.8.3",
+      "demucs": "4.0.1",
+      "torch": "2.5.1"
+    }
+  },
+  "attempted": 12,
+  "completed": 12,
+  "pipelines": [
+    "direct",
+    "vocals"
+  ],
+  "separation": [
+    {
+      "id": "woodward-iwillnotletyouletmedown",
+      "device": "cpu",
+      "model": "htdemucs",
+      "shifts": 0,
+      "state": "completed",
+      "sha256": "e5415ff1e9676691efd843852292c36f4c47879d8a5d395d3e2009b2cb2eb441",
+      "seconds": 40.28297509999993
+    },
+    {
+      "id": "woodward-thisiseverything",
+      "device": "cpu",
+      "model": "htdemucs",
+      "shifts": 0,
+      "state": "completed",
+      "sha256": "38892d3dee97031c01fe7e8ad46c2c8d732ca22a40d494a32de96f5245bdc0e1",
+      "seconds": 39.36786910000046
+    },
+    {
+      "id": "woodward-hollowgrove",
+      "device": "cpu",
+      "model": "htdemucs",
+      "shifts": 0,
+      "state": "completed",
+      "sha256": "1fa2b2b49cdaf9d968a23e6472ec26c1f24611c88d69ab6f08c0a573b2219c7f",
+      "seconds": 46.902368099999876
+    }
+  ],
+  "per_run": [
+    {
+      "id": "woodward-iwillnotletyouletmedown",
+      "title": "I Will Not Let You Let Me Down",
+      "audio_sha256": "774bc6eb99435748854c07fdbf496e12422c3390eeaf6dbac42ff8ef5f3075a7",
+      "duration": 181.8945625,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "configured",
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "pipeline": "direct",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "774bc6eb99435748854c07fdbf496e12422c3390eeaf6dbac42ff8ef5f3075a7",
+      "state": "completed",
+      "segments": 25,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 3.0053707000006398,
+      "real_time_factor": 0.016522597809929804
+    },
+    {
+      "id": "woodward-iwillnotletyouletmedown",
+      "title": "I Will Not Let You Let Me Down",
+      "audio_sha256": "774bc6eb99435748854c07fdbf496e12422c3390eeaf6dbac42ff8ef5f3075a7",
+      "duration": 181.8945625,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "configured",
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "pipeline": "vocals",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "e5415ff1e9676691efd843852292c36f4c47879d8a5d395d3e2009b2cb2eb441",
+      "state": "completed",
+      "segments": 17,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 2.0061965999993845,
+      "real_time_factor": 0.011029447897868768
+    },
+    {
+      "id": "woodward-thisiseverything",
+      "title": "This Is Everything",
+      "audio_sha256": "9f2ad09c6cfa065deb355f8810098eef7a06d551d75548205fc059e0c9e5c8b4",
+      "duration": 206.722875,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "configured",
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "pipeline": "direct",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "9f2ad09c6cfa065deb355f8810098eef7a06d551d75548205fc059e0c9e5c8b4",
+      "state": "completed",
+      "segments": 25,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 4.375484799999867,
+      "real_time_factor": 0.021165944020466374
+    },
+    {
+      "id": "woodward-thisiseverything",
+      "title": "This Is Everything",
+      "audio_sha256": "9f2ad09c6cfa065deb355f8810098eef7a06d551d75548205fc059e0c9e5c8b4",
+      "duration": 206.722875,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "configured",
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "pipeline": "vocals",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "38892d3dee97031c01fe7e8ad46c2c8d732ca22a40d494a32de96f5245bdc0e1",
+      "state": "completed",
+      "segments": 21,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 4.2733963999999105,
+      "real_time_factor": 0.02067210220446049
+    },
+    {
+      "id": "woodward-hollowgrove",
+      "title": "Hollow Grove",
+      "audio_sha256": "61a57a2f1adf56de081fca83b5b7b007a98a1024043c01e4dd86ec7a3bf29795",
+      "duration": 234.9626875,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "configured",
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "pipeline": "direct",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "61a57a2f1adf56de081fca83b5b7b007a98a1024043c01e4dd86ec7a3bf29795",
+      "state": "completed",
+      "segments": 40,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 2.4194265000005544,
+      "real_time_factor": 0.010297066848116276
+    },
+    {
+      "id": "woodward-hollowgrove",
+      "title": "Hollow Grove",
+      "audio_sha256": "61a57a2f1adf56de081fca83b5b7b007a98a1024043c01e4dd86ec7a3bf29795",
+      "duration": 234.9626875,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "configured",
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "pipeline": "vocals",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "1fa2b2b49cdaf9d968a23e6472ec26c1f24611c88d69ab6f08c0a573b2219c7f",
+      "state": "completed",
+      "segments": 25,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 2.0631192000000738,
+      "real_time_factor": 0.00878062479601181
+    },
+    {
+      "id": "woodward-iwillnotletyouletmedown",
+      "title": "I Will Not Let You Let Me Down",
+      "audio_sha256": "774bc6eb99435748854c07fdbf496e12422c3390eeaf6dbac42ff8ef5f3075a7",
+      "duration": 181.8945625,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "large-v3",
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "pipeline": "direct",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "774bc6eb99435748854c07fdbf496e12422c3390eeaf6dbac42ff8ef5f3075a7",
+      "state": "completed",
+      "segments": 29,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 6.965210100000149,
+      "real_time_factor": 0.03829256908105842
+    },
+    {
+      "id": "woodward-iwillnotletyouletmedown",
+      "title": "I Will Not Let You Let Me Down",
+      "audio_sha256": "774bc6eb99435748854c07fdbf496e12422c3390eeaf6dbac42ff8ef5f3075a7",
+      "duration": 181.8945625,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "large-v3",
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "pipeline": "vocals",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "e5415ff1e9676691efd843852292c36f4c47879d8a5d395d3e2009b2cb2eb441",
+      "state": "completed",
+      "segments": 19,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 4.606974399999672,
+      "real_time_factor": 0.025327719183467465
+    },
+    {
+      "id": "woodward-thisiseverything",
+      "title": "This Is Everything",
+      "audio_sha256": "9f2ad09c6cfa065deb355f8810098eef7a06d551d75548205fc059e0c9e5c8b4",
+      "duration": 206.722875,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "large-v3",
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "pipeline": "direct",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "9f2ad09c6cfa065deb355f8810098eef7a06d551d75548205fc059e0c9e5c8b4",
+      "state": "completed",
+      "segments": 35,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 5.166682600000058,
+      "real_time_factor": 0.024993279529418592
+    },
+    {
+      "id": "woodward-thisiseverything",
+      "title": "This Is Everything",
+      "audio_sha256": "9f2ad09c6cfa065deb355f8810098eef7a06d551d75548205fc059e0c9e5c8b4",
+      "duration": 206.722875,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "large-v3",
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "pipeline": "vocals",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "38892d3dee97031c01fe7e8ad46c2c8d732ca22a40d494a32de96f5245bdc0e1",
+      "state": "completed",
+      "segments": 31,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 5.272713699999258,
+      "real_time_factor": 0.025506193738836395
+    },
+    {
+      "id": "woodward-hollowgrove",
+      "title": "Hollow Grove",
+      "audio_sha256": "61a57a2f1adf56de081fca83b5b7b007a98a1024043c01e4dd86ec7a3bf29795",
+      "duration": 234.9626875,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "large-v3",
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "pipeline": "direct",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "61a57a2f1adf56de081fca83b5b7b007a98a1024043c01e4dd86ec7a3bf29795",
+      "state": "completed",
+      "segments": 44,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 5.216022699999485,
+      "real_time_factor": 0.02219936601635732
+    },
+    {
+      "id": "woodward-hollowgrove",
+      "title": "Hollow Grove",
+      "audio_sha256": "61a57a2f1adf56de081fca83b5b7b007a98a1024043c01e4dd86ec7a3bf29795",
+      "duration": 234.9626875,
+      "group_id": "josh-woodward-the-wake-2012",
+      "profile": "large-v3",
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "pipeline": "vocals",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "1fa2b2b49cdaf9d968a23e6472ec26c1f24611c88d69ab6f08c0a573b2219c7f",
+      "state": "completed",
+      "segments": 45,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 5.104044700000486,
+      "real_time_factor": 0.02172278821930178
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "id": "woodward-iwillnotletyouletmedown",
+      "profile": "configured",
+      "title": "I Will Not Let You Let Me Down",
+      "completed_pair": true,
+      "direct": {
+        "state": "completed",
+        "recognition_seconds": 3.0053707000006398,
+        "review_signals": {
+          "passages": 25,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 2,
+          "empty_passages": 0
+        }
+      },
+      "vocals": {
+        "state": "completed",
+        "recognition_seconds": 2.0061965999993845,
+        "review_signals": {
+          "passages": 17,
+          "long_passages": 1,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "same_normalized_text": false
+    },
+    {
+      "id": "woodward-thisiseverything",
+      "profile": "configured",
+      "title": "This Is Everything",
+      "completed_pair": true,
+      "direct": {
+        "state": "completed",
+        "recognition_seconds": 4.375484799999867,
+        "review_signals": {
+          "passages": 25,
+          "long_passages": 2,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "vocals": {
+        "state": "completed",
+        "recognition_seconds": 4.2733963999999105,
+        "review_signals": {
+          "passages": 21,
+          "long_passages": 1,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "same_normalized_text": false
+    },
+    {
+      "id": "woodward-hollowgrove",
+      "profile": "configured",
+      "title": "Hollow Grove",
+      "completed_pair": true,
+      "direct": {
+        "state": "completed",
+        "recognition_seconds": 2.4194265000005544,
+        "review_signals": {
+          "passages": 40,
+          "long_passages": 1,
+          "adjacent_duplicate_passages": 11,
+          "empty_passages": 0
+        }
+      },
+      "vocals": {
+        "state": "completed",
+        "recognition_seconds": 2.0631192000000738,
+        "review_signals": {
+          "passages": 25,
+          "long_passages": 1,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "same_normalized_text": false
+    },
+    {
+      "id": "woodward-iwillnotletyouletmedown",
+      "profile": "large-v3",
+      "title": "I Will Not Let You Let Me Down",
+      "completed_pair": true,
+      "direct": {
+        "state": "completed",
+        "recognition_seconds": 6.965210100000149,
+        "review_signals": {
+          "passages": 29,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 3,
+          "empty_passages": 0
+        }
+      },
+      "vocals": {
+        "state": "completed",
+        "recognition_seconds": 4.606974399999672,
+        "review_signals": {
+          "passages": 19,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 1,
+          "empty_passages": 0
+        }
+      },
+      "same_normalized_text": false
+    },
+    {
+      "id": "woodward-thisiseverything",
+      "profile": "large-v3",
+      "title": "This Is Everything",
+      "completed_pair": true,
+      "direct": {
+        "state": "completed",
+        "recognition_seconds": 5.166682600000058,
+        "review_signals": {
+          "passages": 35,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "vocals": {
+        "state": "completed",
+        "recognition_seconds": 5.272713699999258,
+        "review_signals": {
+          "passages": 31,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 1,
+          "empty_passages": 0
+        }
+      },
+      "same_normalized_text": false
+    },
+    {
+      "id": "woodward-hollowgrove",
+      "profile": "large-v3",
+      "title": "Hollow Grove",
+      "completed_pair": true,
+      "direct": {
+        "state": "completed",
+        "recognition_seconds": 5.216022699999485,
+        "review_signals": {
+          "passages": 44,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "vocals": {
+        "state": "completed",
+        "recognition_seconds": 5.104044700000486,
+        "review_signals": {
+          "passages": 45,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "same_normalized_text": false
+    }
+  ],
+  "review_signal_interpretation": "Long passages exceed 20 seconds. Adjacent duplicate passages repeat the same trimmed text. These are review prompts, not word accuracy or confidence. Real choruses may repeat; different segmentation affects these counts. Different route text does not identify which route is correct.",
+  "conclusion": "No automatic winner. Listen and review the words before making an accuracy claim. This one-artist English pilot cannot establish robustness to different singers or accents."
+}
