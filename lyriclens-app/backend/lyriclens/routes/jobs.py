@@ -17,6 +17,7 @@ from ..store import now
 from ..worker import environment
 from ..schemas import Job
 from ..profiles import profile_settings
+from ..maintenance import folder_for, linked
 
 
 def register_routes(app, context):
@@ -115,9 +116,31 @@ def register_routes(app, context):
             return store.update(job_id, title=edit.title.strip())
 
     @app.get("/api/jobs/{job_id}/audio")
-    def audio(job_id: str):
-        get_job(job_id)
-        return FileResponse(settings.root / "jobs" / job_id / "original", filename="clip" + Path(get_job(job_id)["filename"]).suffix)
+    def audio(job_id: str, compatible: bool = False):
+        with store.lock:
+            job = get_job(job_id)
+            folder = folder_for(settings, job_id)
+            source = folder / 'original'
+            if not source.is_file() or linked(source):
+                raise HTTPException(404, 'Original audio is unavailable. Upload the recording again.')
+            suffix = Path(job['filename']).suffix.lower()
+            if compatible:
+                target = folder / 'playback.wav'
+                temporary = folder / 'playback-pending.wav'
+                if any(path.exists() and linked(path) for path in (target, temporary)):
+                    raise HTTPException(409, 'Playback cache is unavailable.')
+                if not target.exists():
+                    try:
+                        worker.decoder.decode(source, temporary)
+                        temporary.replace(target)
+                    except (ValueError, OSError) as exc:
+                        temporary.unlink(missing_ok=True)
+                        raise HTTPException(422, 'Compatible audio could not be prepared. Check FFmpeg and the original recording.') from exc
+                source, suffix = target, '.wav'
+            media = {'.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.flac': 'audio/flac',
+                     '.m4a': 'audio/mp4', '.mp4': 'video/mp4'}.get(suffix, 'application/octet-stream')
+            return FileResponse(source, media_type=media, filename='clip' + suffix,
+                                content_disposition_type='inline')
 
     @app.put("/api/jobs/{job_id}/edit", response_model=Job)
     def edit_job(job_id: str, edit: Edit):
