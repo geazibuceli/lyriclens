@@ -1,5 +1,22 @@
 # Delivery verification
 
+## Complete-song preparation and execution, 2026-11-08
+
+The open-song preparation, collection, benchmark and coverage tests passed:
+**37 tests**. Coverage includes publisher-license/identity changes, missing lyric
+data, unexpected or instrumental audio links, preserved attribution and pending
+approvals, refusal to overwrite local review work, and inference failure handling
+without leaking recognized words into the public summary.
+
+Three complete English songs by Josh Woodward were downloaded from the artist's
+CC BY 4.0 recording pages, with original MP3s, publisher lyrics and hashed HTML
+evidence retained locally. Small and Large-v3 completed **six direct-audio
+CUDA/float16 executions** with valid timestamp bounds. The
+[execution report](../evaluation/open-song-pilot-smoke.json) contains no lyric
+accuracy scores. Publisher chorus abbreviations require listening review, all
+references remain pending, and all songs stay in one development group. See the
+[pilot guide](OPEN_SONG_PILOT.md) for attribution and reproduction instructions.
+
 ## Lyric imports, library organization and batch upload, 2026-10-21
 
 The backend suite passed with **132 tests and four skips**. Rename API coverage checks Unicode titles, whitespace trimming, persistence in library responses, unchanged filenames/hashes, length rejection, title reset and missing jobs. Frontend formatting and the TypeScript/Vite production build passed.
