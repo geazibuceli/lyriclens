@@ -1,0 +1,441 @@
+{
+  "executed_at": "2026-11-08T16:31:12.464594+00:00",
+  "purpose": "Complete-song inference smoke check; no accuracy scoring",
+  "interpretation": "Completion means inference returned structurally valid timestamps. It does not mean the recognized words are correct or synchronized by human review. Recognition timing includes cold loading and model reuse; separation is recorded separately and reused across profiles. No automatic model or pipeline selection.",
+  "human_review_required": true,
+  "accuracy_scored": false,
+  "independent_groups": 2,
+  "final_recordings": 0,
+  "manifest_sha256": "706f0f54a7b05e2e15cd800f2aef21ec2827923de0bfec6d2e1357be5edb31fb",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "fastapi": "0.115.12",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.8.3",
+      "demucs": "4.0.1",
+      "torch": "2.5.1"
+    }
+  },
+  "attempted": 8,
+  "completed": 8,
+  "pipelines": [
+    "direct",
+    "vocals"
+  ],
+  "separation": [
+    {
+      "id": "javolenus-on-a-silent-night",
+      "device": "cpu",
+      "model": "htdemucs",
+      "shifts": 0,
+      "state": "completed",
+      "sha256": "bd6e86aa4c4d12cd66bef3be9f3d8ac96fa7fc6f954695da6dc1ce06bc20ddf4",
+      "seconds": 69.38450580000062
+    },
+    {
+      "id": "rhiannon-where-you-are-now",
+      "device": "cpu",
+      "model": "htdemucs",
+      "shifts": 0,
+      "state": "completed",
+      "sha256": "84a7a6bca2b885c13e29057f405509853ed83dee88f226ced6b92fa489d58dca",
+      "seconds": 36.83718250000129
+    }
+  ],
+  "per_run": [
+    {
+      "id": "javolenus-on-a-silent-night",
+      "title": "On A Silent Night",
+      "audio_sha256": "dcce5a728daa889a0225e297dbfbb069fe2f982d3f224e45cdb03eeaa6337457",
+      "duration": 259.3698125,
+      "group_id": "singer-session-javolenus",
+      "profile": "configured",
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "pipeline": "direct",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "dcce5a728daa889a0225e297dbfbb069fe2f982d3f224e45cdb03eeaa6337457",
+      "state": "completed",
+      "segments": 26,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 3.014695500000016,
+      "real_time_factor": 0.011623154872736071
+    },
+    {
+      "id": "javolenus-on-a-silent-night",
+      "title": "On A Silent Night",
+      "audio_sha256": "dcce5a728daa889a0225e297dbfbb069fe2f982d3f224e45cdb03eeaa6337457",
+      "duration": 259.3698125,
+      "group_id": "singer-session-javolenus",
+      "profile": "configured",
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "pipeline": "vocals",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "bd6e86aa4c4d12cd66bef3be9f3d8ac96fa7fc6f954695da6dc1ce06bc20ddf4",
+      "state": "completed",
+      "segments": 18,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 1.7745687000006,
+      "real_time_factor": 0.006841847487554474
+    },
+    {
+      "id": "rhiannon-where-you-are-now",
+      "title": "Where You Are Now",
+      "audio_sha256": "b9776e022c15f816f30296b1c27a676620bb47fc5647c3a43da69678c1a6be8b",
+      "duration": 179.9261875,
+      "group_id": "singer-session-rhiannon-delpero",
+      "profile": "configured",
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "pipeline": "direct",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "b9776e022c15f816f30296b1c27a676620bb47fc5647c3a43da69678c1a6be8b",
+      "state": "completed",
+      "segments": 24,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 1.7864501000003656,
+      "real_time_factor": 0.009928794272931314
+    },
+    {
+      "id": "rhiannon-where-you-are-now",
+      "title": "Where You Are Now",
+      "audio_sha256": "b9776e022c15f816f30296b1c27a676620bb47fc5647c3a43da69678c1a6be8b",
+      "duration": 179.9261875,
+      "group_id": "singer-session-rhiannon-delpero",
+      "profile": "configured",
+      "model": "Systran/faster-whisper-small",
+      "revision": "2ec96c5472da50d38d40c0cfe0602af2e94b4c8a",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": false
+      },
+      "pipeline": "vocals",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "84a7a6bca2b885c13e29057f405509853ed83dee88f226ced6b92fa489d58dca",
+      "state": "completed",
+      "segments": 18,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 1.641160299999683,
+      "real_time_factor": 0.009121297587654844
+    },
+    {
+      "id": "javolenus-on-a-silent-night",
+      "title": "On A Silent Night",
+      "audio_sha256": "dcce5a728daa889a0225e297dbfbb069fe2f982d3f224e45cdb03eeaa6337457",
+      "duration": 259.3698125,
+      "group_id": "singer-session-javolenus",
+      "profile": "large-v3",
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "pipeline": "direct",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "dcce5a728daa889a0225e297dbfbb069fe2f982d3f224e45cdb03eeaa6337457",
+      "state": "completed",
+      "segments": 30,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 6.6998217000000295,
+      "real_time_factor": 0.025831154502608235
+    },
+    {
+      "id": "javolenus-on-a-silent-night",
+      "title": "On A Silent Night",
+      "audio_sha256": "dcce5a728daa889a0225e297dbfbb069fe2f982d3f224e45cdb03eeaa6337457",
+      "duration": 259.3698125,
+      "group_id": "singer-session-javolenus",
+      "profile": "large-v3",
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "pipeline": "vocals",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "bd6e86aa4c4d12cd66bef3be9f3d8ac96fa7fc6f954695da6dc1ce06bc20ddf4",
+      "state": "completed",
+      "segments": 33,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 4.52052729999923,
+      "real_time_factor": 0.01742888756570015
+    },
+    {
+      "id": "rhiannon-where-you-are-now",
+      "title": "Where You Are Now",
+      "audio_sha256": "b9776e022c15f816f30296b1c27a676620bb47fc5647c3a43da69678c1a6be8b",
+      "duration": 179.9261875,
+      "group_id": "singer-session-rhiannon-delpero",
+      "profile": "large-v3",
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "pipeline": "direct",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "b9776e022c15f816f30296b1c27a676620bb47fc5647c3a43da69678c1a6be8b",
+      "state": "completed",
+      "segments": 23,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 4.099411799999871,
+      "real_time_factor": 0.022783852961925682
+    },
+    {
+      "id": "rhiannon-where-you-are-now",
+      "title": "Where You Are Now",
+      "audio_sha256": "b9776e022c15f816f30296b1c27a676620bb47fc5647c3a43da69678c1a6be8b",
+      "duration": 179.9261875,
+      "group_id": "singer-session-rhiannon-delpero",
+      "profile": "large-v3",
+      "model": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "settings": {
+        "task": "transcribe",
+        "beam_size": 5,
+        "temperature": 0.0,
+        "condition_on_previous_text": false,
+        "vad_filter": false,
+        "no_speech_threshold": 0.6,
+        "log_prob_threshold": -1.0,
+        "compression_ratio_threshold": 2.4,
+        "word_timestamps": true
+      },
+      "pipeline": "vocals",
+      "language_mode": "manual",
+      "recognition_audio_sha256": "84a7a6bca2b885c13e29057f405509853ed83dee88f226ced6b92fa489d58dca",
+      "state": "completed",
+      "segments": 21,
+      "timestamps_reordered": false,
+      "model_executed": true,
+      "timing_recovery_attempted": false,
+      "timing_recovery_succeeded": null,
+      "empty_output": false,
+      "seconds": 3.695626999999149,
+      "real_time_factor": 0.020539683807834528
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "id": "javolenus-on-a-silent-night",
+      "profile": "configured",
+      "title": "On A Silent Night",
+      "completed_pair": true,
+      "direct": {
+        "state": "completed",
+        "recognition_seconds": 3.014695500000016,
+        "review_signals": {
+          "passages": 26,
+          "long_passages": 2,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "vocals": {
+        "state": "completed",
+        "recognition_seconds": 1.7745687000006,
+        "review_signals": {
+          "passages": 18,
+          "long_passages": 4,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "same_normalized_text": false
+    },
+    {
+      "id": "rhiannon-where-you-are-now",
+      "profile": "configured",
+      "title": "Where You Are Now",
+      "completed_pair": true,
+      "direct": {
+        "state": "completed",
+        "recognition_seconds": 1.7864501000003656,
+        "review_signals": {
+          "passages": 24,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 1,
+          "empty_passages": 0
+        }
+      },
+      "vocals": {
+        "state": "completed",
+        "recognition_seconds": 1.641160299999683,
+        "review_signals": {
+          "passages": 18,
+          "long_passages": 1,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "same_normalized_text": false
+    },
+    {
+      "id": "javolenus-on-a-silent-night",
+      "profile": "large-v3",
+      "title": "On A Silent Night",
+      "completed_pair": true,
+      "direct": {
+        "state": "completed",
+        "recognition_seconds": 6.6998217000000295,
+        "review_signals": {
+          "passages": 30,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "vocals": {
+        "state": "completed",
+        "recognition_seconds": 4.52052729999923,
+        "review_signals": {
+          "passages": 33,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "same_normalized_text": false
+    },
+    {
+      "id": "rhiannon-where-you-are-now",
+      "profile": "large-v3",
+      "title": "Where You Are Now",
+      "completed_pair": true,
+      "direct": {
+        "state": "completed",
+        "recognition_seconds": 4.099411799999871,
+        "review_signals": {
+          "passages": 23,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 1,
+          "empty_passages": 0
+        }
+      },
+      "vocals": {
+        "state": "completed",
+        "recognition_seconds": 3.695626999999149,
+        "review_signals": {
+          "passages": 21,
+          "long_passages": 0,
+          "adjacent_duplicate_passages": 0,
+          "empty_passages": 0
+        }
+      },
+      "same_normalized_text": false
+    }
+  ],
+  "review_signal_interpretation": "Long passages exceed 20 seconds. Adjacent duplicate passages repeat the same trimmed text. These are review prompts, not word accuracy or confidence. Real choruses may repeat; different segmentation affects these counts. Different route text does not identify which route is correct.",
+  "conclusion": "No automatic winner. Listen and review the words before making an accuracy claim. A small development pilot without verified accent labels and reviewed references cannot establish robustness to different accents."
+}
