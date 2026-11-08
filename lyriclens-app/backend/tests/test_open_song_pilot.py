@@ -130,3 +130,85 @@ def test_smoke_checks_timestamps_and_continues_after_failure(tmp_path, monkeypat
     assert report['human_review_required'] is True
     with pytest.raises(FileExistsError):
         smoke.run(manifest, output)
+
+
+@pytest.mark.parametrize('failure', [None, 'separation', 'timeline'])
+def test_paired_smoke_reuses_isolation_and_keeps_direct_results(tmp_path, monkeypatch, failure):
+    smoke_spec = importlib.util.spec_from_file_location(
+        'paired_smoke', Path(__file__).resolve().parents[2] / 'scripts/run_full_song_smoke.py')
+    smoke = importlib.util.module_from_spec(smoke_spec)
+    smoke_spec.loader.exec_module(smoke)
+    manifest = tmp_path / 'manifest.jsonl'
+    manifest.write_text('fixture', encoding='utf-8')
+    source = tmp_path / 'original.wav'
+    source.write_bytes(b'original')
+    rows = [dict(id='song', group_id='session', sha256=hashlib.sha256(b'original').hexdigest(),
+                 resolved_path=source, language='en', split='development', duration=180,
+                 conditions={'full_song': True})]
+    isolated = []
+    closed = []
+    recognized = []
+
+    class Separator:
+        def __init__(self, settings):
+            pass
+
+        def separate(self, audio, directory):
+            isolated.append(audio)
+            if failure == 'separation':
+                raise ValueError('Isolation failed')
+            return audio
+
+        def close(self):
+            closed.append(True)
+
+    class Decoder:
+        def __init__(self, settings):
+            pass
+
+        def decode(self, original, target):
+            target.write_bytes(b'isolated vocals')
+            return {'duration': 179 if failure == 'timeline' else 180}
+
+    class Transcriber:
+        def __init__(self, settings):
+            pass
+
+        def transcribe(self, audio, language):
+            recognized.append(audio.read_bytes())
+            return dict(segments=[dict(start=1, end=3, text='Private words')], model_executed=True)
+
+    monkeypatch.setattr(smoke, 'load_manifest', lambda _: rows)
+    monkeypatch.setattr(smoke, 'environment', lambda: {})
+    monkeypatch.setattr(smoke, 'DemucsSeparator', Separator)
+    monkeypatch.setattr(smoke, 'FFmpegDecoder', Decoder)
+    monkeypatch.setattr(smoke, 'WhisperTranscriber', Transcriber)
+    report = smoke.run(manifest, tmp_path / 'out', pipelines=('direct', 'vocals'))
+    assert len(isolated) == len(closed) == 1
+    assert report['attempted'] == 4
+    assert report['completed'] == (2 if failure else 4)
+    if not failure:
+        assert recognized == [b'original', b'isolated vocals'] * 2
+        vocals = [row for row in report['per_run'] if row['pipeline'] == 'vocals']
+        assert vocals[0]['recognition_audio_sha256'] == vocals[1]['recognition_audio_sha256']
+    else:
+        assert recognized == [b'original', b'original']
+        assert all(row['state'] == 'failed' for row in report['per_run'] if row['pipeline'] == 'vocals')
+    assert 'Private words' not in json.dumps(report)
+    assert report['accuracy_scored'] is False
+    summary_spec = importlib.util.spec_from_file_location(
+        'route_summary', Path(__file__).resolve().parents[2] / 'scripts/summarize_full_song_routes.py')
+    summary_module = importlib.util.module_from_spec(summary_spec)
+    summary_spec.loader.exec_module(summary_module)
+    summary_path = tmp_path / 'out' / 'summary.json'
+    comparison = summary_module.summarize(summary_path)
+    assert len(comparison['paired_comparisons']) == 2
+    assert 'Private words' not in json.dumps(comparison)
+    assert all(pair['completed_pair'] is (failure is None) for pair in comparison['paired_comparisons'])
+    if not failure:
+        assert comparison['paired_comparisons'][0]['same_normalized_text'] is True
+        assert comparison['paired_comparisons'][0]['vocals']['review_signals']['long_passages'] == 0
+    report['per_run'][1]['audio_sha256'] = 'different audio'
+    summary_path.write_text(json.dumps(report), encoding='utf-8')
+    with pytest.raises(ValueError, match='Unpaired inputs'):
+        summary_module.summarize(summary_path)
