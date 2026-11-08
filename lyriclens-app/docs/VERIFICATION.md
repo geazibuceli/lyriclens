@@ -1,5 +1,33 @@
 # Delivery verification
 
+## Listening worksheet, 2026-11-08
+
+A local Chromium check passed for the generated five-recording, 73-window listening
+worksheet: original and isolated WAV playback started, annotations downloaded as
+JSON drafts, and `human_review_verified` remained false. No JavaScript errors were
+observed. This verifies worksheet behavior, not listening accuracy or reference
+approval. See [the worksheet instructions](MULTI_SINGER_PILOT.md#local-listening-worksheet).
+
+## Additional singers and source preparation, 2026-11-08
+
+Preparation, paired execution, benchmark and coverage checks passed: **28 tests**.
+New checks reject changed recording-specific licenses, unexpected audio origins,
+missing/damaged publisher lyrics and invented accent/reference approvals. Legacy
+punctuation decoding, distinct singer groups and non-overwriting outputs are covered.
+All **eight new paired executions** completed on the two additional recordings,
+with no accuracy scores. See the [additional-singer guide](MULTI_SINGER_PILOT.md).
+
+## Paired full-song original/vocal routes, 2026-11-08
+
+The pilot preparation and paired execution tests passed: **12 tests**, including
+reuse of one isolated source by both models, rejection of changed separation
+duration, continued direct recognition after separation failure, and rejection
+of mismatched inputs/settings by the text-free summarizer. All **12 real runs**
+completed with valid timestamps across the three songs and two models/routes.
+The [paired report](../evaluation/open-song-direct-vocals-comparison.json) records
+review signals, not accuracy scores. The [pilot guide](OPEN_SONG_PILOT.md) explains
+the repetition counts and the remaining one-artist and reference-review limits.
+
 ## Complete-song preparation and execution, 2026-11-08
 
 The open-song preparation, collection, benchmark and coverage tests passed:
