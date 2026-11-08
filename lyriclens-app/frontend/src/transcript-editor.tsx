@@ -1,4 +1,4 @@
-import React, { useMemo, useState, type RefObject } from "react";
+import React, { useMemo, useRef, useState, type RefObject } from "react";
 import { Download, Check, X, Languages } from "lucide-react";
 import { TranslationPanel, type Translation } from "./translation";
 import { ReviewPlayback, type RepeatRange } from "./playback";
@@ -11,6 +11,7 @@ import { api, clock } from "./api";
 import { RegionRetry } from "./region-retry";
 import { ListeningStudio, useAudioTime } from "./listening-studio";
 import { LyricsImport } from "./lyrics-import";
+import { downloadTranscript } from "./download-transcript";
 
 export function Transcript({
   job,
@@ -43,6 +44,7 @@ export function Transcript({
   const dirty = JSON.stringify(segments) !== savedVersion;
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const savingRef = useRef(false);
   const [multilingualBusy, setMultilingualBusy] = useState(false);
   const [query, setQuery] = useState("");
   const savedTranslation = Object.entries(job.translations ?? {}).find(
@@ -94,7 +96,9 @@ export function Transcript({
         </p>
       </section>
     );
-  async function save() {
+  async function save(format?: string) {
+    if (savingRef.current) return;
+    savingRef.current = true;
     setSaving(true);
     setError("");
     try {
@@ -105,9 +109,11 @@ export function Transcript({
       });
       setSavedVersion(JSON.stringify(segments));
       saved();
+      if (format) await downloadTranscript(job.id, pipeline, format);
     } catch (e) {
       setError((e as Error).message);
     } finally {
+      savingRef.current = false;
       setSaving(false);
     }
   }
@@ -515,7 +521,7 @@ export function Transcript({
         <button
           className="button small"
           disabled={saving || !dirty}
-          onClick={save}
+          onClick={() => void save()}
         >
           {saving ? (
             "Saving…"
@@ -529,22 +535,34 @@ export function Transcript({
         </button>
         <details>
           <summary>
-            <Download size={14} /> Export
+            <Download size={14} /> {dirty ? "Save and export" : "Export"}
           </summary>
           <div className="exports">
-            {["txt", "json", "srt", "lrc"].map((format) => (
-              <a
-                key={format}
-                aria-disabled={dirty || saving}
-                href={
-                  dirty || saving
-                    ? undefined
-                    : `/api/jobs/${job.id}/export?pipeline=${pipeline}&format=${format}`
-                }
-              >
-                {format.toUpperCase()}
-              </a>
-            ))}
+            {["txt", "json", "srt", "lrc"].map((format) =>
+              dirty ? (
+                <button
+                  key={format}
+                  type="button"
+                  className="text-button"
+                  disabled={saving || result.state !== "completed"}
+                  onClick={() => void save(format)}
+                >
+                  Save and export {format.toUpperCase()}
+                </button>
+              ) : (
+                <a
+                  key={format}
+                  aria-disabled={dirty || saving}
+                  href={
+                    dirty || saving
+                      ? undefined
+                      : `/api/jobs/${job.id}/export?pipeline=${pipeline}&format=${format}`
+                  }
+                >
+                  {format.toUpperCase()}
+                </a>
+              ),
+            )}
             <a
               href={`/api/jobs/${job.id}/export?pipeline=${pipeline}&format=txt&original=true`}
             >
@@ -556,7 +574,11 @@ export function Transcript({
           </div>
         </details>
       </div>
-      {dirty && <p className="muted">Save edits before exporting.</p>}
+      {dirty && (
+        <p className="muted">
+          Save and export includes your latest edits in the selected format.
+        </p>
+      )}
       <TranslationPanel
         jobId={job.id}
         pipeline={pipeline}
