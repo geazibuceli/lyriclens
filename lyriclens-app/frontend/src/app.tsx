@@ -304,6 +304,16 @@ export function App() {
                 key={job.id}
                 audio={audio}
                 jobId={job.id}
+                isolatedAvailable={
+                  job.results.vocals?.state === "completed" &&
+                  !job.imported_snapshot &&
+                  (!job.processed_audio ||
+                    (job.processed_audio.original_offset === 0 &&
+                      Math.abs(
+                        job.processed_audio.duration -
+                          (job.audio?.duration ?? 0),
+                      ) < 0.1))
+                }
                 deleting={deleting}
                 range={repeatRange}
                 stop={stopReview}

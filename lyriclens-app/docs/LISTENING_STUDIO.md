@@ -6,6 +6,19 @@ English text and a synthetic speaking voice. It does not demonstrate singing
 recognition quality. Changes stay in the current browser session.
 
 For your own recordings, the original player stays visible while you edit.
+Use **Audio source** to switch between **Original audio** and **Isolated vocals**
+when a completed full-recording vocal result is available. Switching preserves
+the playback position, speed and playing/paused state, and stops segment repeat.
+The lyric-following view continues using the same recording timeline. Cropped
+vocal results are excluded when they do not cover that timeline. Clearing generated
+cache removes isolated playback files; use the original or run separation again.
+
+If the original format fails to load, the player automatically tries a compatible
+WAV once, preserving the listening position. A loading indicator and final error
+replace silent failures; **Reload audio** retries the current source. Browsers
+that block automatic resumption show a prompt to press Play. The waveform always
+shows the original recording, regardless of the selected playback source.
+
 The current passage is highlighted as playback moves. Each recognition route
 has its own **Follow lyrics** view, using that editor's current text, including
 unsaved changes. Gaps display a musical note rather than a stale lyric.

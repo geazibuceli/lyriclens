@@ -1,5 +1,16 @@
 # Delivery verification
 
+## Automatic audio recovery and source switching, 2026-11-08
+
+Backend playback/reliability checks passed: **59 tests, three skips**. New coverage
+checks completed isolated audio, missing caches, full-timeline duration matching,
+byte ranges and unsupported routes. Frontend studio, workspace and export tests
+passed. Chromium checks exercised automatic WAV recovery, original/isolated
+switching with preserved position and speed, paused-state preservation and a final
+visible error without recovery loops. A real cached vocal recording also switched
+at approximately eight seconds and continued playing. See the
+[listening guide](LISTENING_STUDIO.md) for source and cache behavior.
+
 ## Listening worksheet, 2026-11-08
 
 A local Chromium check passed for the generated five-recording, 73-window listening

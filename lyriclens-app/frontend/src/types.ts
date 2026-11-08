@@ -29,6 +29,7 @@ export type Job = {
   results: Record<string, Result>;
   translations?: Record<string, Translation>;
   audio?: { duration: number };
+  processed_audio?: { duration: number; original_offset: number };
   error?: string;
   created_at: string;
   started_at?: string;

@@ -15,7 +15,8 @@ def main():
     parser.add_argument('--backend-port',type=int,default=8011)
     parser.add_argument('--frontend-port',type=int,default=5181)
     choices = ('onboarding_browser_smoke.py', 'editor_browser_smoke.py', 'reliability_browser_smoke.py', 'review_browser_smoke.py',
-               'studio_browser_smoke.py', 'recognition_settings_browser_smoke.py')
+               'studio_browser_smoke.py', 'recognition_settings_browser_smoke.py',
+               'playback_sources_browser_smoke.py')
     parser.add_argument('--scripts', nargs='+', choices=choices, default=list(choices))
     args=parser.parse_args()
     root=Path(__file__).resolve().parents[2]

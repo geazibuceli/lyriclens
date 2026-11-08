@@ -71,6 +71,30 @@ def test_audio_missing_original_reports_clear_error(setup):
     assert 'Original audio is unavailable' in response.json()['detail']
 
 
+def test_isolated_playback_serves_only_completed_matching_timeline(setup):
+    import wave
+    client, settings, app, model = setup
+    job = wait(client, upload(client).json()['id'])
+    path = f"/api/jobs/{job['id']}/audio?pipeline=vocals"
+    assert client.get(path).status_code == 404
+    job['results']['vocals'] = dict(job['results']['direct'])
+    app.state.store.put(job)
+    target = settings.root / 'jobs' / job['id'] / 'vocals-16k.wav'
+    for duration, expected in ((1, 409), (3, 200)):
+        with wave.open(str(target), 'wb') as audio:
+            audio.setparams((1, 2, 16000, 0, 'NONE', 'not compressed'))
+            audio.writeframes(bytes(duration * 32000))
+        response = client.get(path)
+        assert response.status_code == expected
+    assert response.headers['content-type'] == 'audio/wav'
+    assert response.headers['content-disposition'].startswith('inline;')
+    assert client.get(path, headers={'Range': 'bytes=0-3'}).status_code == 206
+    target.unlink()
+    assert client.get(path).status_code == 404
+    assert client.get(f"/api/jobs/{job['id']}/audio").content == b'audio'
+    assert client.get(f"/api/jobs/{job['id']}/audio?pipeline=unknown").status_code == 422
+
+
 def wait(client, job_id):
     for _ in range(200):
         job = client.get(f"/api/jobs/{job_id}").json()

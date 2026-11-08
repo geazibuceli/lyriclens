@@ -6,6 +6,7 @@ from dataclasses import replace
 import shutil
 import time
 import uuid
+import wave
 from pathlib import Path
 from typing import Annotated
 from fastapi import File, Form, HTTPException, UploadFile
@@ -116,10 +117,25 @@ def register_routes(app, context):
             return store.update(job_id, title=edit.title.strip())
 
     @app.get("/api/jobs/{job_id}/audio")
-    def audio(job_id: str, compatible: bool = False):
+    def audio(job_id: str, compatible: bool = False, pipeline: str = 'direct'):
+        if pipeline not in {'direct', 'vocals'}:
+            raise HTTPException(422, 'Unsupported playback route')
         with store.lock:
             job = get_job(job_id)
             folder = folder_for(settings, job_id)
+            if pipeline == 'vocals':
+                source = folder / 'vocals-16k.wav'
+                if job['results'].get('vocals', {}).get('state') != 'completed' or not source.is_file() or linked(source):
+                    raise HTTPException(404, 'Isolated audio is unavailable. Its cache may have been cleared; use original audio or run vocal separation again.')
+                try:
+                    with wave.open(str(source), 'rb') as stream:
+                        duration = stream.getnframes() / stream.getframerate()
+                    if abs(duration - job.get('audio', {}).get('duration', 0)) > .1:
+                        raise ValueError('Timeline mismatch')
+                except (ValueError, OSError, wave.Error, EOFError):
+                    raise HTTPException(409, 'Isolated audio does not cover the full recording timeline. Use original audio for this result.') from None
+                return FileResponse(source, media_type='audio/wav', filename='isolated-vocals.wav',
+                                    content_disposition_type='inline')
             source = folder / 'original'
             if not source.is_file() or linked(source):
                 raise HTTPException(404, 'Original audio is unavailable. Upload the recording again.')
