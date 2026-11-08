@@ -3,6 +3,11 @@
 The current short-clip development results do not establish full-song accuracy.
 Do not change default models or claim improved recognition from UI changes.
 
+The [open-song pilot](OPEN_SONG_PILOT.md) adds three complete English CC BY songs
+with local source/license evidence and a pending review queue. Its six inference
+checks establish execution only; reference review and representative coverage
+remain incomplete. These files are separate from the unfilled collection template.
+
 `evaluation/real-song-collection.csv` contains 28 unfilled collection slots:
 seven languages, two independent groups per language, in development and final.
 Slots are a collection plan, not recordings or reviewed evidence. A complete
@@ -30,6 +35,25 @@ needed; the 28 slots are a starting plan. Do not mark every condition true to
 satisfy coverage. Previously inspected or tuned-on recordings stay in development.
 
 From the repository root, prepare a new versioned manifest:
+
+First check the complete sheet without importing recordings:
+
+```powershell
+.\.venv311\Scripts\python.exe lyriclens-app/scripts/prepare_real_song_benchmark.py COLLECTION.csv --check --report COLLECTION-CHECK.json
+```
+
+The check lists problems for every row, including missing fields, unavailable or
+invalid audio/reference files, duplicate IDs, and groups or identical audio shared
+between splits. It also counts independent groups by language and condition in
+each split and lists coverage gaps (two groups by default; change with
+`--minimum-groups`). JSON reports contain no reference lyrics. Existing report
+files are never overwritten. Exit code 1 means the sheet cannot yet be imported;
+exit code 0 means it is structurally ready for import, not human-reviewed or
+ready for a representative accuracy claim. The original 28-slot template remains
+unfilled; its current check is recorded in
+[`real-song-collection-check.json`](../evaluation/real-song-collection-check.json).
+
+Once the check passes, prepare the pending-review manifest:
 
 ```powershell
 .\.venv311\Scripts\python.exe lyriclens-app/scripts/prepare_real_song_benchmark.py COLLECTION.csv PENDING.jsonl
