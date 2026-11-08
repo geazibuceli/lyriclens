@@ -1,0 +1,108 @@
+{
+  "retrieved_at": "2026-11-08T16:28:05.691851+00:00",
+  "singers": 2,
+  "independent_groups": 2,
+  "human_review_required": true,
+  "accent_labels_verified": false,
+  "training_allowed": false,
+  "sources": [
+    {
+      "id": "javolenus-on-a-silent-night",
+      "title": "On A Silent Night",
+      "singer": "Javolenus",
+      "uploader": "Javolenus",
+      "upload_id": "40172",
+      "source_url": "https://ccmixter.org/files/Javolenus/40172",
+      "lyrics_url": "https://ccmixter.org/files/Javolenus/40172",
+      "lyric_marker": "Lyrics:",
+      "license": "CC-BY-NC-3.0",
+      "credit": "On A Silent Night by Javolenus; composition, lyrics and single-take performance credited to the uploader.",
+      "audio_url": "https://ccmixter.org/content/Javolenus/Javolenus_-_On_A_Silent_Night.mp3",
+      "duration": 259.3698125,
+      "audio_sha256": "dcce5a728daa889a0225e297dbfbb069fe2f982d3f224e45cdb03eeaa6337457",
+      "license_url": "https://creativecommons.org/licenses/by-nc/3.0/",
+      "lyric_license_url": "https://creativecommons.org/licenses/by-nc/3.0/",
+      "recording_page_encoding": "utf-8",
+      "lyric_page_encoding": "utf-8"
+    },
+    {
+      "id": "rhiannon-where-you-are-now",
+      "title": "Where You Are Now",
+      "singer": "Rhiannon Delpero",
+      "uploader": "unreal_dm",
+      "upload_id": "30304",
+      "source_url": "https://ccmixter.org/files/unreal_dm/30304",
+      "lyrics_url": "https://ccmixter.org/files/ascension/27734",
+      "lyric_marker": "Please don",
+      "license": "CC-BY-NC-3.0",
+      "credit": "Where You Are Now remix by unreal_dm, featuring Ascension/WolfFly; vocals by Rhiannon Delpero (SizzleFly). Vocal/lyric source: Ascension, ccMixter upload 27734, CC BY 3.0.",
+      "audio_url": "https://ccmixter.org/content/unreal_dm/unreal_dm_-_Where_You_Are_Now.mp3",
+      "duration": 179.9261875,
+      "audio_sha256": "b9776e022c15f816f30296b1c27a676620bb47fc5647c3a43da69678c1a6be8b",
+      "license_url": "https://creativecommons.org/licenses/by-nc/3.0/",
+      "lyric_license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "recording_page_encoding": "utf-8",
+      "lyric_page_encoding": "utf-8"
+    }
+  ],
+  "evidence": [
+    {
+      "url": "https://ccmixter.org/files/Javolenus/40172",
+      "path": "javolenus-on-a-silent-night-recording.html",
+      "bytes": 41582,
+      "sha256": "1f7b367f2a2ae7b553f5b3b59d33d477f138f931fe35af876788cea4a4e5fafc"
+    },
+    {
+      "url": "https://ccmixter.org/content/Javolenus/Javolenus_-_On_A_Silent_Night.mp3",
+      "path": "javolenus-on-a-silent-night.mp3",
+      "bytes": 10379015,
+      "sha256": "c7e7ff62c127535a817fd0e7c2c88d60d42a360cba86becf9087a9af19390994"
+    },
+    {
+      "url": "https://ccmixter.org/files/unreal_dm/30304",
+      "path": "rhiannon-where-you-are-now-recording.html",
+      "bytes": 41519,
+      "sha256": "85ace1e21aaa8652bc4bc6c3a36114c444f79b5bd567c28055c57dab76f27bb6"
+    },
+    {
+      "url": "https://ccmixter.org/files/ascension/27734",
+      "path": "rhiannon-where-you-are-now-lyrics.html",
+      "bytes": 48401,
+      "sha256": "9f1df7f0181fc5399903b02f11ffe1ea5a5ff3c918122abd0725d056ae12fc5a"
+    },
+    {
+      "url": "https://ccmixter.org/content/unreal_dm/unreal_dm_-_Where_You_Are_Now.mp3",
+      "path": "rhiannon-where-you-are-now.mp3",
+      "bytes": 5913231,
+      "sha256": "a2c25142d53fb9c9d7ccb99583344c77e0f6b9c6c7abef3ac89430623c640dff"
+    }
+  ],
+  "changes": "Complete MP3 decoded to mono PCM16 WAV at 16 kHz. HTML lyric markup stripped; line whitespace normalized. No reference generated from ASR.",
+  "recordings": 2,
+  "combined_pilot": {
+    "recordings": 5,
+    "singers": 3,
+    "reviewed_references": 0,
+    "verified_accents": 0,
+    "final_recordings": 0
+  },
+  "scope": "Additional singer diversity; not validated accent coverage",
+  "rejected_candidates": [
+    {
+      "artist": "David Mumford",
+      "source_url": "https://davidmumfordmusic.bandcamp.com/track/night-without-sleep",
+      "reason": "CC BY 4.0 audio declaration found, but no publisher lyric text in the inspected track page. Not added."
+    },
+    {
+      "artist": "Brad Sucks",
+      "source_url": "https://bradsucks.bandcamp.com/track/making-me-nervous",
+      "reason": "No track-specific open-license declaration or publisher lyric text found on the inspected track page. Not added."
+    },
+    {
+      "artist": "Cullah",
+      "source_url": "https://www.cullah.com/licensing/",
+      "reason": "Inspected page mixes BY-SA and BY claims with noncommercial/commercial distinctions. Not added pending clarification."
+    }
+  ],
+  "private_artifacts": ".runtime/multi-singer-pilot-v2/: original MP3s, WAVs, publisher lyrics, license evidence, review queue and pronunciation worksheet"
+}
