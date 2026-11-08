@@ -6,7 +6,7 @@ import stat
 from pathlib import Path
 from .profiles import available_profiles
 
-CACHE_NAMES = ('decoded.wav','vocals-16k.wav','region-16k.wav','passage-direct.wav','passage-vocals.wav','stems')
+CACHE_NAMES = ('decoded.wav','vocals-16k.wav','region-16k.wav','passage-direct.wav','passage-vocals.wav','playback.wav','playback-pending.wav','stems')
 
 
 def linked(path):
