@@ -24,6 +24,7 @@ export function ReviewPlayback({
   const [speed, setSpeed] = useState(1);
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState("");
+  const [compatible, setCompatible] = useState(false);
   useEffect(() => {
     const player = audio.current;
     if (player) {
@@ -59,14 +60,29 @@ export function ReviewPlayback({
       <audio
         ref={audio}
         controls
-        src={deleting ? undefined : `/api/jobs/${jobId}/audio`}
+        src={
+          deleting
+            ? undefined
+            : `/api/jobs/${jobId}/audio${compatible ? "?compatible=true" : ""}`
+        }
+        preload="metadata"
         aria-label="Original clip playback"
+        onError={(event) => {
+          setPlaying(false);
+          const code = event.currentTarget.error?.code;
+          setError(
+            code === 3 || code === 4
+              ? "This browser could not decode the recording. Try compatible WAV playback."
+              : "Audio could not be loaded. Reload the audio or try compatible WAV playback.",
+          );
+        }}
         onPlay={() => {
           setPlaying(true);
           setError("");
         }}
         onPause={() => setPlaying(false)}
         onLoadedMetadata={() => {
+          setError("");
           if (audio.current) {
             audio.current.playbackRate = speed;
             audio.current.preservesPitch = true;
@@ -83,6 +99,31 @@ export function ReviewPlayback({
         }}
       />
       <div className="review-controls">
+        <button
+          className="button small"
+          disabled={deleting}
+          onClick={() => {
+            stop();
+            setError("");
+            audio.current?.load();
+          }}
+        >
+          Reload audio
+        </button>
+        <button
+          className="button small"
+          disabled={deleting || compatible}
+          onClick={() => {
+            stop();
+            setPlaying(false);
+            setError("");
+            setCompatible(true);
+          }}
+        >
+          {compatible
+            ? "Compatible WAV playback"
+            : "Try compatible WAV playback"}
+        </button>
         <label>
           Playback speed
           <select
