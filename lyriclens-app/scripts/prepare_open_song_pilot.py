@@ -76,10 +76,13 @@ def parse_song(html, title):
     return urls[0], lyrics.replace('\r\n', '\n').strip()
 
 
-def fetch(url, target, limit):
-    request = urllib.request.Request(url, headers={
+def fetch(url, target, limit, referer=None):
+    headers = {
         'User-Agent': 'LyricLensBenchmark/0.1 (explicit local development pilot)',
-    })
+    }
+    if referer:
+        headers['Referer'] = referer
+    request = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(request, timeout=90) as response:
         content = response.read(limit + 1)
     if len(content) > limit:
