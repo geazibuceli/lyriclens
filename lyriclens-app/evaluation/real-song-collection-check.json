@@ -1,0 +1,556 @@
+{
+  "slots": 28,
+  "valid_recordings": 0,
+  "invalid_slots": 28,
+  "ready_for_import": false,
+  "human_review_required": true,
+  "ready_for_representative_comparison": false,
+  "minimum_independent_groups": 2,
+  "coverage": {
+    "development": {
+      "language_groups": {
+        "en": 0,
+        "es": 0,
+        "fr": 0,
+        "ja": 0,
+        "ko": 0,
+        "pt": 0,
+        "zh": 0
+      },
+      "condition_groups": {
+        "full_song": 0,
+        "accompaniment": 0,
+        "overlapping_vocals": 0,
+        "repetition": 0,
+        "degraded_recording": 0,
+        "language_switching": 0
+      }
+    },
+    "final": {
+      "language_groups": {
+        "en": 0,
+        "es": 0,
+        "fr": 0,
+        "ja": 0,
+        "ko": 0,
+        "pt": 0,
+        "zh": 0
+      },
+      "condition_groups": {
+        "full_song": 0,
+        "accompaniment": 0,
+        "overlapping_vocals": 0,
+        "repetition": 0,
+        "degraded_recording": 0,
+        "language_switching": 0
+      }
+    }
+  },
+  "coverage_gaps": [
+    "development: en needs 2 more independent group(s) pending human review",
+    "development: es needs 2 more independent group(s) pending human review",
+    "development: fr needs 2 more independent group(s) pending human review",
+    "development: ja needs 2 more independent group(s) pending human review",
+    "development: ko needs 2 more independent group(s) pending human review",
+    "development: pt needs 2 more independent group(s) pending human review",
+    "development: zh needs 2 more independent group(s) pending human review",
+    "development: full_song needs 2 more independent group(s) pending human review",
+    "development: accompaniment needs 2 more independent group(s) pending human review",
+    "development: overlapping_vocals needs 2 more independent group(s) pending human review",
+    "development: repetition needs 2 more independent group(s) pending human review",
+    "development: degraded_recording needs 2 more independent group(s) pending human review",
+    "development: language_switching needs 2 more independent group(s) pending human review",
+    "final: en needs 2 more independent group(s) pending human review",
+    "final: es needs 2 more independent group(s) pending human review",
+    "final: fr needs 2 more independent group(s) pending human review",
+    "final: ja needs 2 more independent group(s) pending human review",
+    "final: ko needs 2 more independent group(s) pending human review",
+    "final: pt needs 2 more independent group(s) pending human review",
+    "final: zh needs 2 more independent group(s) pending human review",
+    "final: full_song needs 2 more independent group(s) pending human review",
+    "final: accompaniment needs 2 more independent group(s) pending human review",
+    "final: overlapping_vocals needs 2 more independent group(s) pending human review",
+    "final: repetition needs 2 more independent group(s) pending human review",
+    "final: degraded_recording needs 2 more independent group(s) pending human review",
+    "final: language_switching needs 2 more independent group(s) pending human review"
+  ],
+  "issues": [
+    {
+      "line": 2,
+      "id": "development-ko-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 3,
+      "id": "development-ko-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 4,
+      "id": "development-ja-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 5,
+      "id": "development-ja-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 6,
+      "id": "development-zh-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 7,
+      "id": "development-zh-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 8,
+      "id": "development-en-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 9,
+      "id": "development-en-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 10,
+      "id": "development-es-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 11,
+      "id": "development-es-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 12,
+      "id": "development-pt-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 13,
+      "id": "development-pt-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 14,
+      "id": "development-fr-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 15,
+      "id": "development-fr-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 16,
+      "id": "final-ko-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 17,
+      "id": "final-ko-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 18,
+      "id": "final-ja-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 19,
+      "id": "final-ja-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 20,
+      "id": "final-zh-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 21,
+      "id": "final-zh-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 22,
+      "id": "final-en-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 23,
+      "id": "final-en-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 24,
+      "id": "final-es-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 25,
+      "id": "final-es-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 26,
+      "id": "final-pt-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 27,
+      "id": "final-pt-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 28,
+      "id": "final-fr-1",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    },
+    {
+      "line": 29,
+      "id": "final-fr-2",
+      "problems": [
+        "fill group_id before preparing.",
+        "fill audio_path before preparing.",
+        "fill reference_path before preparing.",
+        "fill reference_source before preparing.",
+        "fill permissions before preparing.",
+        "full_song must be true or false after listening.",
+        "accompaniment must be true or false after listening.",
+        "overlapping_vocals must be true or false after listening.",
+        "repetition must be true or false after listening.",
+        "degraded_recording must be true or false after listening.",
+        "language_switching must be true or false after listening."
+      ]
+    }
+  ],
+  "interpretation": "Coverage uses structurally valid collection rows, not verified evidence. All references require human listening and review before benchmark evaluation."
+}
