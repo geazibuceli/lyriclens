@@ -22,6 +22,7 @@
 
 - [Quality plan](QUALITY.md): coverage requirements, collection gaps and robustness results.
 - [Real-song collection](REAL_SONG_COLLECTION.md): collection sheet, pending-review importer and paired evaluation workflow.
+- [Open-song pilot](OPEN_SONG_PILOT.md): three complete CC BY songs, saved license evidence and local inference checks.
 - [Reviewed benchmark](BENCHMARK.md): references, fixed protocols and model comparisons.
 - [Evaluation methods](EVALUATION.md): metrics, normalization, timing and memory.
 - [Singing experiments](SINGING.md): development measurements and recovery results.
