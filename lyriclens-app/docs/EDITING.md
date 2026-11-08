@@ -32,7 +32,7 @@ The preview shows the passage count and first five passages. **Apply imported ly
 
 Open **Review suggestions** above the transcript to navigate passages with empty text, invalid or unordered times, long duration or repeated text. Selecting a suggestion seeks the audio and focuses the passage editor. Suggestions update with unsaved edits and are listening prompts, not model confidence scores. Repeated choruses may be correct.
 
-Save edits before exporting. The transcript's current-version export links are unavailable while edits are unsaved. Original TXT and raw responses remain available independently.
+When edits are unsaved, open **Save and export** and choose TXT, JSON, SRT or LRC. The editor saves the current changes before downloading the selected format. If saving fails, no download starts and your edits remain available. If downloading fails after a successful save, retry from **Export**. You can also use **Save edits** separately. Original TXT and raw responses remain available independently.
 
 Choose **LRC** under **Export** for synchronized lyrics. Each nonempty line receives its passage's start time, rounded to centiseconds (`[mm:ss.xx]`). Multiline passages share a timestamp; LRC has no end times or word-level timing. API: `GET /api/jobs/{id}/export?pipeline=direct&format=lrc`.
 
