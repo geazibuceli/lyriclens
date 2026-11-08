@@ -38,6 +38,51 @@ in development. There is one independent group, one language and no final set.
 This does not satisfy representative benchmark coverage or authorize training.
 Model defaults remain unchanged.
 
+The [additional-singer pilot](MULTI_SINGER_PILOT.md) adds two performers and eight
+more paired executions. Accent labels and performed-word references remain pending.
+
+## Original audio versus isolated vocals
+
+The 2026-11-08 follow-up completed all **12 runs**: three songs, two recognition
+profiles and two routes. HTDemucs isolated each complete recording once on CPU;
+the same hashed vocal WAV was reused by Small and Large-v3 on CUDA/float16.
+English was selected manually, recognition settings stayed fixed within each
+profile, and separation duration was checked against the original timeline.
+The [paired report](../evaluation/open-song-direct-vocals-comparison.json) contains
+execution settings and review signals without lyrics or accuracy scores.
+
+| Song | Small adjacent duplicates, original / vocals | Large-v3 adjacent duplicates, original / vocals |
+|---|---:|---:|
+| I Will Not Let You Let Me Down | 2 / 0 | 3 / 1 |
+| This Is Everything | 0 / 0 | 0 / 1 |
+| Hollow Grove | 11 / 0 | 0 / 0 |
+
+These counts flag adjacent segments containing exactly the same trimmed text;
+they do not establish incorrect repetition. Choruses can legitimately repeat,
+and segmentation differs between routes. Small had three passages over 20 seconds
+in each route; Large-v3 had none. All six song/profile pairs produced different
+text between the original and isolated routes, so listening review remains needed
+to decide which words are correct. No route was selected automatically.
+
+This one-artist pilot does not measure robustness to different singers' accents
+or pronunciation. That requires independent singers/sessions with reviewed
+performed-word references, including elongated vowels and altered pronunciation,
+as part of the existing development/final collection plan.
+
+To reproduce the paired check with prepared separation and recognition models,
+use a new local directory:
+
+```powershell
+.\.venv311\Scripts\python.exe lyriclens-app/scripts/run_full_song_smoke.py .runtime/open-song-pilot-v1/pending-manifest.jsonl .runtime/open-song-pilot-v1/direct-vocals-cuda-v2 --device cuda --compute float16 --pipelines direct vocals --separation-device cpu
+.\.venv311\Scripts\python.exe lyriclens-app/scripts/summarize_full_song_routes.py .runtime/open-song-pilot-v1/direct-vocals-cuda-v2/summary.json .runtime/open-song-pilot-v1/direct-vocals-cuda-v2/comparison.json
+```
+
+Separation time is recorded once per recording, separately from recognition
+timings. Failed separation leaves direct recognition available and is recorded as
+a failed vocal route. The summarizer rejects mismatched source hashes or model
+settings between paired routes. Raw transcriptions and isolated vocals remain in
+ignored local research storage; publisher lyrics and human review are unchanged.
+
 ## Reproduce preparation and execution
 
 From the repository root, with application dependencies and FFmpeg installed:
