@@ -19,6 +19,7 @@ import { active, api } from "./api";
 import { Transcript } from "./transcript-editor";
 import { UploadForm } from "./upload-form";
 import { Library, JobTitle } from "./library";
+import { useWorkspaceRefresh } from "./use-workspace-refresh";
 
 export function App() {
   const [jobs, setJobs] = useState<Job[]>([]),
@@ -56,23 +57,7 @@ export function App() {
     return () => URL.revokeObjectURL(url);
   }, [file]);
   const job = jobs.find((j) => j.id === selected);
-  async function refresh() {
-    try {
-      const [j, m] = await Promise.all([
-        api<Job[]>("/jobs"),
-        api<Models>("/models"),
-      ]);
-      setJobs(j);
-      setModels(m);
-    } catch (e) {
-      setError((e as Error).message);
-    }
-  }
-  useEffect(() => {
-    void refresh();
-    const timer = setInterval(() => void refresh(), 2500);
-    return () => clearInterval(timer);
-  }, []);
+  const refresh = useWorkspaceRefresh(setJobs, setModels, setError);
   function choose(f: File | undefined) {
     if (f) {
       setFile(f);
