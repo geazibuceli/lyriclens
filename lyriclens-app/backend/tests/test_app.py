@@ -43,6 +43,34 @@ def upload(client, data=b"audio", **params):
     return client.post("/api/jobs", files={"file":("song.wav",data,"audio/wav")}, data=params)
 
 
+def test_audio_inline_compatible_cache_and_ranges(setup):
+    client, settings, app, model = setup
+    job = upload(client).json()
+    wait(client, job['id'])
+    path = f"/api/jobs/{job['id']}/audio"
+    original = client.get(path)
+    assert original.headers['content-disposition'].startswith('inline;')
+    assert original.headers['content-type'] == 'audio/wav'
+    converted = client.get(path + '?compatible=true')
+    assert converted.status_code == 200
+    assert converted.content == b'decoded'
+    partial = client.get(path + '?compatible=true', headers={'Range': 'bytes=0-2'})
+    assert partial.status_code == 206
+    assert partial.content == b'dec'
+    assert (settings.root / 'jobs' / job['id'] / 'original').read_bytes() == b'audio'
+    assert not (settings.root / 'jobs' / job['id'] / 'playback-pending.wav').exists()
+
+
+def test_audio_missing_original_reports_clear_error(setup):
+    client, settings, app, model = setup
+    job = upload(client).json()
+    wait(client, job['id'])
+    (settings.root / 'jobs' / job['id'] / 'original').unlink()
+    response = client.get(f"/api/jobs/{job['id']}/audio")
+    assert response.status_code == 404
+    assert 'Original audio is unavailable' in response.json()['detail']
+
+
 def wait(client, job_id):
     for _ in range(200):
         job = client.get(f"/api/jobs/{job_id}").json()
