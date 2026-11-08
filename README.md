@@ -63,7 +63,7 @@ If an unaligned result has invalid timestamps, recognition retries once with nat
 | GPU processing fails with a CUDA/cuDNN error or missing `cublas64_12.dll` | Follow the [Windows GPU setup](lyriclens-app/docs/SETUP.md#models-and-explicit-preparation), install the `cuda-windows` extra and restart the backend, or select CPU/int8. |
 | Transcript is empty, inaccurate or in the wrong language | Select the language manually, compare original audio with vocal separation if prepared, and review/edit the result. Singing and instrumental passages can still produce incorrect words. |
 | Processing fails with invalid timestamps | Try **Whisper Small + alignment (experimental)** in **Advanced transcription options**. See [timing recovery](lyriclens-app/docs/SETUP.md#optional-alignment-with-the-configured-model) if the problem persists. |
-| Export does not include recent edits | Click **Save edits** before exporting. Original TXT exports intentionally use the original recognition result. |
+| Export does not include recent edits | Choose a format under **Save and export**, or click **Save edits** before exporting. Original TXT exports intentionally use the original recognition result. |
 
 For additional symptoms, including failed model downloads, interrupted jobs and separation errors, see the [troubleshooting guide](lyriclens-app/docs/TROUBLESHOOTING.md).
 
